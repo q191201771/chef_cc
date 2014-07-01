@@ -19,6 +19,6 @@ ADD_SUBDIRECTORY(test_chef_base)
 
 #find_package(Protobuf)
 #if(PROTOBUF_FOUND)
-#    ADD_SUBDIRECTORY(chat)
+#    ADD_SUBDIRECTORY(demo_chat)
 #endif()
 
