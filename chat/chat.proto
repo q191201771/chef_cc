@@ -1,0 +1,26 @@
+package chat;
+
+message msg {
+    required string name = 1;
+    required string data = 2;
+}
+
+//message entry_request {
+//    required string name = 1;
+//}
+//
+//message entry_ack {
+//
+//}
+//
+//message user_in {
+//
+//}
+//
+//message user_out {
+//}
+//
+//message user_list {
+//
+//}
+//
