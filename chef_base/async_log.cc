@@ -85,7 +85,8 @@ int async_log::init(level l, bool async_mode, bool screen)
 
     if (async_mode) {
         //log_thread_.start();
-        log_thread_.reset(new boost::thread());
+        log_thread_.reset(new boost::thread(boost::bind(&async_log::log_thd_fun,
+                        this)));
         log_thread_run_up_.wait();
     }
 
