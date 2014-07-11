@@ -5,7 +5,7 @@
     $sudo apt-get install liboost1.53-all-dev -y
   2. cmake
     $sudo apt-get install cmake -y
-  3. c++11(now gcc version contain it already)
+  3. c++11(now gcc contain it already)
 
 @build
   $cd build
@@ -16,7 +16,7 @@
     test&example in chef/bin/
 
 @brief
-  @the only io interface header: chef_io/io_tcp.h
+  @the unique interface of chef_io: chef_io/io_tcp.h
    and you can get more user-manual in it
 
   @wanna use gcc to build your own server with chef?
@@ -26,5 +26,5 @@
       $g++ test_srv.cc -I../chef_io -I../chef_base -std=c++11 -L../lib -lchefio -lchefbase -lboost_thread -lboost_system -lboost_date_time -o test_srv
       $./test_srv
 
-  @chef_base is an set of linux c++ tool,i pefer boost now.
+  @chef_base is a set of linux c++ tool,nowadays i pefer boost.
 </pre>
