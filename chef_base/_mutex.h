@@ -1,7 +1,7 @@
 #ifndef _CHEF_BASE_MUTEX_H_
 #define _CHEF_BASE_MUTEX_H_
 
-#include "noncopyable.h"
+#include "_noncopyable.h"
 #include <assert.h>
 #include <pthread.h>
 

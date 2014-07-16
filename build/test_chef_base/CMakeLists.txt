@@ -18,3 +18,6 @@ TARGET_LINK_LIBRARIES(thread_test chefbase pthread)
 
 ADD_EXECUTABLE(task_thread_test ${ROOT_DIR}/test_chef_base/task_thread_test.cc)
 TARGET_LINK_LIBRARIES(task_thread_test chefbase pthread)
+
+ADD_EXECUTABLE(atomic_test ${ROOT_DIR}/test_chef_base/atomic_test.cc)
+TARGET_LINK_LIBRARIES(atomic_test chefbase pthread)
