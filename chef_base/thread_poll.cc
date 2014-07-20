@@ -4,6 +4,9 @@
 #include <boost/thread/locks.hpp>
 #include <boost/make_shared.hpp>
 
+namespace chef
+{
+
 thread_poll::thread_poll(const std::string &name) : 
     name_(name),
     run_(true)
@@ -69,4 +72,6 @@ thread_poll::task thread_poll::take()
 
     return t;
 }
+
+} /// namespace chef
 

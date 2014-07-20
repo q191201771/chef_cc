@@ -8,6 +8,9 @@
  * @switch to boost::atomic
  */
 
+namespace chef
+{
+
 template <typename T>
 class atomic : public noncopyable
 {
@@ -56,5 +59,6 @@ typedef atomic<int64_t> atomic_int64_t;
 typedef atomic<uint64_t> atomic_uint64_t;
 typedef atomic<uint16_t> atomic_uint16_t;
 
+} /// namespace chef
 #endif
 

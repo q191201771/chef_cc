@@ -9,12 +9,14 @@
  * @switch to boost::condition_variable
  */
 
-//unfinished!
+namespace chef
+{
+
 class condition : public noncopyable
 {
 public:
-    explicit condition(mutex_lock &lock) : 
-        lock_(lock)
+    explicit condition(mutex &m) : 
+        m_(m)
     {
         pthread_cond_init(&cond_, NULL);
     }
@@ -25,7 +27,7 @@ public:
 
     void wait()
     {
-        pthread_cond_wait(&cond_, &(lock_.get_pthread_mutex_t()));
+        pthread_cond_wait(&cond_, &(m_.get_pthread_mutex_t()));
     }	
 
     void notify()
@@ -35,8 +37,9 @@ public:
 
 private:
     pthread_cond_t cond_;
-    mutex_lock &lock_;
+    mutex &m_;
 };
 
+} /// namespace chef
 #endif
 

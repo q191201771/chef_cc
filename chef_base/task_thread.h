@@ -20,6 +20,9 @@
 //  use to signal the epoll,it was not an common epoll work for net-io.KISS
 // *task & deferred task can use 2 lock
 
+namespace chef
+{
+
 class task_thread : public boost::noncopyable
 {
 public:
@@ -58,5 +61,6 @@ private:
     wait_event thread_run_up_;
 };
 
+} /// namespace chef
 #endif
 

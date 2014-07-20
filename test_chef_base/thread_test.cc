@@ -1,43 +1,34 @@
 #include "_thread.h"
-#include <boost/thread/thread.hpp>
-#include <boost/date_time.hpp>
-#include <iostream>
-//using namespace boost;
-using namespace boost::gregorian;
+#include <assert.h>
+using chef::thread;
 
-void fun()
+int tid = 0;
+
+int add(int a, int b)
 {
-    int k = 0;
-    for (int i = 0; i < 10000; ++i) {
-        for (int j = 0; j < 10000; ++j) {
-            k += j;
-        }
-    }
-    printf("leave fun().\n");
+    //printf("add().\n");
+    tid = chef::current_thread::get_tid();
+    return a + b;
 }
 
 int main()
 {
-    boost::thread *t = new boost::thread(fun);
-    t->detach();
-    delete t;
-    printf("after delete.\n");
-    getchar();
-    return 0;
+    printf(">thread_test.\n");
+    thread thd1(boost::bind(&add, 1, 2));
+    assert((int)thd1.get_tid() == 0);
+    assert(thd1.try_join() == -1);
+    /// will assert inside
+    //thd1.join();
 
-    printf("%d\n", current_thread::get_tid());    
-    printf("%d\n", current_thread::get_tid());    
-    std::cout << boost::this_thread::get_id() << std::endl;
-    std::cout << boost::this_thread::get_id() << std::endl;
-
-    for (int i = 0 ; i < 128; ++i) {
-        boost::posix_time::ptime p1 = boost::posix_time::second_clock::local_time();
-        //std::cout << p1 << std::endl;
-        boost::posix_time::ptime p2 = boost::posix_time::microsec_clock::local_time();
-        //std::cout << p2 << std::endl;
-        printf("%s\n", boost::posix_time::to_iso_string(p1).c_str());
-        printf("%s\n", boost::posix_time::to_iso_extended_string(p2).c_str());
-    }
+    thd1.start();
+//    printf("~.\n");
+//    sleep(3); /// let add() execute over
+//    printf("!.\n");
+    thd1.join();
+//    printf("@.\n");
+    assert(thd1.get_tid() == tid); 
+    printf("<thread_test.\n");
 
     return 0;
 }
+

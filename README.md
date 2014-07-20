@@ -12,7 +12,7 @@
   $cmake . && make
 
   @build out:
-    libchefbase.a libchefio.a in chef/lib/
+    libchefbase.so libchefio.so in chef/lib/
     test&example in chef/bin/
 
 @brief
@@ -22,7 +22,8 @@
   @wanna use gcc to build your own server with chef?
     1. build chefio chefbase(follow the above operation)
     2. use test_chef_io/test_srv.cc for demonstration
-      $cd test_chef_io
+      $cd lib
+      $cp ../test_chef_io/test_srv.cc .
       $g++ test_srv.cc -I../chef_io -I../chef_base -std=c++11 -L../lib -lchefio -lchefbase -lboost_thread -lboost_system -lboost_date_time -o test_srv
       $./test_srv
 

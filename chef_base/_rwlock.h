@@ -7,7 +7,10 @@
  * @switch to boost::share_mutex
  *            boost::share_lock
  */
- 
+
+namespace chef
+{
+
 class rwlock
 {
 public:
@@ -24,35 +27,36 @@ private:
 class read_locker
 {
 public:
-    explicit read_locker(rwlock *lock)
+    explicit read_locker(rwlock &lock)
         : lock_(lock) 
     { 
-        lock_->lockr();
+        lock_.lockr();
     }
     ~read_locker()
     {
-        lock_->unlock();
+        lock_.unlock();
     }
 
 private:
-    rwlock *lock_;
+    rwlock &lock_;
 };
 
 class write_locker
 {
 public:
-    explicit write_locker(rwlock *lock)
+    explicit write_locker(rwlock &lock)
         : lock_(lock)
     {
-        lock_->lockw();
+        lock_.lockw();
     }
     ~write_locker()
     {
-        lock_->unlock();
+        lock_.unlock();
     }
 private:
-    rwlock *lock_;
+    rwlock &lock_;
 };
 
+} /// namespace chef
 #endif
 

@@ -11,6 +11,9 @@
  * useless
  */
 
+namespace chef
+{
+
 template<typename T>
 class singleton : public boost::noncopyable
 {
@@ -41,5 +44,6 @@ pthread_once_t singleton<T>::ponce_ = PTHREAD_ONCE_INIT;
 template<typename T>
 T *singleton<T>::value_ = NULL;
 
+} /// namespace chef
 #endif
 

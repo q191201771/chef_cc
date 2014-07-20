@@ -7,6 +7,9 @@
 #include <errno.h>
 #include <boost/thread/lock_guard.hpp>
 
+namespace chef
+{
+
 task_thread::task_thread(const std::string &name) :
     name_(name),
     run_(false),
@@ -199,3 +202,4 @@ void task_thread::run_deferred_task()
     deferred_tasks_.erase(deferred_tasks_.begin(), iter);
 }
 
+} /// namespace chef

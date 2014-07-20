@@ -40,7 +40,7 @@ private:
     char *buf_;
 };
 
-task_thread *tt = NULL;
+chef::task_thread *tt = NULL;
 
 void thread_fun()
 {
@@ -66,11 +66,11 @@ int main()
     chef::async_log::get_mutable_instance().init(chef::async_log::debug, false, false);
     CHEF_TRACE_DEBUG("hello world.");
 
-    tt = new task_thread("tt");
+    tt = new chef::task_thread("tt");
     tt->start();
-    thread *ts[16];
+    chef::thread *ts[16];
     for (int i = 0; i < 16; ++i) {
-        ts[i] = new thread(thread_fun);
+        ts[i] = new chef::thread(thread_fun);
         ts[i]->start();
     }
     

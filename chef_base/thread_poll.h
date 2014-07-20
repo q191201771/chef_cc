@@ -11,8 +11,11 @@
 #include <boost/thread/condition_variable.hpp>
 #include <boost/noncopyable.hpp>
 
-//consider producer is fast than comsumer
-//maybe we can write another produce scheme to block producer
+/// consider producer is fast than comsumer
+/// maybe we can write another produce scheme to block producer
+
+namespace chef
+{
 
 class thread_poll : public boost::noncopyable
 {
@@ -40,5 +43,6 @@ private:
     boost::condition_variable cond_;
 };
 
+} /// namespace chef
 #endif
 

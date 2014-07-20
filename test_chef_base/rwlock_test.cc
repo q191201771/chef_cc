@@ -1,50 +1,53 @@
 #include "_rwlock.h"
-#include "_thread.h"
-#include "async_log.h"
+#include <stdio.h>
+#include <boost/thread.hpp>
+#include <boost/bind.hpp>
+using chef::rwlock;
+using chef::read_locker;
+using chef::write_locker;
 
-rwlock g_lock;
-uint64_t g_count = 0;
+chef::rwlock lock;
+bool flag = false;
 
-void increment()
+void read()
 {
-    for (; ; ) {
-        usleep(1);
-        write_locker wl(&g_lock);
-        CHEF_TRACE_DEBUG("entered write lock.");
-        ++g_count;
-        CHEF_TRACE_DEBUG("leaving write lock.");
-    }
+    read_locker rl(lock);
+    assert(!flag);
 }
-
-void print()
+void write()
 {
-    for (; ; ) {
-        usleep(1);
-        read_locker rl(&g_lock);
-        CHEF_TRACE_DEBUG("entered read lock.");
-        CHEF_TRACE_DEBUG("%lu", g_count);
-        CHEF_TRACE_DEBUG("leaving read lock.");
-    }
+    write_locker wl(lock);
+    flag = true;
+    flag = false;
 }
 
 int main()
 {
-    chef::async_log::get_mutable_instance().init();
+    printf(">rwlock.\n");
+    /// figure out read-lock recursive,write-lock not
+//    lock.lockw();
+//    printf("#.\n");
+//    lock.lockr();
+//    printf("~.\n");
+//    lock.lockr();
+//    printf("!.\n");
+//    lock.lockw();
+//    printf("@.\n");
 
-    thread *write_thds[16];
-    for (int i = 0; i < 2; ++i) {
-        write_thds[i] = new thread(boost::bind(&increment));
-        write_thds[i]->start();
+    boost::thread *arr[1024];
+    int i = 0;
+    for (; i < 1024; ++i) {
+        if (i % 2) {
+            arr[i] = new boost::thread(boost::bind(read));
+        } else {
+            arr[i] = new boost::thread(boost::bind(write));
+        }
     }
-
-    thread *read_thds[16];
-    for (int i = 0; i < 4; ++i) {
-        read_thds[i] = new thread(boost::bind(&print));
-        read_thds[i]->start();
+    for (i = 0; i < 1024; ++i) {
+        arr[i]->join();
+        delete arr[i];
     }
-    getchar();
-    //deleteeeee
-
-    return 0;   
+    printf("<rwlock.\n");
+    return 0;
 }
 

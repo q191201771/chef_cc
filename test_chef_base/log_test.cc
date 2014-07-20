@@ -23,7 +23,6 @@ int main()
 {
     chef::async_log::get_mutable_instance().init(chef::async_log::debug, false);
     CHEF_TRACE_DEBUG("hello");
-//#define CHEF_ASSERT_LEVEL 1
     CHEF_ASSERT(0);
 
     boost::object_pool<A> pl;

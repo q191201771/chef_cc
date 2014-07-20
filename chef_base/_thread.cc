@@ -7,7 +7,10 @@
 #include <stdio.h>
 #include <boost/make_shared.hpp>
 
-using namespace internal;
+using namespace chef::internal;
+
+namespace chef
+{
 
 thread::thread(const thread_func &tf, std::string name) :
     pt_(0),
@@ -83,4 +86,6 @@ pid_t current_thread::get_tid()
 
     return tid;
 }
+
+} /// namespace chef
 

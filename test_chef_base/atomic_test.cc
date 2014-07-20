@@ -1,11 +1,9 @@
 #include "_atomic.h" 
-#include "assert_.h"
-#define CHEF_ASSERT_LEVEL 1
 #include <boost/thread.hpp>
 
 const int thread_num =10;
 
-atomic_int32_t val;
+chef::atomic_int32_t val;
 
 /// 0 1 2 3 4 5  6  7  8  9
 /// 1 2 3 6 7 12 13 20 21 30
@@ -21,15 +19,15 @@ void fun(int index)
 int main()
 {
     printf(">atomic_test.\n");
-    CHEF_ASSERT(val.get() == 0);
+    assert(val.get() == 0);
     val.set(0);
-    CHEF_ASSERT(val.get() == 0);
+    assert(val.get() == 0);
     val.set(10);
-    CHEF_ASSERT(val.get() == 10);
-    CHEF_ASSERT(val.add_and_get(20) == 30);
-    CHEF_ASSERT(val.increment() == 31);
-    CHEF_ASSERT(val.decrement() == 30);
-    CHEF_ASSERT(val.add_and_get(-30) == 0);
+    assert(val.get() == 10);
+    assert(val.add_and_get(20) == 30);
+    assert(val.increment() == 31);
+    assert(val.decrement() == 30);
+    assert(val.add_and_get(-30) == 0);
 
     boost::thread *ts[thread_num];
     int i = 0;
@@ -42,7 +40,7 @@ int main()
         delete ts[i];
     }
 
-    CHEF_ASSERT(val.get() == 30);
+    assert(val.get() == 30);
     printf("<atomic_test.\n");
 
     return 0;

@@ -5,6 +5,9 @@
  * @switch to boost::noncopyable
  */
 
+namespace chef
+{
+
 class noncopyable
 {
 protected:
@@ -16,11 +19,12 @@ private:
     const noncopyable &operator=(const noncopyable &);
 };
 
-//empty is fine
+/// empty is fine
 class copyable
 {
 
 };
 
+} /// namespace chef
 #endif
 

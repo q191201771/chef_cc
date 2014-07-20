@@ -11,14 +11,17 @@
  *            boost::unique_lock
  */
 
-class mutex_lock : public noncopyable
+namespace chef
+{
+
+class mutex : public noncopyable
 {
 public:
-    mutex_lock()
+    mutex()
     {
         pthread_mutex_init(&mutex_, NULL);
     }
-    ~mutex_lock()
+    ~mutex()
     {
         pthread_mutex_destroy(&mutex_);
     }
@@ -39,22 +42,23 @@ private:
     pthread_mutex_t mutex_; 
 };
 
-class mutex_lock_guard : public noncopyable
+class lock_guard : public noncopyable
 {
 public:
-    explicit mutex_lock_guard(mutex_lock &ml) : 
-        ml_(ml)
+    explicit lock_guard(mutex &m) : 
+        m_(m)
     {
-        ml_.lock();
+        m_.lock();
     }
-    ~mutex_lock_guard()
+    ~lock_guard()
     {
-        ml_.unlock();
+        m_.unlock();
     }
 
 private:
-    mutex_lock &ml_;
+    mutex &m_;
 };
 
+} /// namespace chef
 #endif
 

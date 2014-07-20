@@ -12,6 +12,9 @@
  * @switch to boost::thread
  */
 
+namespace chef
+{
+
 class thread : public boost::noncopyable
 {
 public:
@@ -23,7 +26,7 @@ public:
     int start();
     int join();
     int try_join();
-    pid_t gettid() const {return *tid_;}//may 0 if thread not run up
+    pid_t get_tid() const {return *tid_;}//may 0 if thread not run up
 
 private:
     pthread_t pt_;
@@ -61,7 +64,8 @@ public:
     static void *thd_fun(void *arg);
 };
 
-};
+} /// namespace internal
 
+} /// namespace chef
 #endif
 
