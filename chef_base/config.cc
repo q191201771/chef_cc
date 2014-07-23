@@ -1,6 +1,9 @@
 #include "config.h"
 #include <stdlib.h>
 
+namespace chef
+{
+
 config::config() : 
     fp_(NULL)
 {
@@ -72,3 +75,4 @@ void config::debug_data()
     printf("chef:debug_data()>>>\n");
 }
 
+}

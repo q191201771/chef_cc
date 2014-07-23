@@ -11,6 +11,9 @@
 //   key=value
 //   and can't with space, like key = value
 
+namespace chef
+{
+
 class config
 {
 public:
@@ -28,5 +31,6 @@ private:
     std::map<std::string, std::string> data_;
 };
 
+} /// chef
 #endif
 
