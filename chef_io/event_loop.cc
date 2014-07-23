@@ -3,6 +3,7 @@
 #include "connection.h"
 #include "assert_.h"
 #include "async_log.h"
+#include <sys/prctl.h>
 #include <sys/epoll.h>
 #include <sys/eventfd.h>
 #include <sys/types.h>
@@ -130,6 +131,11 @@ void event_loop::del(int fd)
 
 void event_loop::thread_func()
 {
+    /// set thread name
+    char thread_name[32] = {0};
+    snprintf(thread_name, sizeof thread_name, "io_tcp%d", index_);
+    ::prctl(PR_SET_NAME, thread_name);
+    
     init();
     run();
 }
