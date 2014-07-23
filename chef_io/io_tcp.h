@@ -45,7 +45,8 @@ typedef boost::function<void(cio_conn_t, const char *, uint16_t)> accept_cb_t;
  *   if io_tcp::connect() fail,you will recv connect_status_fail first,then 
  *   recv close_cb_t,see close_cb_t brief get more info.
  */
-enum class connect_status
+//enum class connect_status
+enum connect_status
 {
     connecting,
     connected,
@@ -115,7 +116,8 @@ public:
                           const close_cb_t &close_cb,
                           const error_cb_t &ecb,
                           const write_cb_t &wcb,
-                          uint8_t *failno = nullptr/*out*/);
+                          //uint8_t *failno = nullptr/*out*/);
+                          uint8_t *failno = NULL/*out*/);
     
     /**
      * @brief:
