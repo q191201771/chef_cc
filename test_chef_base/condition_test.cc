@@ -21,8 +21,8 @@ int main()
 //    c1.notify();
 //    c1.wait();
     
-    boost::thread t(fun);
-    c2.wait();
+//    boost::thread t(fun);
+//    c2.wait();
 
     printf("<condition_test.\n");
     return 0;

@@ -9,4 +9,4 @@ PROJECT(${PROJECTNAME})
 
 ADD_LIBRARY(${PROJECTNAME} SHARED ${SOURCES})
 TARGET_LINK_LIBRARIES(${PROJECTNAME} rt pthread libboost_thread.so
-        libboost_system.so libboost_date_time.so)
+        libboost_system.so libboost_date_time.so libboost_chrono.so)

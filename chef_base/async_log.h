@@ -21,6 +21,10 @@
  * 
  * TODO
  *   handle fwrite failed
+ *
+ * usage:
+ *   chef::async_log::get_mutable_instance().init();
+ *   CHEF_TRACE_DEBUG("hello world");
  */
 
 namespace chef

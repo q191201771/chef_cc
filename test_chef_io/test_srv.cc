@@ -1,6 +1,7 @@
 #include "io_tcp.h"
 #include "async_log.h"
 #include "task_thread.h"
+#include "_thread.h"
 #include "assert_.h"
 #include "wait_event.h"
 #include <boost/bind.hpp>
@@ -126,7 +127,7 @@ int main()
     tt = new task_thread();
     tt->start();
     tt->add(boost::bind(&shutdown_io), 1000);
-    thread t(boost::bind(&run));
+    chef::thread t(boost::bind(&run));
     t.start();
     for (int i = 0; i < 10000; ++i) {
         srv->connect("0.0.0.0", 8384, NULL);
