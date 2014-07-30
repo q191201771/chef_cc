@@ -24,7 +24,8 @@
     2. use test_chef_io/test_srv.cc for demonstration
       $cd lib
       $cp ../test_chef_io/test_srv.cc .
-      $g++ test_srv.cc -I../chef_io -I../chef_base -std=c++11 -L../lib -lchefio -lchefbase -lboost_thread -lboost_system -lboost_date_time -o test_srv
+      $g++ test_srv.cc -I../chef_io -I../chef_base -std=c++11 -L../lib -lchefio
+      -lchefbase -lboost_thread -lboost_system -lboost_date_time -lboost_chrono -o test_srv
       $./test_srv
 
   @chef_base is a set of linux c++ tool,nowadays i pefer boost.
