@@ -129,6 +129,7 @@ int main()
     tt->add(boost::bind(&shutdown_io), 1000);
     chef::thread t(boost::bind(&run));
     t.start();
+    /// ulimit -n 
     for (int i = 0; i < 10000; ++i) {
         srv->connect("0.0.0.0", 8384, NULL);
     }

@@ -73,6 +73,11 @@ void task_thread::run_in_thread(std::string name)
 
 void task_thread::run_deferred_task()
 {
+    /// most of time,deferred task is few
+    if (deferred_tasks_.empty()) {
+        return;
+    }
+
     struct timespec ts;
     clock_gettime(CLOCK_MONOTONIC, &ts);
     uint64_t now = ts.tv_sec * 1000 + ts.tv_nsec / 1000000;
