@@ -1,8 +1,8 @@
 ﻿<pre>
 @dependence
   1. boost
-    $sudo apt-get install liboost1.53-dev -y
-    $sudo apt-get install liboost1.53-all-dev -y
+    $sudo apt-get install libboost-all-dev -y
+    (i've tested 1.53 & 1.55)
   2. cmake
     $sudo apt-get install cmake -y
   3. c++11(now gcc contain it already)
