@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include <string.h>
 
+using chef::buffer;
+
 #define TEST_STAGE_NUMBER 7
 
 int main()

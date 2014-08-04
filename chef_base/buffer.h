@@ -3,6 +3,9 @@
 
 #include <stdint.h>
 
+namespace chef
+{
+
 class buffer
 {
 public:
@@ -41,6 +44,8 @@ private:
     uint64_t write_index_;
     char *data_;
 };
+
+} /// namespace chef
 
 #endif
 

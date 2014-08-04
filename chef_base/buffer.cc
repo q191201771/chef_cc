@@ -4,6 +4,9 @@
 #include <stdio.h>
 #include <stdarg.h>
 
+namespace chef
+{
+
 buffer::buffer(uint64_t init_capacity, uint64_t shrink_capacity) : 
     init_capacity_(init_capacity),
     shrink_capacity_(shrink_capacity),
@@ -68,4 +71,6 @@ void buffer::reset()
         data_ = (char *)malloc(capacity_);
     }
 }
+
+} /// namespace chef
 
