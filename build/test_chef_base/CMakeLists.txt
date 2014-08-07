@@ -31,3 +31,6 @@ TARGET_LINK_LIBRARIES(rwlock_test chefbase pthread)
 ADD_EXECUTABLE(thread_test ${ROOT_DIR}/test_chef_base/thread_test.cc)
 TARGET_LINK_LIBRARIES(thread_test chefbase pthread)
 
+ADD_EXECUTABLE(wait_event_test ${ROOT_DIR}/test_chef_base/wait_event_test.cc)
+TARGET_LINK_LIBRARIES(wait_event_test chefbase pthread)
+

@@ -6,3 +6,4 @@ cd bin
 ./noncopyable_test
 ./rwlock_test
 ./thread_test
+./wait_event_test
