@@ -4,7 +4,7 @@
 #include <stdint.h>
 #include <boost/function.hpp>
 #include <boost/noncopyable.hpp>
-#include <boost/scoped_ptr.hpp>
+#include <boost/smart_ptr.hpp>
 
 /**
  * TODO
@@ -96,6 +96,8 @@ typedef boost::function<void(cio_conn_t, uint8_t)> error_cb_t;
  */
 typedef boost::function<void(cio_conn_t, uint64_t, uint64_t)> write_cb_t;
 
+class io_tcp;
+typedef boost::shared_ptr<io_tcp> io_tcp_ptr;
 class io_tcp : public boost::noncopyable
 {
 public:
@@ -109,7 +111,7 @@ public:
      * @return:
      *   NULL:failed,check param 'failno'
      */
-    static io_tcp *create(const char *ip, int16_t port, uint16_t thread_num,
+    static io_tcp_ptr create(const char *ip, int16_t port, uint16_t thread_num,
                           const accept_cb_t &acb,
                           const connect_cb_t &connect_cb,
                           const read_cb_t &rcb,
@@ -118,20 +120,18 @@ public:
                           const write_cb_t &wcb,
                           //uint8_t *failno = nullptr/*out*/);
                           uint8_t *failno = NULL/*out*/);
-    
-    /**
-     * @brief:
-     *   if running(called run() already),must call shutdown() first to cancel
-     *   run()-blocking,after run() completed,call this.
-     */
-    static void destroy(io_tcp *param);
 
     /**
-     * @brief:
-     *   block-func
+     * @ brief
+     *  @ block-func
      */ 
     void run(); 
-    
+
+    /**
+     * @ brief
+     *  @ non-block
+     *  @ after call this,io_tcp::run() will return after a while
+     */    
     void shutdown(); 
     
     /**
@@ -176,9 +176,10 @@ public:
     void connect(const char *ip, uint16_t port, void *arg);
     
     void close(const cio_conn_t &cc);
+    
+    ~io_tcp();
 private:
     io_tcp();
-    ~io_tcp();
 
     boost::scoped_ptr<io_tcp_impl> impl_;
 };

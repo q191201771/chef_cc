@@ -7,7 +7,7 @@
 using namespace boost;
 using namespace chef;
 
-io_tcp *srv;
+io_tcp_ptr srv;
 char srv_ip[128] = {0};
 uint16_t srv_port = 0;;
 char *block = NULL;
@@ -85,6 +85,6 @@ int main(int argc, char **argv)
     }
     srv->run();
     delete []block;
-    io_tcp::destroy(srv);
+    //io_tcp::destroy(srv);
     return 0;
 }

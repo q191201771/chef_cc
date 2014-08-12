@@ -9,7 +9,7 @@
 #include <boost/bind.hpp>
 using namespace chef;
 
-io_tcp *srv;
+io_tcp_ptr srv;
 wait_event connect_event;
 cio_conn_t cio_conn;
 buffer inbuf;
@@ -67,9 +67,9 @@ void error_cb(cio_conn_t cc, uint8_t error_no)
     srv->close(cc);
 }
 
-void main_loop()
+void main_loop(io_tcp_ptr itp)
 {
-    srv->run();
+    itp->run();
 }
 
 int main(int argc, char **argv)
@@ -85,7 +85,7 @@ int main(int argc, char **argv)
         CHEF_TRACE_DEBUG("user:init fail.");
         return 0;
     }
-    thread io_thread(boost::bind(&main_loop), "io loop");
+    thread io_thread(boost::bind(&main_loop, srv), "io loop");
     io_thread.start();
 
     printf("---connecting...\n");
@@ -121,8 +121,9 @@ int main(int argc, char **argv)
         srv->write(cio_conn, buf.read_pos(), buf.readable());
     }
     free(data);
-   
-    io_tcp::destroy(srv);
+
+    srv.reset();   
+    //io_tcp::destroy(srv);
     printf("---bye bye.\n");
     return 0;
 }

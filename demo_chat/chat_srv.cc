@@ -7,7 +7,7 @@
 using namespace chef;
 class protocol;
 
-io_tcp *srv;
+io_tcp_ptr srv;
 uint64_t id = 0;
 boost::unordered_map<uint64_t, protocol *> protocols;
 boost::shared_mutex protocols_mutex;
@@ -103,6 +103,6 @@ int main(int argc, char **argv)
         return 0;
     }
     srv->run();
-    io_tcp::destroy(srv);
+    //io_tcp::destroy(srv);
     return 0;
 }

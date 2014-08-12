@@ -9,7 +9,7 @@
 #include <sys/socket.h>
 #include <boost/bind.hpp>
 
-io_tcp *io_tcp::create(const char *ip, int16_t port, uint16_t thread_num,
+io_tcp_ptr io_tcp::create(const char *ip, int16_t port, uint16_t thread_num,
                        const accept_cb_t &acb, 
                        const connect_cb_t &connect_cb, 
                        const read_cb_t &rcb,
@@ -25,13 +25,13 @@ io_tcp *io_tcp::create(const char *ip, int16_t port, uint16_t thread_num,
         delete obj;
         obj = nullptr;
     }
-    return obj;
+    return io_tcp_ptr(obj);
 }
 
-void io_tcp::destroy(io_tcp *param)
-{
-    delete param; 
-}
+//void io_tcp::destroy(io_tcp *param)
+//{
+//    delete param; 
+//}
 
 io_tcp::io_tcp()
 {

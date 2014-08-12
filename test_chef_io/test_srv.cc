@@ -9,7 +9,7 @@
 //using namespace boost;
 using namespace chef;
 
-io_tcp *srv = NULL;
+io_tcp_ptr srv = NULL;
 task_thread *tt = NULL;
 bool shutdown = false;
 wait_event exit_event;
@@ -84,7 +84,7 @@ int main()
 
     chef::async_log::get_mutable_instance().init(chef::async_log::debug, false, true);
     CHEF_TRACE_DEBUG("hello world.");
-    io_tcp *srv1 = io_tcp::create(NULL, 8384, 4, NULL, connect_cb, 
+    io_tcp_ptr srv1 = io_tcp::create(NULL, 8384, 4, NULL, connect_cb, 
                             read_cb, close_cb, error_cb, write_cb);
     CHEF_ASSERT(!srv1);
     srv1 = io_tcp::create("1.2.3.4", 8384, 4, NULL, NULL, 
@@ -96,7 +96,7 @@ int main()
     srv1 = io_tcp::create("0.0.0.0", 8384, 0, accept_cb, connect_cb, 
                             read_cb, close_cb, error_cb, write_cb);
     CHEF_ASSERT(!srv1);
-    io_tcp *srv2 = io_tcp::create("0.0.0.0", 8384, 4, accept_cb, NULL, 
+    io_tcp_ptr srv2 = io_tcp::create("0.0.0.0", 8384, 4, accept_cb, NULL, 
                             read_cb, close_cb, NULL, write_cb);
     CHEF_ASSERT(srv2);
     uint8_t failno = 0;
@@ -105,10 +105,11 @@ int main()
     CHEF_ASSERT(!srv1);
     CHEF_ASSERT(failno == 2);
     CHEF_TRACE_DEBUG("[1/%d] test create done.", test_num);
-    io_tcp::destroy(srv2);
+    //io_tcp::destroy(srv2);
+    srv2.reset();
     CHEF_TRACE_DEBUG("[2/%d] test single create & single destroy done.", test_num);
 
-    io_tcp *srv3 = io_tcp::create("0.0.0.0", 8384, 4, accept_cb, 
+    io_tcp_ptr srv3 = io_tcp::create("0.0.0.0", 8384, 4, accept_cb, 
                             connect_cb, read_cb, close_cb, error_cb, write_cb);
     CHEF_ASSERT(srv3);
     srv3->connect("0.0.0.0", 8384, NULL);
@@ -117,7 +118,8 @@ int main()
     srv3->shutdown();
     srv3->connect("0.0.0.0", 1000, NULL);
     srv3->shutdown();
-    io_tcp::destroy(srv3);
+    //io_tcp::destroy(srv3);
+    srv3.reset();
     CHEF_TRACE_DEBUG("[3/%d] test mess shutdown & mess connect done.", test_num);
 
     printf("-----srv begin.\n");
@@ -130,12 +132,12 @@ int main()
     chef::thread t(boost::bind(&run));
     t.start();
     /// ulimit -n 
-    for (int i = 0; i < 10000; ++i) {
+    for (int i = 0; i < 128; ++i) {
         srv->connect("0.0.0.0", 8384, NULL);
     }
     exit_event.wait();
-    io_tcp::destroy(srv);
-    srv = NULL;
+    //io_tcp::destroy(srv);
+    //srv = NULL;
     delete tt;
     CHEF_TRACE_DEBUG("all test done.");
 

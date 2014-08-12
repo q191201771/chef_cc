@@ -8,7 +8,7 @@
 using namespace boost;
 using namespace chef;
 
-io_tcp *srv;
+io_tcp_ptr srv;
 atomic<uint64_t> client_num;
 
 void close_conn(cio_conn_t cc);
@@ -62,6 +62,6 @@ int main(int argc, char **argv)
         return 0;
     }
     srv->run();
-    io_tcp::destroy(srv);
+    //io_tcp::destroy(srv);
     return 0;
 }
