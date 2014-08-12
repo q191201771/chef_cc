@@ -52,6 +52,7 @@ int main()
 
     buf2.reserve(10);
     strcpy(buf2.write_pos(), "helloworld");
+    buf2.seek_write(10);
     char *p4 = buf2.read_pos();
     assert(p4 != p3);
     assert(buf2.capacity() == 16);
@@ -69,6 +70,16 @@ int main()
     memcpy(buf4.write_pos(), "1234567890123456", 16);
     buf4.seek_write(16);
     //printf("[7/%d] done.\n", TEST_STAGE_NUMBER);
+
+    buffer buf5(buf2);
+    assert(buf5.capacity() == 16);
+    assert(memcmp(buf5.read_pos(), "xxxhelloworld", 13) == 0);
+
+    buffer buf6 = buf5;
+    assert(buf6.read_pos() == buf6.data());
+    assert(memcmp(buf6.read_pos(), "xxxhelloworld", 13) == 0);
+    buf6 = buf6;
+    assert(memcmp(buf6.read_pos(), "xxxhelloworld", 13) == 0);
 
     printf("<buffer_test.\n");
     return 0;
