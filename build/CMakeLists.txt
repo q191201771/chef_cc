@@ -1,5 +1,6 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
 
+SET(CMAKE_EXPORT_COMPILE_COMMANDS 1)
 SET(ROOT_DIR ../)
 
 ADD_DEFINITIONS("-g -Wall -Werror")
@@ -20,8 +21,8 @@ IF(TEST_CHEF_BASE)
     ADD_SUBDIRECTORY(test_chef_base)
 ENDIF(TEST_CHEF_BASE)
 
-#find_package(Protobuf)
-#if(PROTOBUF_FOUND)
-#    ADD_SUBDIRECTORY(demo_chat)
-#endif()
+find_package(Protobuf)
+if(PROTOBUF_FOUND)
+    ADD_SUBDIRECTORY(demo_chat)
+endif()
 

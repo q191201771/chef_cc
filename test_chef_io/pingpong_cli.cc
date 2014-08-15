@@ -85,6 +85,5 @@ int main(int argc, char **argv)
     }
     srv->run();
     delete []block;
-    //io_tcp::destroy(srv);
     return 0;
 }

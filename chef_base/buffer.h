@@ -9,7 +9,7 @@ namespace chef
 class buffer
 {
 public:
-    buffer(uint64_t init_capacity = 16384, uint64_t shrink_capacity = 1048576);
+    explicit buffer(uint64_t init_capacity = 16384, uint64_t shrink_capacity = 1048576);
     ~buffer();
 
     /// deep copy

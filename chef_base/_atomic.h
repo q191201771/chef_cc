@@ -15,7 +15,7 @@ template <typename T>
 class atomic : public noncopyable
 {
 public:
-    atomic() : value_(0) {}
+    explicit atomic() : value_(0) { }
 
     T get()
     {

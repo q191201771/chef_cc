@@ -105,7 +105,6 @@ int main()
     CHEF_ASSERT(!srv1);
     CHEF_ASSERT(failno == 2);
     CHEF_TRACE_DEBUG("[1/%d] test create done.", test_num);
-    //io_tcp::destroy(srv2);
     srv2.reset();
     CHEF_TRACE_DEBUG("[2/%d] test single create & single destroy done.", test_num);
 
@@ -118,7 +117,6 @@ int main()
     srv3->shutdown();
     srv3->connect("0.0.0.0", 1000, NULL);
     srv3->shutdown();
-    //io_tcp::destroy(srv3);
     srv3.reset();
     CHEF_TRACE_DEBUG("[3/%d] test mess shutdown & mess connect done.", test_num);
 
@@ -136,7 +134,6 @@ int main()
         srv->connect("0.0.0.0", 8384, NULL);
     }
     exit_event.wait();
-    //io_tcp::destroy(srv);
     //srv = NULL;
     delete tt;
     CHEF_TRACE_DEBUG("all test done.");

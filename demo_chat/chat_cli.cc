@@ -123,7 +123,6 @@ int main(int argc, char **argv)
     free(data);
 
     srv.reset();   
-    //io_tcp::destroy(srv);
     printf("---bye bye.\n");
     return 0;
 }

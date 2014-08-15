@@ -13,9 +13,7 @@ namespace chef
 class wait_event : public boost::noncopyable
 {
 public:
-    wait_event() :
-        succ_(false)
-    {}
+    explicit wait_event() : succ_(false) { }
 
     void notify()
     {

@@ -1,11 +1,13 @@
 ﻿<pre>
 @dependence
   1. boost
-    $sudo apt-get install libboost-all-dev -y
+    $sudo apt-get install libboost-dev libboost-all-dev -y
     (i've tested 1.53 & 1.55)
   2. cmake
     $sudo apt-get install cmake -y
   3. c++11(now gcc contain it already)
+  4. google protobuf(optional, to demo_chat)
+    $sudo apt-get install protobuf-compiler libprotobuf-dev -y
 
 @build
   $cd build

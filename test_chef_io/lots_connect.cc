@@ -70,6 +70,5 @@ int main(int argc, char **argv)
         srv->connect(srv_ip, srv_port, NULL);
     }
     srv->run();
-    //io_tcp::destroy(srv);
     return 0;
 }
