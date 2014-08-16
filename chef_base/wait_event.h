@@ -32,12 +32,19 @@ public:
     }
     
     /**
-     * @ return:
-     *     true  : notify succ
-     *     false : timeout
+     * @ param
+     *  timeout_ms 0 means no timeout
+     * @ return
+     *  true  notify succ
+     *  false timeout
      */
     bool wait_for(uint32_t timeout_ms)
     {
+        if (timeout_ms == 0) {
+            wait();
+            return true;
+        }
+
         boost::unique_lock<boost::mutex> lock(mutex_);
         while (!succ_) {
             if (cond_.wait_for(lock, boost::chrono::milliseconds(timeout_ms)) ==
