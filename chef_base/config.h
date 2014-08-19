@@ -5,11 +5,16 @@
 #include <string>
 #include <map>
 
-//1. comment should begin with #
-//2. every line is a key,value pair
-//   they combin like this:
-//   key=value
-//   and can't with space, like key = value
+/**
+ * @ cfg.right
+ *  #this is an brief line
+ *  name=chef
+ *  num=100
+ * @ cfg.wrong
+ *  name =chef
+ *  name= chef
+ *  name=chef #wrong brief,must start with an line
+ */
 
 namespace chef
 {

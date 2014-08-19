@@ -21,8 +21,12 @@ public:
 
     void start();
 
-    //0 means run ASAP
-    //precise > 100ms
+    /**
+     * @ param
+     *  deferred_time_ms 0 means no deferred-add
+     * @ brief
+     *  deferred precise > 100ms
+     */
     void add(const task &t, uint32_t deferred_time_ms = 0);
 
 private:
