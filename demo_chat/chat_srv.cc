@@ -116,7 +116,7 @@ int main(int argc, char **argv)
     }
     chef::async_log::get_mutable_instance().init();
     srv = io_tcp::create(argv[1], atoi(argv[2]), 4, accept_cb, NULL, read_cb,
-                close_cb, error_cb, NULL);
+            close_cb, error_cb, NULL);
     if (!srv) {
         CHEF_TRACE_DEBUG("user:init fail.");
         return 0;
@@ -126,3 +126,4 @@ int main(int argc, char **argv)
     printf("bye bye.\n");
     return 0;
 }
+

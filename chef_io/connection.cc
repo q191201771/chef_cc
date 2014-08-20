@@ -108,9 +108,7 @@ void connection::handle_write()
         loop_->connect_cb()(cio_conn_, connect_status::connected);
         return;
     } else if (status_ == status_linked) {
-        uint64_t succ_writed = ::write(fd_, 
-                                   outbuf_.read_pos(), 
-                                   outbuf_.readable());
+        ssize_t succ_writed = ::write(fd_, outbuf_.read_pos(), outbuf_.readable());
         if (succ_writed < 0) {
             if (errno != EINTR && errno != EAGAIN) {
                 CHEF_TRACE_DEBUG("handle_write,error.");

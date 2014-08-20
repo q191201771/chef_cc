@@ -1,3 +1,5 @@
+#!/bin/bash
+
 cd bin
 ./atomic_test
 ./buffer_test

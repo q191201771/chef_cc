@@ -1,3 +1,5 @@
+#!/bin/bash
+
 if [ -d /usr/include/chef ]; then
     :
 else
