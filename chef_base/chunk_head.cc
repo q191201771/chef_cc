@@ -13,17 +13,15 @@ void trans_endian(char *data, int len)
         char c;
         int i;
     }n;
-    n.c = 1;
-    if (n.i == 1) {
-        assert(0);
-        return;
+    n.i = 1;
+    if (n.c != 1) {
+        for (int i = 0; i < len / 2; ++i) {
+            char tmp = data[i];
+            data[i] = data[len - 1 - i];
+            data[len - 1 - i] = tmp;
+        }
     }
 
-    for (int i = 0; i < len / 2; ++i) {
-        char tmp = data[i];
-        data[i] = data[len - 1 - i];
-        data[len - 1 - i] = tmp;
-    }
 }
 
 int encode_chunk_head(const chunk_head &ch, char *raw_head)

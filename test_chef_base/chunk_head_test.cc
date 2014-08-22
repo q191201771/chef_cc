@@ -5,6 +5,7 @@
 
 int main()
 {
+    printf(">chunk_head_test.\n");
     char buf[32] = "hello world";
     char raw[64];
     memcpy(raw + 24, buf, strlen(buf) + 1);
@@ -23,6 +24,7 @@ int main()
     assert(ch2.reserved_ == 26);
     assert(ch2.body_len_ == strlen(buf) + 1);
     assert(memcmp(raw + 24, buf, ch2.body_len_) == 0);
+    printf("<chunk_head_test.\n");
 
     return 0;
 }
