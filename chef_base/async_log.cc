@@ -1,5 +1,4 @@
 #include "async_log.h"
-#include "assert_.h"
 #include <string.h>
 #include <stdint.h>
 #include <sys/types.h>
@@ -24,7 +23,8 @@ namespace chef
 
 async_log::level async_log::level_ = async_log::num_of_level;
 
-async_log::async_log() : fp_(NULL)
+async_log::async_log() 
+    : end_screen_color_("\033[0m")
 {
     level_name_[async_log::debug] = "DEBUG";
     level_name_[async_log::info]  = "INFO";
@@ -32,176 +32,175 @@ async_log::async_log() : fp_(NULL)
     level_name_[async_log::error] = "ERROR";
     level_name_[async_log::fatal] = "FATAL";
 
+    screen_color_[async_log::debug] = "\033[01;37m";
+    screen_color_[async_log::info]  = "\033[22;36m";
+    screen_color_[async_log::warn]  = "\033[01;33m";
+    screen_color_[async_log::error] = "\033[22;31m";
+    screen_color_[async_log::fatal] = "\033[01;31m";
+
     memset(file_name_, 0, sizeof(file_name_));
 
-    extra_buf_len_ = 16384;
-    extra_buf_ = new char[extra_buf_len_];
     async_mode_ = false;
+    screen_ = false;
+    run_= false;
 }
 
 async_log::~async_log()
 {
-    //CHEF_ASSERT(0);
-
-    {//lock
-    boost::lock_guard<boost::mutex> guard(mutex_);
-    if (fp_) {
-        fclose(fp_);
-        fp_ = NULL;
-    }
-    }//unlock
+    run_ = false;
     if (async_mode_) {
         log_thread_->join();
     }
-
-    delete []extra_buf_;
 }
 
-int async_log::init(level l, bool async_mode, bool screen)
+int async_log::init(level l, bool async_mode)
 {
-    boost::lock_guard<boost::mutex> guard(mutex_);
-    if (fp_) {
-        return -1;
-    }
-
-    level_ = l;
-    async_mode_ = async_mode;
-    screen_ = screen;
-
-    //20140411T115959.ubuntu.pid.log.chef
-    size_t pc_name_len = 128;
-    char pc_name[128] = {0};
-    gethostname(pc_name, pc_name_len);
-    boost::posix_time::ptime time_str = boost::posix_time::second_clock::local_time();
-    snprintf(file_name_, sizeof(file_name_) - 1, "%s.%s.%lu.log.chef",
-             boost::posix_time::to_iso_string(time_str).c_str(), 
-             pc_name, 
-             (uint64_t)getpid());
-
-    fp_ = fopen(file_name_, "ab+");
-    if (!fp_) {
-        return -1;
-    }
-
-    if (async_mode) {
-        //log_thread_.start();
-        log_thread_.reset(new boost::thread(boost::bind(&async_log::log_thd_fun,
-                        this)));
-        log_thread_run_up_.wait();
-    }
+    { /// lock
+        boost::lock_guard<boost::mutex> guard(mutex_);
+        if (run_) {
+            return -1;
+        }
+    
+        level_ = l;
+        async_mode_ = async_mode;
+        screen_ = !async_mode_;
+    
+        /// for example
+        /// 20140825T193819.chef-VirtualBox.21810.log.chef
+        size_t pc_name_len = 128;
+        char pc_name[128] = {0};
+        gethostname(pc_name, pc_name_len);
+        boost::posix_time::ptime time_str = boost::posix_time::second_clock::local_time();
+        snprintf(file_name_, sizeof file_name_, "%s.%s.%lu.log.chef",
+                boost::posix_time::to_iso_string(time_str).c_str(), 
+                pc_name, 
+                (uint64_t)getpid());    
+    
+        if (async_mode) {
+            log_thread_.reset(new boost::thread(boost::bind(&async_log::log_thd_fun,
+                    this)));
+            log_thread_run_up_.wait();
+        } else {
+            run_= true;
+        }
+    } /// unlock
 
     return 0;
 }
 
-int async_log::trace(async_log::level l,
-                     const char *src_file_name,
-                     int line,
-                     const char *func_name,
-                     const char *format,...)
+int async_log::trace(async_log::level l, const char *src_file_name, int line,
+        const char *func_name, const char *format,...)
 {
-    boost::lock_guard<boost::mutex> guard(mutex_);
-
-    if (!fp_ || !src_file_name || !func_name) {
+    if (!run_) {
         return -1;
     }
 
     int len = -1;
+    /// serializaton lock-free,cost more memory
+    chef::buffer single_buf(1152);
 
     // *now time
     boost::posix_time::ptime pt = boost::posix_time::microsec_clock::local_time();
     std::string time_str = boost::posix_time::to_iso_extended_string(pt);
-    front_buf_.append(time_str.c_str(), time_str.length());
+    single_buf.append(time_str.c_str(), time_str.length());
 
     // *tid
-    snprintf(extra_buf_, 9, " %6d ", (int)get_tid());
-    front_buf_.append(extra_buf_, strlen(extra_buf_));
+    single_buf.reserve(9);
+    snprintf(single_buf.write_pos(), 9, " %6d ", (int)get_tid());
+    single_buf.seek_write(8);
 
     // *level name
-    front_buf_.reserve(7);
-    len = snprintf(front_buf_.write_pos(), 7, "%5s ", level_name_[l].c_str());
-    front_buf_.seek_write(len);
+    single_buf.reserve(7);
+    snprintf(single_buf.write_pos(), 7, "%5s ", level_name_[l].c_str());
+    single_buf.seek_write(6);
 
     // *main
     va_list ap;
     va_start(ap, format);
-    len = vsnprintf(extra_buf_, extra_buf_len_, format, ap);
-    if (len > extra_buf_len_) {
-        //lost
-        len = extra_buf_len_;
+    single_buf.reserve(1024);
+    len = vsnprintf(single_buf.write_pos(), 1024, format, ap);
+    if (len > 1024) {
+        /// lost..
+        len = 1024;
     }
     va_end(ap);
-    front_buf_.append(extra_buf_, len);
+    single_buf.seek_write(len);
 
     // *src file & line
     //  erase path
-    if (l == async_log::debug) {
+    //if (l == async_log::debug) {
+        if (!src_file_name) {
+            return -1;
+        }
         std::string without_path_name(src_file_name);
         std::size_t split_pos = without_path_name.rfind('/');
         if (split_pos != std::string::npos) {
             without_path_name = without_path_name.substr(split_pos + 1, 
-                                    without_path_name.size() - 1);
+                    without_path_name.size() - 1);
         }
-        len = snprintf(extra_buf_, extra_buf_len_, " - %s:%d", 
-                       without_path_name.c_str(), line);
-        front_buf_.append(extra_buf_, len);
-    }
+        single_buf.reserve(64);
+        len = snprintf(single_buf.write_pos(), 64, " - %s:%d", 
+                without_path_name.c_str(), line);
+        if (len > 64) {
+            /// what a long name..
+            len = 64;
+        }
+        single_buf.seek_write(len);
+    //}
 
     // *line end
-    front_buf_.reserve(1);
-    *front_buf_.write_pos() = '\n';
-    front_buf_.seek_write(1);
+    single_buf.append("\n", 1);
 
-    if (screen_) {
-        //'\0' may cut,it's acceptable
-        printf("%s", front_buf_.read_pos());
-    }
-    if (!async_mode_) {
-        fwrite((const void *)front_buf_.read_pos(),
-                front_buf_.readable(),
-                1,
-                fp_);
-        fflush(fp_);
-        front_buf_.reset();
-    }
+    { /// lock
+        boost::lock_guard<boost::mutex> guard(mutex_);
+        if (async_mode_) {
+                front_buf_.append(single_buf.read_pos(), single_buf.readable());
+        } else {    
+            /// sync mode fopen every time
+            FILE *fp = fopen(file_name_, "ab+");
+            fwrite((const void *)single_buf.read_pos(), single_buf.readable(),
+                    1, fp);
+            fclose(fp);
+            if (screen_) { /// kept this 'if', though screen_=!async_mode_
+                /// may not complete,cut by '\0'
+                single_buf.append("\0", 1);
+                printf("%s%s%s", screen_color_[l].c_str(), single_buf.read_pos(),
+                        end_screen_color_.c_str());
+            }
+        }
+    } /// unlock
 
     return 0;
 }
 
 void async_log::log_thd_fun()
 {
+    FILE *fp = fopen(file_name_, "ab+");
+    if (!fp) {
+        run_= false;
+        log_thread_run_up_.notify();
+        return;
+    }           
+    fprintf(fp, "async log tid=%d.\n", get_tid()); 
+    fflush(fp);
+    run_ = true;
     log_thread_run_up_.notify();
 
-    { //lock 
-    boost::lock_guard<boost::mutex> guard(mutex_);
-    if (!fp_) {
-        CHEF_ASSERT(0);
-        return;
-    }
-    fprintf(fp_, "async log tid=%d.\n", get_tid()); 
-    fflush(fp_);
-    } //unlock
-    for (; ; ) {
+    while(run_) {
         bool write = false;
-        { //lock
+        { /// lock
         boost::lock_guard<boost::mutex> guard(mutex_);
-        if (!fp_) {
-            //CHEF_ASSERT(0);
-            break;
-        }
-        
         if (front_buf_.readable() > 0) {
             back_buf_.append(front_buf_.read_pos(), front_buf_.readable());
             front_buf_.reset();
             write = true;
         }
-        } //unlock
+        } /// unlock
 
         if (write) {
-            fwrite((const void *)back_buf_.read_pos(), 
-                    back_buf_.readable(), 
-                    1, 
-                    fp_);
-            fflush(fp_);
+            fwrite((const void *)back_buf_.read_pos(), back_buf_.readable(), 
+                    1, fp);
+            fflush(fp);
             back_buf_.reset();
         }
         sleep(1);

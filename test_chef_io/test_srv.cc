@@ -82,7 +82,7 @@ int main()
 {
     int test_num = 100;
 
-    chef::async_log::get_mutable_instance().init(chef::async_log::debug, false, true);
+    chef::async_log::get_mutable_instance().init(chef::async_log::debug, false);
     CHEF_TRACE_DEBUG("hello world.");
     io_tcp_ptr srv1 = io_tcp::create(NULL, 8384, 4, NULL, connect_cb, 
                             read_cb, close_cb, error_cb, write_cb);

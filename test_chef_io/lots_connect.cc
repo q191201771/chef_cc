@@ -59,7 +59,7 @@ int main(int argc, char **argv)
     srv_port = atoi(argv[2]);
     int connect_size = atoi(argv[3]);
 
-    chef::async_log::get_mutable_instance().init(chef::async_log::debug, false, false);
+    chef::async_log::get_mutable_instance().init(chef::async_log::debug, false);
     srv = io_tcp::create("0.0.0.0", -1, 4, accept_cb, connect_cb, read_cb,
                 close_cb, error_cb, write_cb);
     if (!srv) {
