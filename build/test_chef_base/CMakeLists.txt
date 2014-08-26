@@ -7,8 +7,8 @@ TARGET_LINK_LIBRARIES(memprint chefbase pthread)
 ADD_EXECUTABLE(buffer_test ${ROOT_DIR}/test_chef_base/buffer_test.cc)
 TARGET_LINK_LIBRARIES(buffer_test chefbase pthread)
 
-ADD_EXECUTABLE(log_test ${ROOT_DIR}/test_chef_base/log_test.cc)
-TARGET_LINK_LIBRARIES(log_test chefbase pthread)
+ADD_EXECUTABLE(async_log_test ${ROOT_DIR}/test_chef_base/async_log_test.cc)
+TARGET_LINK_LIBRARIES(async_log_test chefbase pthread)
 
 ADD_EXECUTABLE(task_thread_test ${ROOT_DIR}/test_chef_base/task_thread_test.cc)
 TARGET_LINK_LIBRARIES(task_thread_test chefbase pthread)

@@ -58,20 +58,19 @@ private:
     void log_thd_fun();
 
 private:
-    const std::string end_screen_color_;
     static level level_;
-    char file_name_[512];
+    const std::string end_screen_color_;
+    std::string file_name_;
     boost::mutex mutex_;
-    std::string level_name_[num_of_level];
-    std::string screen_color_[num_of_level];
-
-    buffer front_buf_;
-    buffer back_buf_;
+    boost::scoped_ptr<buffer> front_buf_;
+    boost::scoped_ptr<buffer> back_buf_;
     boost::scoped_ptr<boost::thread> log_thread_;
     bool async_mode_;
     bool screen_;
     wait_event log_thread_run_up_;
     bool run_;
+    std::string level_name_[num_of_level];
+    std::string screen_color_[num_of_level];
 };
 
 };

@@ -21,10 +21,15 @@ static pid_t get_tid()
 namespace chef
 {
 
-async_log::level async_log::level_ = async_log::num_of_level;
+async_log::level async_log::level_ = async_log::debug;
 
 async_log::async_log() 
     : end_screen_color_("\033[0m")
+    , front_buf_(NULL)
+    , back_buf_(NULL)
+    , async_mode_(false)
+    , screen_(false)
+    , run_(false)
 {
     level_name_[async_log::debug] = "DEBUG";
     level_name_[async_log::info]  = "INFO";
@@ -37,12 +42,6 @@ async_log::async_log()
     screen_color_[async_log::warn]  = "\033[01;33m";
     screen_color_[async_log::error] = "\033[22;31m";
     screen_color_[async_log::fatal] = "\033[01;31m";
-
-    memset(file_name_, 0, sizeof(file_name_));
-
-    async_mode_ = false;
-    screen_ = false;
-    run_= false;
 }
 
 async_log::~async_log()
@@ -71,12 +70,14 @@ int async_log::init(level l, bool async_mode)
         char pc_name[128] = {0};
         gethostname(pc_name, pc_name_len);
         boost::posix_time::ptime time_str = boost::posix_time::second_clock::local_time();
-        snprintf(file_name_, sizeof file_name_, "%s.%s.%lu.log.chef",
-                boost::posix_time::to_iso_string(time_str).c_str(), 
-                pc_name, 
-                (uint64_t)getpid());    
-    
+        std::stringstream stream;
+        stream << boost::posix_time::to_iso_string(time_str) << "." 
+                << pc_name << "." << (uint64_t)getpid() << ".log.chef";
+        stream >> file_name_;
+
         if (async_mode) {
+            front_buf_.reset(new buffer());
+            back_buf_.reset(new buffer());
             log_thread_.reset(new boost::thread(boost::bind(&async_log::log_thd_fun,
                     this)));
             log_thread_run_up_.wait();
@@ -96,7 +97,7 @@ int async_log::trace(async_log::level l, const char *src_file_name, int line,
     }
 
     int len = -1;
-    /// serializaton lock-free,cost more memory
+    /// serialization lock-free,cost more memory
     chef::buffer single_buf(1152);
 
     // *now time
@@ -154,10 +155,10 @@ int async_log::trace(async_log::level l, const char *src_file_name, int line,
     { /// lock
         boost::lock_guard<boost::mutex> guard(mutex_);
         if (async_mode_) {
-                front_buf_.append(single_buf.read_pos(), single_buf.readable());
+                front_buf_->append(single_buf.read_pos(), single_buf.readable());
         } else {    
             /// sync mode fopen every time
-            FILE *fp = fopen(file_name_, "ab+");
+            FILE *fp = fopen(file_name_.c_str(), "ab+");
             fwrite((const void *)single_buf.read_pos(), single_buf.readable(),
                     1, fp);
             fclose(fp);
@@ -175,7 +176,7 @@ int async_log::trace(async_log::level l, const char *src_file_name, int line,
 
 void async_log::log_thd_fun()
 {
-    FILE *fp = fopen(file_name_, "ab+");
+    FILE *fp = fopen(file_name_.c_str(), "ab+");
     if (!fp) {
         run_= false;
         log_thread_run_up_.notify();
@@ -190,18 +191,18 @@ void async_log::log_thd_fun()
         bool write = false;
         { /// lock
         boost::lock_guard<boost::mutex> guard(mutex_);
-        if (front_buf_.readable() > 0) {
-            back_buf_.append(front_buf_.read_pos(), front_buf_.readable());
-            front_buf_.reset();
+        if (front_buf_->readable() > 0) {
+            back_buf_->append(front_buf_->read_pos(), front_buf_->readable());
+            front_buf_->reset();
             write = true;
         }
         } /// unlock
 
         if (write) {
-            fwrite((const void *)back_buf_.read_pos(), back_buf_.readable(), 
+            fwrite((const void *)back_buf_->read_pos(), back_buf_->readable(), 
                     1, fp);
             fflush(fp);
-            back_buf_.reset();
+            back_buf_->reset();
         }
         sleep(1);
     }

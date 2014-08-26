@@ -10,4 +10,4 @@ cd bin
 ./thread_test
 ./wait_event_test
 ./chunk_head_test
-./log_test
+./async_log_test
