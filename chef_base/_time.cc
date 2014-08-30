@@ -3,7 +3,10 @@
 #include <stdio.h>
 #include <sys/time.h>
 
-void time::format_now_time1(char *buf)
+namespace chef
+{
+
+void format_now_time1(char *buf)
 {
     if (!buf) {
         return;
@@ -22,7 +25,7 @@ void time::format_now_time1(char *buf)
             tm1.tm_sec);
 }
 
-void time::format_now_time2(char *buf)
+void format_now_time2(char *buf)
 {
     if (!buf) {
         return;
@@ -41,7 +44,7 @@ void time::format_now_time2(char *buf)
             tm1.tm_sec);
 }
 
-void time::format_now_time3(char *buf)
+void format_now_time3(char *buf)
 {
     if (!buf) {
         return;
@@ -68,7 +71,7 @@ void time::format_now_time3(char *buf)
     snprintf(buf + 17, 8, ".%06ld", msecs);
 }
 
-int64_t time::now(int64_t *secs, int64_t *msecs)
+int64_t now(int64_t *secs, int64_t *msecs)
 {
     struct timeval tv;
     gettimeofday(&tv, NULL);
@@ -81,4 +84,29 @@ int64_t time::now(int64_t *secs, int64_t *msecs)
     }
     return local_secs * 1000 * 1000 + tv.tv_usec;
 }
+
+} /// namespace chef
+
+#if 0
+#include <stdio.h>
+
+int main()
+{
+    char buf[32];
+    int64_t sec;
+    int64_t msec;
+    int64_t tick;
+    tick = chef::now(&sec, &msec);
+    printf("%ld,%ld,%ld\n", tick, sec, msec);
+    chef::format_now_time1(buf);
+    printf("%s\n", buf);
+    chef::format_now_time2(buf);
+    printf("%s\n", buf);
+    chef::format_now_time3(buf);
+    printf("%s\n", buf);
+    printf("%ld\n", chef::now(NULL, NULL));
+    return 0;
+}
+
+#endif
 

@@ -14,14 +14,19 @@
  * format 3. len 25, like 20140512 13:50:25.123456,log info,etc
  */
 
-class time
+namespace chef
 {
-public:
-    static void format_now_time1(char *buf);
-    static void format_now_time2(char *buf);
-    static int64_t now(int64_t *secs, int64_t *msecs);
-    static void format_now_time3(char *buf);
-};
+    void format_now_time1(char *buf);
+    void format_now_time2(char *buf);
+    void format_now_time3(char *buf);
+
+    /**
+     * @ param
+     *  secs  [out] NULL means don't fetch it
+     *  msecs [out] NULL means don't fetch it
+     */ 
+    int64_t now(int64_t *secs /*out*/, int64_t *msecs /*out*/);    
+} /// namespace chef
 
 #endif
 

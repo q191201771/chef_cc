@@ -98,7 +98,7 @@ int async_log::trace(async_log::level l, const char *src_file_name, int line,
 
     int len = -1;
     /// serialization lock-free,cost more memory
-    chef::buffer single_buf(1152);
+    chef::buffer single_buf(10240);
 
     // *now time
     boost::posix_time::ptime pt = boost::posix_time::microsec_clock::local_time();
@@ -118,11 +118,11 @@ int async_log::trace(async_log::level l, const char *src_file_name, int line,
     // *main
     va_list ap;
     va_start(ap, format);
-    single_buf.reserve(1024);
-    len = vsnprintf(single_buf.write_pos(), 1024, format, ap);
-    if (len > 1024) {
+    single_buf.reserve(10000);
+    len = vsnprintf(single_buf.write_pos(), 10000, format, ap);
+    if (len > 10000) {
         /// lost..
-        len = 1024;
+        len = 10000;
     }
     va_end(ap);
     single_buf.seek_write(len);
@@ -136,15 +136,14 @@ int async_log::trace(async_log::level l, const char *src_file_name, int line,
         std::string without_path_name(src_file_name);
         std::size_t split_pos = without_path_name.rfind('/');
         if (split_pos != std::string::npos) {
-            without_path_name = without_path_name.substr(split_pos + 1, 
-                    without_path_name.size() - 1);
+            without_path_name = without_path_name.substr(split_pos + 1);
         }
-        single_buf.reserve(64);
-        len = snprintf(single_buf.write_pos(), 64, " - %s:%d", 
+        single_buf.reserve(128);
+        len = snprintf(single_buf.write_pos(), 128, " - %s:%d", 
                 without_path_name.c_str(), line);
-        if (len > 64) {
+        if (len > 128) {
             /// what a long name..
-            len = 64;
+            len = 128;
         }
         single_buf.seek_write(len);
     //}

@@ -73,7 +73,7 @@ private:
     std::string screen_color_[num_of_level];
 };
 
-};
+} /// namespace chef
 
 #define CHEF_TRACE_DEBUG(...) do {if (chef::async_log::get_level() <= chef::async_log::debug) \
     chef::async_log::get_mutable_instance().trace(chef::async_log::debug, __FILE__, __LINE__, __func__, __VA_ARGS__);}while(0)
