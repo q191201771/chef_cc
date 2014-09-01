@@ -11,3 +11,4 @@ cd bin
 ./wait_event_test
 ./chunk_head_test
 ./async_log_test
+./thread_pool_test

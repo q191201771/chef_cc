@@ -1,7 +1,10 @@
 #include "task_thread.h"
 #include <stdio.h>
-#include <sys/prctl.h>
 #include <boost/chrono.hpp>
+
+#ifdef __GNUC__
+#include <sys/prctl.h>
+#endif
 
 namespace chef
 {
@@ -50,7 +53,9 @@ void task_thread::add(const task &t, uint32_t deferred_time_ms)
 
 void task_thread::run_in_thread(std::string name)
 {
+#ifdef __GNUC__
     ::prctl(PR_SET_NAME, name.c_str());
+#endif
     thread_run_up_.notify();
     std::deque<task> tasks_copy;
 

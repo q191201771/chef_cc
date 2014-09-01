@@ -1,5 +1,4 @@
 #include "chunk_head.h"
-#include <assert.h>
 #include <string.h>
 
 namespace chef

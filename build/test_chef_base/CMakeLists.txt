@@ -37,3 +37,6 @@ TARGET_LINK_LIBRARIES(wait_event_test chefbase pthread)
 ADD_EXECUTABLE(chunk_head_test ${ROOT_DIR}/test_chef_base/chunk_head_test.cc)
 TARGET_LINK_LIBRARIES(chunk_head_test chefbase)
 
+ADD_EXECUTABLE(thread_pool_test ${ROOT_DIR}/test_chef_base/thread_pool_test.cc)
+TARGET_LINK_LIBRARIES(thread_pool_test chefbase)
+

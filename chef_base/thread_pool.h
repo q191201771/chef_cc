@@ -1,29 +1,24 @@
-#ifndef _CHEF_BASE_THREAD_POLL_H_
-#define _CHEF_BASE_THREAD_POLL_H_
+#ifndef _CHEF_BASE_THREAD_POOL_H_
+#define _CHEF_BASE_THREAD_POOL_H_
 
-#include "_thread.h"
 #include "wait_event.h"
 #include <string>
 #include <vector>
 #include <deque>
 #include <boost/shared_ptr.hpp>
-#include <boost/thread/mutex.hpp>
-#include <boost/thread/condition_variable.hpp>
+#include <boost/thread.hpp>
 #include <boost/noncopyable.hpp>
-
-/// consider producer is fast than comsumer
-/// maybe we can write another produce scheme to block producer
 
 namespace chef
 {
 
-class thread_poll : public boost::noncopyable
+class thread_pool : public boost::noncopyable
 {
 public:
     typedef boost::function<void()> task;
 
-    explicit thread_poll(const std::string &name = std::string("thread poll"));
-    ~thread_poll();
+    explicit thread_pool(const std::string &name = std::string("thread poll"));
+    ~thread_pool();
 
     void start(int thread_num);
     void add(const task &t);
@@ -35,7 +30,7 @@ private:
 private:
     std::string name_;
     int thread_num_;
-    std::vector<boost::shared_ptr<thread> > threads_;
+    std::vector<boost::shared_ptr<boost::thread> > threads_;
     std::vector<boost::shared_ptr<wait_event> > threads_run_up_;
     bool run_;
     std::deque<task> tasks_;
