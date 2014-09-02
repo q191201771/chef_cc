@@ -1,5 +1,6 @@
 #include "thread_pool.h"
 #include "async_log.h"
+#include "current_thd.h"
 #include <assert.h>
 
 void fun(int i)
@@ -20,7 +21,7 @@ int main()
     for (int i = 128; i < 256; ++i) {
         tp.add(boost::bind(&fun, i));
     }
-    sleep(1);
+    chef::current_thd::sleep_ms(1000);
     printf("<thread_pool_test.\n");
 
     return 0;

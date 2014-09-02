@@ -1,4 +1,5 @@
 #include "_condition.h"
+#include "current_thd.h"
 #include <boost/thread.hpp>
 using chef::mutex;
 using chef::condition;
@@ -8,7 +9,7 @@ condition  c2(m2);
 
 void fun()
 {
-    sleep(1);
+    chef::current_thd::sleep_ms(1000);
     c2.notify();
 }
 

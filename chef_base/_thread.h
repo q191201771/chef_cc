@@ -26,7 +26,7 @@ public:
     int start();
     int join();
     int try_join();
-    pid_t get_tid() const {return *tid_;}//may 0 if thread not run up
+    int gettid() const {return static_cast<int>(*tid_);}//may 0 if thread not run up
 
 private:
     pthread_t pt_;
@@ -35,12 +35,6 @@ private:
     thread_func tf_;
     std::string name_;
     boost::shared_ptr<pid_t> tid_;
-};
-
-class current_thread
-{
-public:
-    static pid_t get_tid();
 };
 
 namespace internal

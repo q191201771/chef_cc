@@ -1,9 +1,9 @@
 #include "_thread.h"
+#include "current_thd.h"
 #include <pthread.h>
 #include <assert.h>
 #include <sys/prctl.h>
 #include <unistd.h>
-#include <sys/syscall.h>
 #include <stdio.h>
 #include <boost/make_shared.hpp>
 
@@ -36,7 +36,7 @@ void *thread_data::thd_fun(void *arg)
 
     boost::shared_ptr<pid_t> sp_pid = td->tid_.lock();
     if (sp_pid) {
-        *sp_pid	= current_thread::get_tid();
+        *sp_pid	= chef::current_thd::gettid();
         sp_pid.reset();
     }
 
@@ -75,16 +75,6 @@ int thread::join()
 
     joined_ = true;
     return pthread_join(pt_, NULL);
-}
-
-pid_t current_thread::get_tid()
-{
-    static __thread pid_t tid = 0;
-    if (tid == 0) {
-        tid = syscall(__NR_gettid);
-    }
-
-    return tid;
 }
 
 } /// namespace chef

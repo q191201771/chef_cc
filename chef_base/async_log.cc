@@ -1,23 +1,13 @@
 #include "async_log.h"
 #include "current_proc.h"
+#include "current_thd.h"
 #include <string.h>
 #include <stdint.h>
 #include <sys/types.h>
-#include <sys/syscall.h>
 #include <unistd.h>
 #include <stdarg.h>
 #include <string>
 #include <boost/date_time.hpp>
-
-static pid_t get_tid()
-{
-    static __thread pid_t tid = 0;
-    if (tid == 0) {
-        tid = syscall(__NR_gettid);
-    }
-
-    return tid;
-}
 
 namespace chef
 {
@@ -118,7 +108,7 @@ int async_log::trace(async_log::level l, const char *src_file_name, int line,
 
     // *tid
     single_buf.reserve(9);
-    snprintf(single_buf.write_pos(), 9, " %6d ", (int)get_tid());
+    snprintf(single_buf.write_pos(), 9, " %6d ", chef::current_thd::gettid());
     single_buf.seek_write(8);
 
     // *level name
@@ -183,7 +173,7 @@ int async_log::trace(async_log::level l, const char *src_file_name, int line,
 
 void async_log::log_thd_fun()
 {
-    fprintf(fp_, "async log tid=%d.\n", get_tid()); 
+    fprintf(fp_, "async log tid=%d.\n", chef::current_thd::gettid()); 
     fflush(fp_);
     run_ = true;
     log_thread_run_up_.notify();
@@ -205,7 +195,7 @@ void async_log::log_thd_fun()
             fflush(fp_);
             back_buf_->reset();
         }
-        sleep(1);
+        chef::current_thd::sleep_ms(1000);
     }
 }
 
