@@ -2,30 +2,33 @@
 #define CHEF_tIME_H_
 
 #include <stdint.h>
+#include <string>
 
 /**
- * @switch to boost::date_time
- *
- * format 1 & 2 have sec,have no msec,their string format diff
- * format 3 have msec
- *
- * format 1. len 16, like 20140512-135025,log file name,etc
- * format 2. len 18, like 20140512 13:50:25,log info,etc
- * format 3. len 25, like 20140512 13:50:25.123456,log info,etc
+ * @ switch to boost::date_time
  */
 
 namespace chef
 {
-    void format_now_time1(char *buf);
-    void format_now_time2(char *buf);
-    void format_now_time3(char *buf);
-
+namespace time 
+{
     /**
      * @ param
-     *  secs  [out] NULL means don't fetch it
-     *  msecs [out] NULL means don't fetch it
+     *  secs  [out] NULL means don't obtain it
+     *  msecs [out] NULL means don't obtain it
      */ 
     int64_t now(int64_t *secs /*out*/, int64_t *msecs /*out*/);    
+
+    /// len 16, include '\0' in the end, like 20140512-135025
+    std::string now_format1();
+
+    /// len 18, include '\0' in the end, like 20140512 13:50:25
+    std::string now_format2();
+
+    /// len 25, include '\0' in the end, like 20140512 13:50:25.123456
+    std::string now_format3();
+
+} /// namespace time
 } /// namespace chef
 
 #endif

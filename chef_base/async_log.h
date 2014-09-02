@@ -71,6 +71,7 @@ private:
     bool run_;
     std::string level_name_[num_of_level];
     std::string screen_color_[num_of_level];
+    FILE *fp_;
 };
 
 } /// namespace chef

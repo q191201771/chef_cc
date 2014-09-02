@@ -1,5 +1,6 @@
 #include "thread_pool.h"
 #include "async_log.h"
+#include <assert.h>
 
 void fun(int i)
 {
@@ -9,7 +10,8 @@ void fun(int i)
 int main()
 {
     printf(">thread_pool_test.\n");
-    chef::async_log::get_mutable_instance().init(chef::async_log::debug, false);
+    int ret = chef::async_log::get_mutable_instance().init(chef::async_log::debug, true);
+    assert(ret == 0);
     chef::thread_pool tp;
     for (int i = 0; i < 128; ++i) {
         tp.add(boost::bind(&fun, i));

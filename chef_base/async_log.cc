@@ -1,4 +1,5 @@
 #include "async_log.h"
+#include "current_proc.h"
 #include <string.h>
 #include <stdint.h>
 #include <sys/types.h>
@@ -30,6 +31,7 @@ async_log::async_log()
     , async_mode_(false)
     , screen_(false)
     , run_(false)
+    , fp_(NULL)
 {
     level_name_[async_log::debug] = "DEBUG";
     level_name_[async_log::info]  = "INFO";
@@ -50,6 +52,10 @@ async_log::~async_log()
     if (async_mode_) {
         log_thread_->join();
     }
+    if (fp_) {
+        fclose(fp_);
+        fp_ = NULL; 
+    }
 }
 
 int async_log::init(level l, bool async_mode)
@@ -65,15 +71,20 @@ int async_log::init(level l, bool async_mode)
         screen_ = !async_mode_;
     
         /// for example
-        /// 20140825T193819.chef-VirtualBox.21810.log.chef
+        /// async_log_test.20140825T193819.chef-VirtualBox.21810.log.chef
         size_t pc_name_len = 128;
         char pc_name[128] = {0};
         gethostname(pc_name, pc_name_len);
         boost::posix_time::ptime time_str = boost::posix_time::second_clock::local_time();
         std::stringstream stream;
-        stream << boost::posix_time::to_iso_string(time_str) << "." 
-                << pc_name << "." << (uint64_t)getpid() << ".log.chef";
+        stream << chef::current_proc::obtain_bin_name() << "."
+                << boost::posix_time::to_iso_string(time_str) << "." 
+                << pc_name << "." << chef::current_proc::getpid() << ".log.chef";
         stream >> file_name_;
+        fp_ = fopen(file_name_.c_str(), "ab+");
+        if (!fp_) {
+            return -1;
+        }
 
         if (async_mode) {
             front_buf_.reset(new buffer());
@@ -156,11 +167,8 @@ int async_log::trace(async_log::level l, const char *src_file_name, int line,
         if (async_mode_) {
                 front_buf_->append(single_buf.read_pos(), single_buf.readable());
         } else {    
-            /// sync mode fopen every time
-            FILE *fp = fopen(file_name_.c_str(), "ab+");
             fwrite((const void *)single_buf.read_pos(), single_buf.readable(),
-                    1, fp);
-            fclose(fp);
+                    1, fp_);
             if (screen_) { /// kept this 'if', though screen_=!async_mode_
                 /// may not complete,cut by '\0'
                 single_buf.append("\0", 1);
@@ -175,14 +183,8 @@ int async_log::trace(async_log::level l, const char *src_file_name, int line,
 
 void async_log::log_thd_fun()
 {
-    FILE *fp = fopen(file_name_.c_str(), "ab+");
-    if (!fp) {
-        run_= false;
-        log_thread_run_up_.notify();
-        return;
-    }           
-    fprintf(fp, "async log tid=%d.\n", get_tid()); 
-    fflush(fp);
+    fprintf(fp_, "async log tid=%d.\n", get_tid()); 
+    fflush(fp_);
     run_ = true;
     log_thread_run_up_.notify();
 
@@ -199,8 +201,8 @@ void async_log::log_thd_fun()
 
         if (write) {
             fwrite((const void *)back_buf_->read_pos(), back_buf_->readable(), 
-                    1, fp);
-            fflush(fp);
+                    1, fp_);
+            fflush(fp_);
             back_buf_->reset();
         }
         sleep(1);

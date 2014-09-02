@@ -5,17 +5,16 @@
 
 namespace chef
 {
-
-void format_now_time1(char *buf)
+namespace time
 {
-    if (!buf) {
-        return;
-    }
 
+std::string now_format1()
+{
     time_t time1 = ::time(NULL);
     struct tm tm1;
     ::localtime_r(&time1, &tm1);
 
+    char buf[16] = {0};
     snprintf(buf, 16, "%4d%02d%02d-%02d%02d%02d",
             tm1.tm_year + 1900,
             tm1.tm_mon + 1,
@@ -23,18 +22,16 @@ void format_now_time1(char *buf)
             tm1.tm_hour,
             tm1.tm_min,
             tm1.tm_sec);
+    return std::string(buf);
 }
 
-void format_now_time2(char *buf)
+std::string now_format2()
 {
-    if (!buf) {
-        return;
-    }
-
     time_t time1 = ::time(NULL);
     struct tm tm1;
     ::localtime_r(&time1, &tm1);
 
+    char buf[32] = {0};
     snprintf(buf, 18, "%4d%02d%02d %02d:%02d:%02d",
             tm1.tm_year + 1900,
             tm1.tm_mon + 1,
@@ -42,14 +39,12 @@ void format_now_time2(char *buf)
             tm1.tm_hour,
             tm1.tm_min,
             tm1.tm_sec);
+    return std::string(buf);
 }
 
-void format_now_time3(char *buf)
+std::string now_format3()
 {
-    if (!buf) {
-        return;
-    }
-
+    char buf[32] = {0};
     static __thread int64_t last_sec = 0;
     int64_t secs = 0;
     int64_t msecs = 0;
@@ -69,6 +64,7 @@ void format_now_time3(char *buf)
     }
 
     snprintf(buf + 17, 8, ".%06ld", msecs);
+    return std::string(buf);
 }
 
 int64_t now(int64_t *secs, int64_t *msecs)
@@ -85,6 +81,7 @@ int64_t now(int64_t *secs, int64_t *msecs)
     return local_secs * 1000 * 1000 + tv.tv_usec;
 }
 
+} /// namespace time
 } /// namespace chef
 
 #if 0
@@ -92,19 +89,15 @@ int64_t now(int64_t *secs, int64_t *msecs)
 
 int main()
 {
-    char buf[32];
     int64_t sec;
     int64_t msec;
     int64_t tick;
-    tick = chef::now(&sec, &msec);
+    tick = chef::time::now(&sec, &msec);
     printf("%ld,%ld,%ld\n", tick, sec, msec);
-    chef::format_now_time1(buf);
-    printf("%s\n", buf);
-    chef::format_now_time2(buf);
-    printf("%s\n", buf);
-    chef::format_now_time3(buf);
-    printf("%s\n", buf);
-    printf("%ld\n", chef::now(NULL, NULL));
+    printf("%s\n", chef::time::now_format1().c_str());
+    printf("%s\n", chef::time::now_format2().c_str());
+    printf("%s\n", chef::time::now_format3().c_str());
+    printf("%ld\n", chef::time::now(NULL, NULL));
     return 0;
 }
 

@@ -40,3 +40,9 @@ TARGET_LINK_LIBRARIES(chunk_head_test chefbase)
 ADD_EXECUTABLE(thread_pool_test ${ROOT_DIR}/test_chef_base/thread_pool_test.cc)
 TARGET_LINK_LIBRARIES(thread_pool_test chefbase)
 
+ADD_EXECUTABLE(current_proc_test ${ROOT_DIR}/test_chef_base/current_proc_test.cc)
+TARGET_LINK_LIBRARIES(current_proc_test chefbase)
+
+ADD_EXECUTABLE(current_thd_test ${ROOT_DIR}/test_chef_base/current_thd_test.cc)
+TARGET_LINK_LIBRARIES(current_thd_test chefbase)
+
