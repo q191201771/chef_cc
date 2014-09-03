@@ -44,7 +44,7 @@ std::string now_format2()
 
 std::string now_format3()
 {
-    char buf[32] = {0};
+    static __thread char buf[32] = {0};
     static __thread int64_t last_sec = 0;
     int64_t secs = 0;
     int64_t msecs = 0;

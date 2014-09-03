@@ -7,10 +7,10 @@ namespace chef
 {
 namespace current_thd
 {
-    /// every thread call syscall only at first time
+    /// @ each thread call syscall only at first time
     int  gettid();
 
-    /// call ::pthread_exit inside
+    /// @ call ::pthread_exit inside
     void exit();
     
     /// @ return
