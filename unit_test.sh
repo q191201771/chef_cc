@@ -15,3 +15,4 @@ rm *.log.chef valg
 ./thread_pool_test
 ./current_proc_test
 ./current_thd_test
+./uuid_test

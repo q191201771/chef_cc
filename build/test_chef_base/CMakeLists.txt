@@ -46,3 +46,6 @@ TARGET_LINK_LIBRARIES(current_proc_test chefbase)
 ADD_EXECUTABLE(current_thd_test ${ROOT_DIR}/test_chef_base/current_thd_test.cc)
 TARGET_LINK_LIBRARIES(current_thd_test chefbase)
 
+ADD_EXECUTABLE(uuid_test ${ROOT_DIR}/test_chef_base/uuid_test.cc)
+TARGET_LINK_LIBRARIES(uuid_test chefbase)
+
