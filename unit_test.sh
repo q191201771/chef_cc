@@ -16,3 +16,4 @@ rm *.log.chef valg
 ./current_proc_test
 ./current_thd_test
 ./uuid_test
+./spin_lock_test

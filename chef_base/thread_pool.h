@@ -20,7 +20,9 @@ public:
     explicit thread_pool(const std::string &name = std::string("thread poll"));
     ~thread_pool();
 
+    /// non-block func
     void start(int thread_num);
+
     void add(const task &t);
 
 private:

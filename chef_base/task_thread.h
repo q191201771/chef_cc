@@ -19,6 +19,7 @@ public:
     explicit task_thread(const std::string &name = std::string("task thread"));
     ~task_thread();
 
+    /// non-block func
     void start();
 
     /**

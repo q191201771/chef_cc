@@ -23,7 +23,9 @@ public:
     explicit thread(const thread_func &tf, std::string name=std::string("chef thread"));
     ~thread();
 
+    /// non-block func
     int start();
+
     int join();
     int try_join();
     int gettid() const {return static_cast<int>(*tid_);}//may 0 if thread not run up
