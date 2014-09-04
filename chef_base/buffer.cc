@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include <assert.h>
+#include <algorithm>
 
 namespace chef
 {
@@ -15,12 +16,12 @@ buffer::buffer(uint64_t init_capacity, uint64_t shrink_capacity)
     , read_index_(0)
     , write_index_(0)	
 {
-    data_ = (char *)calloc(1, init_capacity);
+    data_ = new char[init_capacity];
 }
 
 buffer::~buffer()
 {
-    free(data_);
+    delete []data_;
 }
 
 buffer::buffer(const buffer &b)
@@ -30,14 +31,15 @@ buffer::buffer(const buffer &b)
     , read_index_(0)
     , write_index_(0)
 {
-    data_ = (char *)calloc(1, init_capacity_);
+    data_ = new char[capacity_];
     append(b.read_pos(), b.readable());
 }
 
 buffer &buffer::operator=(const chef::buffer &b)
 {
     if (this != &b) {
-        this->reset();
+        read_index_ = 0;
+        write_index_ = 0;
         this->append(b.read_pos(), b.readable());
     }
     return *this;
@@ -52,9 +54,9 @@ void buffer::reserve(uint64_t len)
     } else {
         uint64_t need_len = write_index_ - read_index_ + len;
         for (; capacity_ < need_len; capacity_ <<= 1);
-        char *new_buf = (char *)malloc(capacity_);
+        char *new_buf = new char[capacity_];
         memcpy(new_buf, data_ + read_index_, write_index_ - read_index_);
-        free(data_);
+        delete []data_;
         data_ = new_buf;
     }
     write_index_ -= read_index_;
@@ -75,11 +77,11 @@ void buffer::erase(uint64_t len)
     read_index_ += len;
     if (write_index_ - read_index_ < init_capacity_ && 
             capacity_ > shrink_capacity_) {
-        char *new_data = (char *)malloc(init_capacity_);
+        char *new_data = new char[init_capacity_];
         memcpy(new_data, data_ + read_index_, write_index_ - read_index_);
         write_index_ -= read_index_;
         read_index_ = 0;
-        free(data_);
+        delete []data_;
         data_ = new_data;
         capacity_ = init_capacity_;
     }	
@@ -90,8 +92,8 @@ void buffer::reset()
     read_index_ = write_index_ = 0;
     if (capacity_ > shrink_capacity_) {
         capacity_ = init_capacity_;
-        free(data_);
-        data_ = (char *)malloc(capacity_);
+        delete []data_;
+        data_ = new char[capacity_];
     }
 }
 
@@ -99,6 +101,27 @@ void buffer::seek_write(uint64_t len)
 {
     assert(capacity_ - write_index_ >= len);
     write_index_ += len;
+}
+
+char *buffer::find(const char *key, int len)
+{
+    assert(read_index_ <= write_index_);
+    if (readable() == 0) {
+    //|| readable() < len) {
+        return NULL;
+    }
+    char *pos = std::search(read_pos(), write_pos(), 
+            const_cast<char *>(key), const_cast<char *>(key) + len);
+    return pos == data_ + write_index_ ? NULL : pos;
+}
+
+char *buffer::find(char c)
+{
+    assert(read_index_ <= write_index_);
+    if (readable() == 0) {
+        return NULL;
+    }
+    return static_cast<char *>(memchr(read_pos(), c, readable()));
 }
 
 } /// namespace chef

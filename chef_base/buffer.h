@@ -25,19 +25,27 @@ public:
     void reserve(uint64_t len);
     char *write_pos() const { return data_ + write_index_; }
     void seek_write(uint64_t len);
-    /// or just
+    /// or just append,will do reserve inside if needed
     void append(const char *buf, uint64_t len);
+
+    /// @ return 
+    ///  @ position if found 
+    ///  @ NULL if not found
+    char *find(const char *key, int len);
+    char *find(char c);
+    char *find_crlf() { return find("\r\n", 2); }
+    char *find_eol() { return find('\n'); }
 
     void reset(); 
 
-    uint64_t capacity() const {return capacity_;}
+    uint64_t capacity() const { return capacity_; }
 
 #ifdef CHEF_UNIT_TEST
-    uint64_t init_capacity() const {return init_capacity_;}
-    uint64_t shrink_capacity() const {return shrink_capacity_;}
-    uint64_t read_index() const {return read_index_;}
-    uint64_t write_index() const {return write_index_;}
-    char *data() const {return data_;}
+    uint64_t init_capacity() const { return init_capacity_; }
+    uint64_t shrink_capacity() const { return shrink_capacity_; }
+    uint64_t read_index() const { return read_index_; }
+    uint64_t write_index() const { return write_index_; }
+    char *data() const { return data_; }
 #endif /// CHEF_UNIT_TEST
 
 private:

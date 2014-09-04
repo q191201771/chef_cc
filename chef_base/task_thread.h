@@ -24,7 +24,7 @@ public:
 
     /**
      * @ param
-     *  deferred_time_ms 0 means no deferred-add
+     *  deferred_time_ms 0 means no deferred
      * @ brief
      *  deferred precise > 100ms
      */
