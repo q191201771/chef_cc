@@ -180,15 +180,14 @@ void async_log::log_thd_fun()
 
     while(run_) {
         bool write = false;
-        { /// lock
-        boost::lock_guard<boost::mutex> guard(mutex_);
-        if (front_buf_->readable() > 0) {
-            back_buf_->append(front_buf_->read_pos(), front_buf_->readable());
-            front_buf_->reset();
-            write = true;
+        if (mutex_.try_lock()) {
+            if (front_buf_->readable() > 0) {
+                back_buf_->append(front_buf_->read_pos(), front_buf_->readable());
+                front_buf_->reset();
+                write = true;
+            }
+            mutex_.unlock();
         }
-        } /// unlock
-
         if (write) {
             fwrite((const void *)back_buf_->read_pos(), back_buf_->readable(), 
                     1, fp_);

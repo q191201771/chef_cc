@@ -7,22 +7,15 @@ int main()
 {
     printf(">mutex_test.\n");
     mutex m;
+    assert(m.try_lock() == true);
+    //m.lock(); /// not recursive,will block
+    m.unlock();
     m.lock();
+    assert(m.try_lock() == false);
     m.unlock();
     {
     lock_guard lg(m);
     }
-
-    /// not recursive,will block
-    //m.lock();
-    //m.lock();
-
-//    m.unlock();
-//    m.unlock();
-//    m.unlock();
-//    m.lock();
-//    m.lock();
-//    m.unlock();
     printf("<mutex_test.\n");
 
     return 0;

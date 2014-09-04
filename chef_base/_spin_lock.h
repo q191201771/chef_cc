@@ -7,7 +7,7 @@
 namespace chef
 {
 
-class spin_lock
+class spin_lock : public boost::noncopyable
 {
 public:
     spin_lock() { pthread_spin_init(&core_, 0); }

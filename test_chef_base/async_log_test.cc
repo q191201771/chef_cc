@@ -1,5 +1,6 @@
 #include "async_log.h"
 #include "assert_.h"
+#include "current_thd.h"
 #include <stdint.h>
 #include <vector>
 #include <boost/thread.hpp>
@@ -19,13 +20,15 @@ void fun(int i)
 
 int main()
 {
+    const int THREAD_NUM = 32;
+
     printf(">async_log_test.\n");
     CHEF_TRACE_DEBUG("u can't see me in log.");
     /// if async_log mode true, some log may not flush to file in this test
     chef::async_log::get_mutable_instance().init(chef::async_log::debug, true);
 
     thread_vec tv;
-    for (int i = 0; i < 16; ++i) {
+    for (int i = 0; i < THREAD_NUM; ++i) {
         tv.push_back(thread_ptr(new boost::thread(boost::bind(fun, i))));
     }
 
@@ -35,9 +38,10 @@ int main()
     CHEF_TRACE_INFO("4");
     CHEF_TRACE_DEBUG("5");
     CHEF_ASSERT(0);
-    for (int i = 0; i < 16; ++i) {
+    for (int i = 0; i < THREAD_NUM; ++i) {
         tv[i]->join();
     }
+    chef::current_thd::sleep_ms(1500);
     printf("<async_log_test.\n");
 
     return 0;   

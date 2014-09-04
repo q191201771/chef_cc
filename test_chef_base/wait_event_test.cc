@@ -9,7 +9,7 @@ int main()
     we.wait();
 
     chef::wait_event we2;
-    we2.wait_for(1500);
+    we2.wait_for(500);
     
     chef::wait_event we3;
     we3.notify();
