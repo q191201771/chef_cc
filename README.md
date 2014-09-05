@@ -1,6 +1,6 @@
 ﻿chef
 ====
-An easy use multi-thread epoll lib
+An usability multi-thread epoll lib
 
 ### Dependings
 1. boost<br>
@@ -21,7 +21,7 @@ An easy use multi-thread epoll lib
     libchefbase.so libchefio.so in chef/lib/ <br>
     test&example in chef/bin/
 
-### brief
+### Brief
 * the unique interface of chef_io: chef_io/io_tcp.h <br>
  and you can get more user-manual in it
 
