@@ -124,5 +124,21 @@ char *buffer::find(char c)
     return static_cast<char *>(memchr(read_pos(), c, readable()));
 }
 
+char *buffer::trim_left()
+{
+    while (write_index_ != read_index_ && isspace(*(data_ + read_index_))) {
+        ++read_index_;
+    }
+    return read_pos();
+}
+
+char * buffer::trim_right()
+{
+    while (write_index_ != read_index_ && isspace(*(data_ + write_index_ - 1))) {
+        --write_index_;
+    }
+    return read_pos(); 
+}
+
 } /// namespace chef
 

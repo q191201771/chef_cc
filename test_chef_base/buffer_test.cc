@@ -152,6 +152,22 @@ int main()
     std::string body(response_buf.read_pos(), response_buf.readable());
     assert(body == "{\"code\":0,\"msg\":\"succ\",\"data\":[],\"ts\":1411725635}");
 
+    buffer buf8;
+    buf8.append("   ", 3);
+    buf8.trim_left();
+    assert(buf8.readable() == 0);
+    buf8.append("  ", 2);
+    buf8.trim_right();
+    assert(buf8.readable() == 0);
+    buf8.append(" abc de  ", 9);
+    assert(memcmp(buf8.trim_left(), "abc de  ", 8) == 0);
+    assert(buf8.readable() == 8);
+    assert(memcmp(buf8.trim_right(), "abc de", 6) == 0);
+    assert(buf8.readable() == 6);
+    char *trim_pos = buf8.read_pos();
+    assert(buf8.trim_left() == trim_pos);
+    assert(buf8.trim_right() == trim_pos);
+
     printf("<buffer_test.\n");
     return 0;
 }

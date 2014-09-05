@@ -15,7 +15,9 @@ An usability multi-thread epoll lib
 ### Build
 * <br>
   $cd build<br>
-  $cmake . && make
+  $cmake . && make<br>
+  or just<br>
+  $./build.sh (will build all chefbase unittest)
 
 * build out:<br>
     libchefbase.so libchefio.so in chef/lib/ <br>

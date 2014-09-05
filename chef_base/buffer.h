@@ -36,6 +36,13 @@ public:
     char *find_crlf() { return find("\r\n", 2); }
     char *find_eol() { return find('\n'); }
 
+    /// @ brief
+    ///  erase space 
+    /// @ return
+    ///  read_pos();
+    char *trim_left();
+    char *trim_right();
+
     void reset(); 
 
     uint64_t capacity() const { return capacity_; }
