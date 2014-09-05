@@ -3,6 +3,7 @@
 #include <assert.h>
 #include <stdio.h>
 #include <string.h>
+#include <string>
 
 using chef::buffer;
 
@@ -96,6 +97,60 @@ int main()
     assert(buf7.find_crlf() == buf7.read_pos() + 4);
     assert(buf7.find_eol() == buf7.read_pos() + 5);
     assert(buf7.find("33", 2) == NULL);
+
+    std::string url = "http://test.www.1234.com/qwer/asdf?zxcv=5678&tyui=ghjk";
+    buffer url_buf;
+    url_buf.append(url.c_str(), url.size());
+    char *pos = url_buf.find("http://", strlen("http://"));
+    assert(pos);
+    url_buf.erase(strlen("http://"));
+    assert(memcmp(url_buf.read_pos(), "test.www.1234.com/qwer/asdf?zxcv=5678&tyui=ghjk",
+            strlen("test.www.1234.com/qwer/asdf?zxcv=5678&tyui=ghjk")) == 0);
+    pos = url_buf.find("http://", strlen("http://"));
+    assert(!pos);
+    pos = url_buf.find('/');
+    assert(pos);
+    std::string domain(url_buf.read_pos(), pos - url_buf.read_pos());
+    assert(domain == "test.www.1234.com");
+    std::string request(pos, url_buf.write_pos() - pos);
+    request = "GET " + request + " /1.0\r\n\r\n";
+    assert(request == "GET /qwer/asdf?zxcv=5678&tyui=ghjk /1.0\r\n\r\n");
+
+    std::string response = "HTTP/1.1 200 OK\r\n"
+        "Server: nginx/1.6.1\r\n"
+        "Date: Fri, 26 Sep 2014 10:00:35 GMT\r\n"
+        "Content-Type: application/json\r\n"
+        "Connection: close\r\n"
+        "X-Powered-By: PHP/5.4.16\r\n"
+        "Set-Cookie: PHPSESSID=11415703dt7cn711hl2phc04d3; path=/\r\n"
+        "Expires: Thu, 19 Nov 1981 08:52:00 GMT\r\n"
+        "Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0\r\n"
+        "Pragma: no-cache\r\n\r\n"
+        "{\"code\":0,\"msg\":\"succ\",\"data\":[],\"ts\":1411725635}";
+    buffer response_buf;
+    response_buf.append(response.c_str(), response.size());
+    /// *
+    char *pos1 = response_buf.find_crlf();
+    assert(pos1);
+    char *pos2 = response_buf.find("200", strlen("200"));
+    assert(pos2 && pos2 < pos1);
+    response_buf.erase(pos1 - response_buf.read_pos() + 2);
+    /// *
+    int head_count = 0;
+    for (; ; ) {
+        pos1 = response_buf.find_crlf();
+        assert(pos1);
+        pos2 = response_buf.find(':');
+        response_buf.erase(pos1 - response_buf.read_pos() + 2);
+        if (!pos2 || pos2 - pos1 > 0) {
+            break;
+        }
+        ++head_count;
+    }
+    assert(head_count == 9);
+    /// *
+    std::string body(response_buf.read_pos(), response_buf.readable());
+    assert(body == "{\"code\":0,\"msg\":\"succ\",\"data\":[],\"ts\":1411725635}");
 
     printf("<buffer_test.\n");
     return 0;

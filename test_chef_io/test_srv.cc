@@ -32,7 +32,7 @@ void connect_cb(cio_conn_t cc, connect_status cs)
             cc.thread_index_, cc.conn_id_, cs);
     if (cs == connect_status::connected) {
         if (srv) {  //may other srv
-            srv->write(cc, (void *)"test", 4);
+            srv->write(cc, (void *)"test", 5);
         }
     }
 }

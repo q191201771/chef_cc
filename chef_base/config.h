@@ -6,6 +6,9 @@
 #include <map>
 
 /**
+ * @ brief
+ *  this class is not thread-safe!!!
+ *
  * @ cfg.right
  *  #this is an brief line
  *  name=chef
