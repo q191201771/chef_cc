@@ -52,3 +52,6 @@ TARGET_LINK_LIBRARIES(uuid_test chefbase)
 ADD_EXECUTABLE(spin_lock_test ${ROOT_DIR}/test_chef_base/spin_lock_test.cc)
 TARGET_LINK_LIBRARIES(spin_lock_test chefbase)
 
+ADD_EXECUTABLE(random_test ${ROOT_DIR}/test_chef_base/random_test.cc)
+TARGET_LINK_LIBRARIES(random_test chefbase)
+

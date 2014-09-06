@@ -168,6 +168,13 @@ int main()
     assert(buf8.trim_left() == trim_pos);
     assert(buf8.trim_right() == trim_pos);
 
+    buffer buf("hello world", 11);
+    assert(buf.init_capacity() == 11);
+    assert(buf.shrink_capacity() == 22);
+    assert(buf.capacity() == 11);
+    assert(buf.readable() == 11);
+    assert(memcmp(buf.read_pos(), "hello world", 11) == 0);
+
     printf("<buffer_test.\n");
     return 0;
 }

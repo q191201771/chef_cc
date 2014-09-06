@@ -35,6 +35,17 @@ buffer::buffer(const buffer &b)
     append(b.read_pos(), b.readable());
 }
 
+buffer::buffer(const char *data, uint64_t len)
+    : init_capacity_(len)
+    , shrink_capacity_(len * 2)
+    , capacity_(len)
+    , read_index_(0)
+    , write_index_(0)
+{
+    data_ = new char[capacity_];
+    append(data, len);
+}
+
 buffer &buffer::operator=(const chef::buffer &b)
 {
     if (this != &b) {

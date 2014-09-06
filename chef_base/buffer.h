@@ -10,6 +10,11 @@ class buffer
 {
 public:
     explicit buffer(uint64_t init_capacity = 16384, uint64_t shrink_capacity = 1048576);
+    /// @ brief
+    ///  same as
+    ///   buffer buf(len);
+    ///   buf.append(data, len);
+    buffer(const char *data, uint64_t len);
     ~buffer();
 
     /// deep copy
