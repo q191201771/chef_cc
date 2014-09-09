@@ -155,10 +155,11 @@ int async_log::trace(async_log::level l, const char *src_file_name, int line,
     { /// lock
         boost::lock_guard<boost::mutex> guard(mutex_);
         if (async_mode_) {
-                front_buf_->append(single_buf.read_pos(), single_buf.readable());
+            front_buf_->append(single_buf.read_pos(), single_buf.readable());
         } else {    
             fwrite((const void *)single_buf.read_pos(), single_buf.readable(),
                     1, fp_);
+            fflush(fp_); /// nohup need
             if (screen_) { /// kept this 'if', though screen_=!async_mode_
                 /// may not complete,cut by '\0'
                 single_buf.append("\0", 1);
