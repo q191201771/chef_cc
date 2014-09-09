@@ -1,4 +1,4 @@
-#include "_rwlock.h"
+#include "rwlock.h"
 #include <stdio.h>
 #include <boost/thread.hpp>
 #include <boost/bind.hpp>

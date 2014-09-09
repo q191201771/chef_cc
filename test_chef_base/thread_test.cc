@@ -1,4 +1,4 @@
-#include "_thread.h"
+#include "thread.h"
 #include "current_thd.h"
 #include <assert.h>
 using chef::thread;

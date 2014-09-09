@@ -1,7 +1,6 @@
 #include "io_tcp.h"
 #include "async_log.h"
 #include "task_thread.h"
-#include "assert_.h"
 #include <boost/bind.hpp>
 
 using namespace boost;

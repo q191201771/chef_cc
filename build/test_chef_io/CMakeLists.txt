@@ -1,5 +1,5 @@
 SET(EXECUTABLE_OUTPUT_PATH ${ROOT_DIR}/bin)
-INCLUDE_DIRECTORIES(${ROOT_DIR}/chef_base ${ROOT_DIR}/chef_io ${ROOT_DIR}/test_chef_io)
+INCLUDE_DIRECTORIES(${ROOT_DIR}/chef_base ${ROOT_DIR}/chef_io)
 
 ADD_EXECUTABLE(test_srv ${ROOT_DIR}/test_chef_io/test_srv.cc)
 TARGET_LINK_LIBRARIES(test_srv chefio chefbase pthread)

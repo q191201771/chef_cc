@@ -1,5 +1,5 @@
 SET(EXECUTABLE_OUTPUT_PATH ${ROOT_DIR}/bin)
-INCLUDE_DIRECTORIES(${ROOT_DIR}/chef_base ${ROOT_DIR}/chef_io ${ROOT_DIR}/demo_chat/)
+INCLUDE_DIRECTORIES(${ROOT_DIR}/chef_base ${ROOT_DIR}/chef_io)
 
 ADD_EXECUTABLE(chat_srv 
     ${ROOT_DIR}/demo_chat/chat_srv.cc

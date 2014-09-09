@@ -1,5 +1,5 @@
-#ifndef _CHEF_BASE_THREAD_H_
-#define _CHEF_BASE_THREAD_H_
+#ifndef _CHEF_CHEF_BASE_THREAD_H_
+#define _CHEF_CHEF_BASE_THREAD_H_
 
 #include <string>
 #include <boost/function.hpp>
@@ -63,5 +63,6 @@ public:
 } /// namespace internal
 
 } /// namespace chef
-#endif
+
+#endif /// _CHEF_CHEF_BASE_THREAD_H_
 

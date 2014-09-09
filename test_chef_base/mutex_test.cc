@@ -1,4 +1,4 @@
-#include "_mutex.h"
+#include "mutex.h"
 #include <stdio.h>
 using chef::mutex;
 using chef::lock_guard;

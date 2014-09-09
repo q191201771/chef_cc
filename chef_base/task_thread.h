@@ -1,5 +1,5 @@
-#ifndef _CHEF_BASE_TASK_THREAD_H_
-#define _CHEF_BASE_TASK_THREAD_H_
+#ifndef _CHEF_CHEF_BASE_TASK_THREAD_H_
+#define _CHEF_CHEF_BASE_TASK_THREAD_H_
 
 #include "wait_event.h"
 #include <string>
@@ -46,5 +46,6 @@ private:
 };
 
 } /// namespace chef
-#endif
+
+#endif /// _CHEF_CHEF_BASE_TASK_THREAD_H_
 

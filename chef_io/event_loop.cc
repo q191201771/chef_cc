@@ -1,7 +1,7 @@
 #include "event_loop.h"
 #include "socket_util.h"
 #include "connection.h"
-#include "assert_.h"
+#include "chef_assert.h"
 #include "async_log.h"
 #include <sys/prctl.h>
 #include <sys/epoll.h>

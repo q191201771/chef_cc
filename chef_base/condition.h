@@ -1,8 +1,8 @@
-#ifndef CHEF_BASE_CONDITION_H_
-#define CHEF_BASE_CONDITION_H_
+#ifndef _CHEF_CHEF_BASE_CONDITION_H_
+#define _CHEF_CHEF_BASE_CONDITION_H_
 
-#include "_mutex.h"
-#include "_noncopyable.h"
+#include "mutex.h"
+#include "noncopyable.h"
 #include <pthread.h>
 
 /**
@@ -41,5 +41,5 @@ private:
 };
 
 } /// namespace chef
-#endif
+#endif /// _CHEF_CHEF_BASE_CONDITION_H_
 

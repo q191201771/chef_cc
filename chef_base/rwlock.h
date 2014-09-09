@@ -1,5 +1,5 @@
-#ifndef _CHEF_RWLOCK_H_
-#define _CHEF_RWLOCK_H_
+#ifndef _CHEF_CHEF_BASE_RWLOCK_H_
+#define _CHEF_CHEF_BASE_RWLOCK_H_
 
 #include <pthread.h>
 
@@ -58,5 +58,6 @@ private:
 };
 
 } /// namespace chef
-#endif
+
+#endif /// _CHEF_CHEF_BASE_RWLOCK_H_
 

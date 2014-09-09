@@ -1,6 +1,6 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
 SET(EXECUTABLE_OUTPUT_PATH ${ROOT_DIR}/bin)
-INCLUDE_DIRECTORIES(${ROOT_DIR}/chef_base ${ROOT_DIR}/test_chef_base)
+INCLUDE_DIRECTORIES(${ROOT_DIR}/chef_base)
 ADD_EXECUTABLE(memprint ${ROOT_DIR}/test_chef_base/memprint.cc)
 TARGET_LINK_LIBRARIES(memprint chefbase pthread)
 
@@ -54,4 +54,10 @@ TARGET_LINK_LIBRARIES(spin_lock_test chefbase)
 
 ADD_EXECUTABLE(random_test ${ROOT_DIR}/test_chef_base/random_test.cc)
 TARGET_LINK_LIBRARIES(random_test chefbase)
+
+ADD_EXECUTABLE(chef_assert_test ${ROOT_DIR}/test_chef_base/chef_assert_test.cc)
+TARGET_LINK_LIBRARIES(chef_assert_test chefbase)
+
+ADD_EXECUTABLE(config_test ${ROOT_DIR}/test_chef_base/config_test.cc)
+TARGET_LINK_LIBRARIES(config_test chefbase)
 

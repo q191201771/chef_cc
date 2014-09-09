@@ -1,7 +1,7 @@
-#ifndef _CHEF_BASE_MUTEX_H_
-#define _CHEF_BASE_MUTEX_H_
+#ifndef _CHEF_CHEF_BASE_MUTEX_H_
+#define _CHEF_CHEF_BASE_MUTEX_H_
 
-#include "_noncopyable.h"
+#include "noncopyable.h"
 #include <assert.h>
 #include <pthread.h>
 
@@ -40,5 +40,5 @@ private:
 };
 
 } /// namespace chef
-#endif
+#endif /// _CHEF_CHEF_BASE_MUTEX_H_
 

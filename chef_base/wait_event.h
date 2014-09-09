@@ -1,5 +1,5 @@
-#ifndef _CHEF_BASE_WAIT_EVENT_H_
-#define _CHEF_BASE_WAIT_EVENT_H_
+#ifndef _CHEF_CHEF_BASE_WAIT_EVENT_H_
+#define _CHEF_CHEF_BASE_WAIT_EVENT_H_
 
 #include <boost/noncopyable.hpp>
 #include <boost/thread/mutex.hpp>
@@ -62,5 +62,5 @@ private:
 
 } /// namespace chef
 
-#endif
+#endif /// _CHEF_CHEF_BASE_WAIT_EVENT_H_
 

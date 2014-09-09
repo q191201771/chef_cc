@@ -1,5 +1,5 @@
-#ifndef CHEF_TIME_H_
-#define CHEF_tIME_H_
+#ifndef _CHEF_CHEF_BASE_TIME_H_
+#define _CHEF_CHEF_BASE_TIME_H_
 
 #include <stdint.h>
 #include <string>
@@ -31,5 +31,5 @@ namespace time
 } /// namespace time
 } /// namespace chef
 
-#endif
+#endif /// _CHEF_CHEF_BASE_TIME_H_
 

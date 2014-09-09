@@ -1,5 +1,5 @@
 #include "thread_pool.h"
-#include "assert_.h"
+#include "chef_assert.h"
 #include <stdio.h>
 #include <boost/thread/locks.hpp>
 #include <boost/make_shared.hpp>
@@ -38,9 +38,9 @@ void thread_pool::start(int thread_num)
     thread_num_ = thread_num;
     run_ = true;
     for (int i = 0; i < thread_num; ++i) {
+        threads_run_up_.push_back(boost::make_shared<wait_event>());
         threads_.push_back(boost::make_shared<boost::thread>(
                 boost::bind(&thread_pool::run_in_thread, this, i)));
-        threads_run_up_.push_back(boost::make_shared<wait_event>());
         threads_run_up_[i]->wait();
     }
 }

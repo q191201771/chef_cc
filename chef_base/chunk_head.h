@@ -1,5 +1,5 @@
-#ifndef _CHEF_BASE_CHUNK_H_
-#define _CHEF_BASE_CHUNK_H_
+#ifndef _CHEF_CHEF_BASE_CHUNK_HEAD_H_
+#define _CHEF_CHEF_BASE_CHUNK_HEAD_H_
 
 #include <stdint.h>
 
@@ -37,4 +37,4 @@ namespace chef
 
 } /// namespace chef
 
-#endif ///  _CHEF_BASE_CHUNK_H_
+#endif ///  _CHEF_CHEF_BASE_CHUNK_HEAD_H_

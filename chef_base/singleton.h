@@ -1,5 +1,5 @@
-#ifndef _CHEF_BASE_SINGLETON_
-#define _CHEF_BASE_SINGLETON_
+#ifndef _CHEF_CHEF_BASE_SINGLETON_H_
+#define _CHEF_CHEF_BASE_SINGLETON_H_
 
 #include <pthread.h>
 #include <boost/noncopyable.hpp>
@@ -45,5 +45,6 @@ template<typename T>
 T *singleton<T>::value_ = NULL;
 
 } /// namespace chef
-#endif
+
+#endif /// _CHEF_CHEF_BASE_SINGLETON_H_
 

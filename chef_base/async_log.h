@@ -1,5 +1,5 @@
-#ifndef _CHEF_BASE_ASYNC_LOG_H_
-#define _CHEF_BASE_ASYNC_LOG_H_
+#ifndef _CHEF_CHEF_BASE_ASYNC_LOG_H_
+#define _CHEF_CHEF_BASE_ASYNC_LOG_H_
 
 #include "buffer.h"
 #include "wait_event.h"
@@ -16,6 +16,7 @@
  *  @ if turn on async mode
  *   @ when shutdown,some log may lost
  *   @ when coredump,some log may haven't flush to file,find them in core.
+ *  @ CHEF_TRACE_XXX will do nothing while haven't call async_log::init() before
  *
  * @ usage:
  *  @ chef::async_log::get_mutable_instance().init();
@@ -40,17 +41,13 @@ public:
 
     /// @ param
     ///  if async_mode=false,log will not only flush to file but also to screen
-    int init(level l = async_log::debug, 
-             bool async_mode = true);
-    int trace(async_log::level l, 
-              const char *src_file_name, 
-              int line, 
-              const char *func_name, 
-              const char *format, ...);
+    int init(level l = async_log::debug, bool async_mode = true);
+    int trace(async_log::level l, const char *src_file_name, int line, 
+            const char *func_name, const char *format, ...);
 
     /// not support dynamic change log level yet.
     //static void set_level(level l) {level_ = l;}
-    static level get_level() {return level_;}
+    static level get_level() { return level_; }
     async_log();
     ~async_log();
 
@@ -86,5 +83,6 @@ private:
     chef::async_log::get_mutable_instance().trace(chef::async_log::error, __FILE__, __LINE__, __func__, __VA_ARGS__);}while(0)
 #define CHEF_TRACE_FATAL(...) do {if (chef::async_log::get_level() <= chef::async_log::fatal) \
     chef::async_log::get_mutable_instance().trace(chef::async_log::fatal, __FILE__, __LINE__, __func__, __VA_ARGS__);}while(0)
-#endif /// _CHEF_BASE_ASYNC_LOG_H_
+
+#endif /// _CHEF_CHEF_BASE_ASYNC_LOG_H_
 

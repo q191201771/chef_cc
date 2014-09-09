@@ -1,4 +1,4 @@
-#include "_atomic.h" 
+#include "atomic.h" 
 #include <boost/thread.hpp>
 
 const int thread_num =10;

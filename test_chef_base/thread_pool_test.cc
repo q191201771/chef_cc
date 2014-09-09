@@ -5,7 +5,7 @@
 
 void fun(int i)
 {
-    CHEF_TRACE_DEBUG("%d", i);
+    CHEF_TRACE_DEBUG("    %d", i);
 }
 
 int main()

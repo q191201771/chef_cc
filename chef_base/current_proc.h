@@ -23,5 +23,5 @@ namespace chef
     } /// namespace current_proc
 } /// namespace chef
 
-#endif
+#endif /// _CHEF_CHEF_BASE_CURRENT_PROC_H_
 

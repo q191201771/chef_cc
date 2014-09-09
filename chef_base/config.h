@@ -1,5 +1,5 @@
-#ifndef _CHEF_BASE_CONFIG_H_
-#define _CHEF_BASE_CONFIG_H_
+#ifndef _CHEF_CHEF_BASE_CONFIG_H_
+#define _CHEF_CHEF_BASE_CONFIG_H_
 
 #include <stdio.h>
 #include <string>
@@ -7,16 +7,8 @@
 
 /**
  * @ brief
- *  this class is not thread-safe!!!
- *
- * @ cfg.right
- *  #this is an brief line
- *  name=chef
- *  num=100
- * @ cfg.wrong
- *  name =chef
- *  name= chef
- *  name=chef #wrong brief,must start with an line
+ *  @ this class is not thread-safe
+ *  @ more info in config_test.cc
  */
 
 namespace chef
@@ -40,5 +32,5 @@ private:
 };
 
 } /// chef
-#endif
+#endif /// _CHEF_CHEF_BASE_CONFIG_H_
 

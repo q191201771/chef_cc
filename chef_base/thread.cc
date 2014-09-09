@@ -1,4 +1,4 @@
-#include "_thread.h"
+#include "thread.h"
 #include "current_thd.h"
 #include <pthread.h>
 #include <assert.h>

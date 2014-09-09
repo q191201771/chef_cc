@@ -1,7 +1,7 @@
 #include "connection.h"
 #include "event_loop.h"
 #include "socket_util.h"
-#include "assert_.h"
+#include "chef_assert.h"
 #include "async_log.h"
 #include <errno.h>
 #include <sys/types.h>

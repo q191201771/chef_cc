@@ -1,5 +1,5 @@
-#ifndef CHEF_BASE_NONCOPYABLE_H_
-#define CHEF_BASE_NONCOPYABLE_H_
+#ifndef _CHEF_CHEF_BASE_NONCOPYABLE_H_
+#define _CHEF_CHEF_BASE_NONCOPYABLE_H_
 
 /**
  * @switch to boost::noncopyable
@@ -26,5 +26,6 @@ class copyable
 };
 
 } /// namespace chef
-#endif
+
+#endif /// _CHEF_CHEF_BASE_NONCOPYABLE_H_
 

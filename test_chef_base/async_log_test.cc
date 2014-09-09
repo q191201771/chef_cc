@@ -1,5 +1,5 @@
 #include "async_log.h"
-#include "assert_.h"
+#include "chef_assert.h"
 #include "current_thd.h"
 #include <stdint.h>
 #include <vector>
