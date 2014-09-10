@@ -12,12 +12,12 @@ using namespace chef::internal;
 namespace chef
 {
 
-thread::thread(const thread_func &tf, std::string name) :
-    pt_(0),
-    started_(false),
-    joined_(false),
-    tf_(tf),
-    name_(name)
+thread::thread(const thread_func &tf, std::string name)
+    : pt_(0)
+    , started_(false)
+    , joined_(false)
+    , tf_(tf)
+    , name_(name)
 {
     tid_ = boost::make_shared<pid_t>(0);
 }

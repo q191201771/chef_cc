@@ -28,10 +28,7 @@ private:
     singleton();
     ~singleton();
 
-    static void init()
-    {
-        value_ = new T();
-    }
+    static void init() { value_ = new T(); }
 
 private:
     static pthread_once_t ponce_;

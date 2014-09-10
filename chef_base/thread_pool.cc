@@ -15,7 +15,6 @@ thread_pool::thread_pool(const std::string &name)
     : name_(name)
     , run_(false)
 {
-
 }
 
 thread_pool::~thread_pool()

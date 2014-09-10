@@ -9,10 +9,10 @@
 namespace chef
 {
 
-task_thread::task_thread(const std::string &name) :
-    name_(name),
-    run_(false),
-    thread_(NULL)
+task_thread::task_thread(const std::string &name)
+    : name_(name)
+    , run_(false)
+    , thread_(NULL)
 {
 }
 
@@ -43,9 +43,7 @@ void task_thread::add(const task &t, uint32_t deferred_time_ms)
     } else {
         struct timespec ts;
         clock_gettime(CLOCK_MONOTONIC, &ts);
-        uint64_t expire = ts.tv_sec * 1000 + 
-                ts.tv_nsec / 1000000 + 
-                deferred_time_ms;
+        uint64_t expire = ts.tv_sec * 1000 + ts.tv_nsec / 1000000 + deferred_time_ms;
         deferred_tasks_.insert(std::pair<uint64_t, task>(expire, t));
     }
     cond_.notify_one();

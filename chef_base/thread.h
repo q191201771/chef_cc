@@ -49,13 +49,13 @@ public:
     std::string name_;
     boost::weak_ptr<pid_t> tid_;
 
-    thread_data(const thread::thread_func tf,
-                const std::string &name,
-                const boost::shared_ptr<pid_t> &tid) :
-        tf_(tf),
-        name_(name),
-        tid_(tid)
-    {}
+    thread_data(const thread::thread_func tf, const std::string &name,
+            const boost::shared_ptr<pid_t> &tid)
+        : tf_(tf)
+        , name_(name)
+        , tid_(tid)
+    {
+    }
 
     static void *thd_fun(void *arg);
 };

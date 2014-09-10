@@ -4,11 +4,7 @@
 namespace chef
 {
 
-config::config() : 
-    fp_(NULL)
-{
-
-}
+config::config() : fp_(NULL) { }
 
 config::~config()
 {
