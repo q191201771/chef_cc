@@ -14,7 +14,7 @@
 #define CHEF_ASSERT(cond) \
     do { \
         if (!(cond)) { \
-            CHEF_TRACE_DEBUG("CHEFASSERT,%s.", #cond); \
+            CHEF_TRACE_FATAL("CHEFASSERT,%s.", #cond); \
         } \
     } while(0);
 

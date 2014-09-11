@@ -12,7 +12,7 @@ int main()
 
     int32_t sum = 0;
     for (int i = 0; i < LOOP_TIMES; ++i) {
-        int32_t num = chef::random::obtain() % RANGE;
+        int32_t num = chef::random::uniform_unsigned(RANGE);
         assert(num >= 0 && num < RANGE);
         ++count[num];
         sum += num;

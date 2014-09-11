@@ -31,7 +31,7 @@ public:
 
     /// +++++++++++++++++++++++++++++++++++++++++++++++++++++
     /// example
-    /// buf.reserver(6);
+    /// buf.reserve(6);
     /// strcpy(buf.write_pos(), "hello");
     /// buf.seek_write(6);
     void reserve(uint64_t len);
