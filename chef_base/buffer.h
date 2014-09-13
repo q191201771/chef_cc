@@ -31,9 +31,9 @@ public:
 
     /// +++++++++++++++++++++++++++++++++++++++++++++++++++++
     /// example
-    /// buf.reserve(6);
-    /// strcpy(buf.write_pos(), "hello");
-    /// buf.seek_write(6);
+    /// buf.reserve(128);
+    /// int len = snprintf(buf.write_pos(), 128, "name=%s,age=%d.", name, age);
+    /// buf.seek_write(min(len, 128));
     void reserve(uint64_t len);
     char *write_pos() const { return data_ + write_index_; }
     void seek_write(uint64_t len);
@@ -48,8 +48,7 @@ public:
     void erase(uint64_t len);
 
     /// @ return 
-    ///  @ position if found 
-    ///  @ NULL if not found
+    ///  position if found, otherwise NULL
     char *find(const char *key, int len);
     char *find(char c);
     char *find_crlf() { return find("\r\n", 2); }

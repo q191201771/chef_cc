@@ -59,8 +59,8 @@ int async_log::mkdir_recursive(const char *dir)
     if (len == 0) {
         return 0;
     }
-
-    for (int i = 1; i <= len; ++i) {
+    int i = dir_dup[0] == '/' ? 1 : 0;
+    for (; i <= len; ++i) {
         if (dir_dup[i] == '/' || dir_dup[i] == '\0') {
             char ch = dir_dup[i];
             dir_dup[i] = '\0';
