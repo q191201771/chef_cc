@@ -4,6 +4,7 @@
 #include <string.h>
 #include <stdint.h>
 #include <sys/types.h>
+#include <sys/stat.h>
 #include <unistd.h>
 #include <stdarg.h>
 #include <string>
@@ -48,7 +49,33 @@ async_log::~async_log()
     }
 }
 
-int async_log::init(level l, bool async_mode)
+int async_log::mkdir_recursive(const char *dir)
+{
+    if (!dir) {
+        return 0;
+    }
+    char *dir_dup = strdup(dir);
+    int len = strlen(dir_dup);
+    if (len == 0) {
+        return 0;
+    }
+
+    for (int i = 1; i <= len; ++i) {
+        if (dir_dup[i] == '/' || dir_dup[i] == '\0') {
+            char ch = dir_dup[i];
+            dir_dup[i] = '\0';
+            if (mkdir(dir_dup, 0755) == -1 && errno != EEXIST) {
+                free(dir_dup);
+                return -1;
+            }
+            dir_dup[i] = ch;
+        }
+    }
+    free(dir_dup);
+    return 0;
+}
+
+int async_log::init(level l, bool async_mode, const char *dir, const char *file_name)
 {
     { /// lock
         boost::lock_guard<boost::mutex> guard(mutex_);
@@ -59,18 +86,34 @@ int async_log::init(level l, bool async_mode)
         level_ = l;
         async_mode_ = async_mode;
         screen_ = !async_mode_;
-    
-        /// for example
-        /// async_log_test.20140825T193819.chef-VirtualBox.21810.log.chef
-        size_t pc_name_len = 128;
-        char pc_name[128] = {0};
-        gethostname(pc_name, pc_name_len);
-        boost::posix_time::ptime time_str = boost::posix_time::second_clock::local_time();
-        std::stringstream stream;
-        stream << chef::current_proc::obtain_bin_name() << "."
-                << boost::posix_time::to_iso_string(time_str) << "." 
-                << pc_name << "." << chef::current_proc::getpid() << ".log.chef";
-        stream >> file_name_;
+
+        if (dir) {
+            if (mkdir_recursive(dir) == -1) {
+                return -1;
+            }
+            file_name_ += dir;
+            if (*(file_name_.rbegin()) != '/') {
+                file_name_ += '/';
+            }
+        }
+
+        if (file_name) {
+            file_name_ += file_name;
+        } else {
+            /// for example
+            /// async_log_test.20140825T193819.chef-VirtualBox.21810.log.chef
+            size_t pc_name_len = 128;
+            char pc_name[128] = {0};
+            gethostname(pc_name, pc_name_len);
+            boost::posix_time::ptime time_str = boost::posix_time::second_clock::local_time();
+            std::stringstream stream;
+            stream << chef::current_proc::obtain_bin_name() << "."
+                    << boost::posix_time::to_iso_string(time_str) << "." 
+                    << pc_name << "." << chef::current_proc::getpid() << ".log.chef";
+            std::string name_with_out_dir;
+            stream >> name_with_out_dir;
+            file_name_ += name_with_out_dir;
+        }
         fp_ = fopen(file_name_.c_str(), "ab+");
         if (!fp_) {
             return -1;

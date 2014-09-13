@@ -40,8 +40,19 @@ public:
     };
 
     /// @ param
-    ///  if async_mode=false,log will not only flush to file but also to screen
-    int init(level l = async_log::debug, bool async_mode = true);
+    ///  @ if async_mode=false,log will not only flush to file but also to screen
+    ///  @ if dir=NULL,use current process dir
+    ///  @ else will mkdir recursive,avalid dir are
+    ///   Absolute directory
+    ///    /tmp = /tmp/
+    ///   Relative directory
+    ///    ./tmp = ./tmp/ = tmp/ = tmp
+    ///    ./tmp1/tmp2/tmp3/
+    ///    ../
+    ///  @ if file_name=NULL,name looks like 
+    ///    async_log_test.20140825T193819.chef-VirtualBox.21810.log.chef
+    int init(level l = async_log::debug, bool async_mode = true, 
+            const char *dir = NULL, const char *file_name = NULL);
     int trace(async_log::level l, const char *src_file_name, int line, 
             const char *func_name, const char *format, ...);
 
@@ -53,7 +64,7 @@ public:
 
 private:
     void log_thd_fun();
-
+    int mkdir_recursive(const char *dir);
 private:
     static level level_;
     const std::string end_screen_color_;

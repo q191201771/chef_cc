@@ -25,7 +25,8 @@ int main()
     printf(">async_log_test.\n");
     CHEF_TRACE_DEBUG("u can't see me in log.");
     /// if async_log mode true, some log may not flush to file in this test
-    chef::async_log::get_mutable_instance().init(chef::async_log::debug, true);
+    chef::async_log::get_mutable_instance().init(chef::async_log::debug, true,
+            "../log/");
 
     thread_vec tv;
     for (int i = 0; i < THREAD_NUM; ++i) {
