@@ -11,7 +11,8 @@ typedef std::vector<thread_ptr > thread_vec;
 
 void fun(int i)
 {
-    CHEF_TRACE_FATAL("%d", i);
+    chef::async_log::get_mutable_instance().trace(chef::async_log::fatal, __FILE__,
+            __LINE__, __func__, "%d", i);
     CHEF_TRACE_ERROR("%d", i);
     CHEF_TRACE_WARN("%d", i);
     CHEF_TRACE_INFO("%d", i);
@@ -24,8 +25,8 @@ int main()
 
     printf(">async_log_test.\n");
     CHEF_TRACE_DEBUG("u can't see me in log.");
-    /// if async_log mode true, some log may not flush to file in this test
-    chef::async_log::get_mutable_instance().init(chef::async_log::debug, true,
+    /// if async_log mode true, some log may not flush to file in this unit test
+    chef::async_log::get_mutable_instance().init(chef::async_log::info, true,
             "../log/");
 
     thread_vec tv;
@@ -33,11 +34,15 @@ int main()
         tv.push_back(thread_ptr(new boost::thread(boost::bind(fun, i))));
     }
 
-    CHEF_TRACE_FATAL("1");
+    chef::async_log::get_mutable_instance().trace(chef::async_log::fatal, __FILE__,
+            __LINE__, __func__, "1");
     CHEF_TRACE_ERROR("2");
     CHEF_TRACE_WARN("3");
     CHEF_TRACE_INFO("4");
     CHEF_TRACE_DEBUG("5");
+    CHEF_TRACE_DEBUG("u can't see me in log.");
+    chef::async_log::get_mutable_instance().trace(chef::async_log::debug, __FILE__,
+            __LINE__, __func__, "u can't see me in log.");
     CHEF_ASSERT(0);
     for (int i = 0; i < THREAD_NUM; ++i) {
         tv[i]->join();
