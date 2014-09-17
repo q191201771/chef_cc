@@ -10,6 +10,9 @@ int main()
     const int RANGE = 100;
     int count[RANGE] = {0};
 
+    assert(chef::random::uniform_signed(0) == 0);
+    assert(chef::random::uniform_unsigned(0) == 0);
+
     int32_t sum = 0;
     for (int i = 0; i < LOOP_TIMES; ++i) {
         int32_t num = chef::random::uniform_unsigned(RANGE);
