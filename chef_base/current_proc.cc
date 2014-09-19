@@ -48,6 +48,11 @@ std::string obtain_bin_dir()
     return std::string(path, 0, pos + 1);
 }
 
+int get_cpu_num()
+{
+    return sysconf(_SC_NPROCESSORS_ONLN);
+}
+
 } /// namespace current_proc
 } /// namespace chef
 

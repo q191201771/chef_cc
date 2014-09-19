@@ -20,6 +20,9 @@ namespace chef
         /// like '/usr/bin/'
         std::string obtain_bin_dir();
     
+        /// @return -1 if fail,otherwise return num of cpu
+        int get_cpu_num();
+
     } /// namespace current_proc
 } /// namespace chef
 
