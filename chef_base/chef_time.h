@@ -16,6 +16,10 @@ namespace time
      * @ param
      *  secs  [out] NULL means don't obtain it
      *  msecs [out] NULL means don't obtain it
+     * @ return
+     *  us
+     * @ tips
+     *  1s(second) = 1000ms(millisecond) = 1000000us(microsecond)
      */ 
     int64_t now(int64_t *secs /*out*/, int64_t *msecs /*out*/);    
 
