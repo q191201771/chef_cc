@@ -4,6 +4,8 @@
 #include <stdint.h>
 
 /**
+ * @ support win-platform also
+ *
  * @ brief
  *  @ chef::buffer is flexible, not fixed size, can self-grow & reduce
  *  @ chef::buffer is an flow buffer
@@ -55,7 +57,7 @@ public:
     char *find_eol() { return find('\n'); }
 
     /// @ brief
-    ///  erase space 
+    ///  erase space '\f' '\r' '\n' '\t' '\v'
     /// @ return
     ///  this->read_pos();
     char *trim_left();

@@ -137,16 +137,28 @@ char *buffer::find(char c)
 
 char *buffer::trim_left()
 {
-    while (write_index_ != read_index_ && isspace(*(data_ + read_index_))) {
-        ++read_index_;
+    /// self-impl isspace,more info please man isspace
+    //while (write_index_ != read_index_ && isspace(*(data_ + read_index_))) {
+    //    ++read_index_;
+    //}
+    for (; write_index_ != read_index_; ++read_index_) {
+        char ch = *(data_ + read_index_);
+        if (ch != ' ' && ch != '\f' && ch != '\n' && ch != '\r' && ch != '\t' 
+                && ch != '\v') {
+            break;
+        }
     }
     return read_pos();
 }
 
 char * buffer::trim_right()
 {
-    while (write_index_ != read_index_ && isspace(*(data_ + write_index_ - 1))) {
-        --write_index_;
+    for (; write_index_ != read_index_; --write_index_) {
+        char ch = *(data_ + write_index_ - 1);
+        if (ch != ' ' && ch != '\f' && ch != '\n' && ch != '\r' && ch != '\t'
+                && ch != '\v') {
+            break;
+        }
     }
     return read_pos(); 
 }

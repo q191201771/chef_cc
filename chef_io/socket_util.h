@@ -18,11 +18,7 @@ int make_socket_reuseable(int32_t fd);//for listen
 int make_socket_keepalive(int32_t fd);
 int make_socket_nodelay(int32_t fd);
 
-/**
- * @return:
- *   succ: fd
- *   fail: -1
- */
+/// @ return fd if succ, otherwise -1
 int32_t fetch_listen_socket(const char *ip, uint16_t port);
 
 int fetch_peer_name(int32_t fd, char *ip, uint16_t *port);
