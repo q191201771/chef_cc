@@ -19,8 +19,8 @@
  *  @ CHEF_TRACE_XXX will do nothing while haven't call async_log::init() before
  *
  * @ usage:
- *  @ chef::async_log::get_mutable_instance().init();
- *  @ CHEF_TRACE_DEBUG("hello world");
+ *  chef::async_log::get_mutable_instance().init();
+ *  CHEF_TRACE_DEBUG("hello world");
  */
 
 namespace chef

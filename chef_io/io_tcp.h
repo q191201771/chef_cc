@@ -131,6 +131,8 @@ public:
      * @ brief
      *  @ non-block
      *  @ after call this,io_tcp::run() will return after a while
+     *  FIXCHEF
+     *  name this function signal_shutdown may better
      */    
     void shutdown(); 
     
