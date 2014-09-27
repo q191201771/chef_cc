@@ -3,22 +3,30 @@
 
 #include <stdint.h>
 
-int set_socket_send_buf(int fd, int size);
-int set_socket_recv_buf(int fd, int size);
-int make_socket_nonblock(int fd);
-int make_socket_reuseable(int fd);//for listen
-int make_socket_keepalive(int fd);
-int make_socket_nodelay(int fd);
+/**
+ * @ support win-platform also
+ */
+
+#ifdef _WIN32
+void win_socket_init();
+#endif
+
+int set_socket_send_buf(int32_t fd, int size);
+int set_socket_recv_buf(int32_t fd, int size);
+int make_socket_nonblock(int32_t fd);
+int make_socket_reuseable(int32_t fd);//for listen
+int make_socket_keepalive(int32_t fd);
+int make_socket_nodelay(int32_t fd);
 
 /**
  * @return:
  *   succ: fd
  *   fail: -1
  */
-int fetch_listen_socket(const char *ip, uint16_t port);
+int32_t fetch_listen_socket(const char *ip, uint16_t port);
 
-int fetch_peer_name(int fd, char **ip, uint16_t *port);
-int fetch_sock_name(int fd, char **ip, uint16_t *port);
+int fetch_peer_name(int32_t fd, char *ip, uint16_t *port);
+int fetch_sock_name(int32_t fd, char *ip, uint16_t *port);
 
 #endif
 

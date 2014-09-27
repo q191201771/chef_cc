@@ -20,8 +20,8 @@ connection::connection(event_loop *loop, const cio_conn_t &cc, int fd)
     local_ip_ = new char[128];
     memset(peer_ip_, 0, 128);
     memset(local_ip_, 0, 128);
-    fetch_peer_name(fd, (char **)&peer_ip_, &peer_port_);
-    fetch_sock_name(fd, (char **)&local_ip_, &local_port_);
+    fetch_peer_name(fd, (char *)peer_ip_, &peer_port_);
+    fetch_sock_name(fd, (char *)local_ip_, &local_port_);
     inbuf_ = new uint8_t[4096];
     loop_->add(fd_, boost::bind(&connection::epoll_cb, this, _1, _2, _3));
     //CHEF_TRACE_DEBUG("connection(%p),loop=%p,thread_index=%u,conn_id=%lu,fd=%d",
