@@ -14,7 +14,9 @@ void win_socket_init();
 int set_socket_send_buf(int32_t fd, int size);
 int set_socket_recv_buf(int32_t fd, int size);
 int make_socket_nonblock(int32_t fd);
-int make_socket_reuseable(int32_t fd);//for listen
+
+/// @ for listen,must set before bind
+int make_socket_reuseable(int32_t fd);
 int make_socket_keepalive(int32_t fd);
 int make_socket_nodelay(int32_t fd);
 

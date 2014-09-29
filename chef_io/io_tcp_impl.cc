@@ -120,7 +120,6 @@ int io_tcp_impl::init(const char *ip, int16_t port, uint16_t thread_num,
             return -1;
         }
         make_socket_nonblock(srvfd_);
-        make_socket_reuseable(srvfd_);
     }
     thread_num_ = thread_num;
     int i = 0;

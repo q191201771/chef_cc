@@ -109,7 +109,7 @@ int fetch_listen_socket(const char *ip, uint16_t port)
 
     /// set outside if user needed
     //make_socket_nonblock(fd);
-    //make_socket_reuseable(fd);
+    make_socket_reuseable(fd);
 
     struct sockaddr_in addr;
     addr.sin_family = AF_INET;
