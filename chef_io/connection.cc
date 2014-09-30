@@ -54,7 +54,7 @@ void connection::epoll_cb(event_loop *loop, int fd, uint16_t event)
     if (!is_del_ && (event & epoll_event_read)) {
         handle_read();    
     }
-    //can't else if
+    /// can't else if
     if (!is_del_ && (event & epoll_event_write)) {
         handle_write();
     }
@@ -102,8 +102,8 @@ void connection::handle_write()
         
         status_ = status_linked;
         loop_->modr(fd_, true);
-        if (outbuf_.readable() > 0) {
-           loop_->modw(fd_, true); 
+        if (outbuf_.readable() == 0) {
+           loop_->modw(fd_, false); 
         }
         loop_->connect_cb()(cio_conn_, connect_status::connected);
         return;
@@ -161,8 +161,7 @@ void connection::write(void *data, uint32_t len)
             loop_->error_cb()(cio_conn_, 0);
         }
         return;
-    }
-    else {
+    } else {
         loop_->write_cb()(cio_conn_, succ_writed, len - succ_writed);
         if (succ_writed == len) {
             return;
