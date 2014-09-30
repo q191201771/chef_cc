@@ -4,6 +4,8 @@
 #include <stdint.h>
 
 /**
+ * @ support win-platform also
+ *
  * @ brief
  *  @ a simple TLV head
  *  @ mocked from https://github.com/owenliang/simple_kit/tree/master/simple_head

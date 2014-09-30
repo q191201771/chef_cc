@@ -6,6 +6,8 @@
 #include <map>
 
 /**
+ * @ support win-platform alse
+ *
  * @ brief
  *  @ this class is not thread-safe
  *  @ more info in config_test.cc
@@ -31,6 +33,6 @@ private:
     std::map<std::string, std::string> data_;
 };
 
-} /// chef
+} /// namespace chef
 #endif /// _CHEF_CHEF_BASE_CONFIG_H_
 
