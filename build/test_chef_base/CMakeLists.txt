@@ -64,3 +64,6 @@ TARGET_LINK_LIBRARIES(config_test chefbase)
 ADD_EXECUTABLE(map_test_ ${ROOT_DIR}/test_chef_base/map_test_.cc)
 TARGET_LINK_LIBRARIES(map_test_ chefbase)
 
+ADD_EXECUTABLE(daemon_test ${ROOT_DIR}/test_chef_base/daemon_test.cc)
+TARGET_LINK_LIBRARIES(daemon_test chefbase)
+
