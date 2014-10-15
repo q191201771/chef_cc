@@ -4,7 +4,7 @@
 namespace chef
 {
 
-const int MAGIC_NUM = 0xB6581EB;
+static const int MAGIC_NUM = 0xB6581EB;
 
 void swap_if_big_endian(char *data, int len)
 {
@@ -20,7 +20,6 @@ void swap_if_big_endian(char *data, int len)
             data[len - 1 - i] = tmp;
         }
     }
-
 }
 
 int encode_chunk_head(const chunk_head &ch, char *raw_head)

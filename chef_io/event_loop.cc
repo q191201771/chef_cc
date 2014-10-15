@@ -31,7 +31,7 @@ static void default_close_cb(cio_conn_t cc)
 static void default_error_cb(cio_conn_t cc, uint8_t error_no)
 {
 }
-static void default_write_cb(cio_conn_t cc, uint64_t succ_writed, uint64_t pending_len)
+static void default_write_cb(cio_conn_t cc, uint64_t succ_wrote, uint64_t pending_len)
 {
 }
 

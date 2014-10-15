@@ -108,19 +108,19 @@ void connection::handle_write()
         loop_->connect_cb()(cio_conn_, connect_status::connected);
         return;
     } else if (status_ == status_linked) {
-        ssize_t succ_writed = ::write(fd_, outbuf_.read_pos(), outbuf_.readable());
-        if (succ_writed < 0) {
+        ssize_t succ_wrote = ::write(fd_, outbuf_.read_pos(), outbuf_.readable());
+        if (succ_wrote < 0) {
             if (errno != EINTR && errno != EAGAIN) {
                 CHEF_TRACE_DEBUG("handle_write,error.");
                 loop_->error_cb()(cio_conn_, 0);
             }
             return;
         } else {
-            outbuf_.erase(succ_writed);
+            outbuf_.erase(succ_wrote);
             if (outbuf_.readable() == 0) {
                 loop_->modw(fd_, false);
             }
-            loop_->write_cb()(cio_conn_, succ_writed, outbuf_.readable());
+            loop_->write_cb()(cio_conn_, succ_wrote, outbuf_.readable());
         }
     }
 }
@@ -154,20 +154,20 @@ void connection::write(void *data, uint32_t len)
         loop_->write_cb()(cio_conn_, 0, outbuf_.readable());
         return;
     }
-    int64_t succ_writed = ::write(fd_, data, len);
-    if (succ_writed < 0) {
+    int64_t succ_wrote = ::write(fd_, data, len);
+    if (succ_wrote < 0) {
         if (errno != EINTR && errno != EAGAIN) {
             CHEF_TRACE_DEBUG("write,error.");
             loop_->error_cb()(cio_conn_, 0);
         }
         return;
     } else {
-        loop_->write_cb()(cio_conn_, succ_writed, len - succ_writed);
-        if (succ_writed == len) {
+        loop_->write_cb()(cio_conn_, succ_wrote, len - succ_wrote);
+        if (succ_wrote == len) {
             return;
         }
-        else if (succ_writed < len) {
-            outbuf_.append((const char*)data + succ_writed, len - succ_writed);
+        else if (succ_wrote < len) {
+            outbuf_.append((const char*)data + succ_wrote, len - succ_wrote);
             enable_write();
             return;
         }

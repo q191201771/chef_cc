@@ -53,10 +53,10 @@ void error_cb(cio_conn_t cc, uint8_t error_no)
             cc.thread_index_, cc.conn_id_);
     srv->close(cc);
 }
-void write_cb(cio_conn_t cc, uint64_t succ_writed, uint64_t pending_len)
+void write_cb(cio_conn_t cc, uint64_t succ_wrote, uint64_t pending_len)
 {
-    CHEF_TRACE_DEBUG("user:writed_cb(),thread_id=%u,conn_id=%lu,succ=%lu,pending=%lu.", 
-            cc.thread_index_, cc.conn_id_, succ_writed, pending_len);
+    CHEF_TRACE_DEBUG("user:write_cb(),thread_id=%u,conn_id=%lu,succ=%lu,pending=%lu.", 
+            cc.thread_index_, cc.conn_id_, succ_wrote, pending_len);
 }
 
 int main(int argc, char **argv)

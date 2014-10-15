@@ -112,14 +112,14 @@ public:
      *   NULL:failed,check param 'failno'
      */
     static io_tcp_ptr create(const char *ip, int16_t port, uint16_t thread_num,
-                          const accept_cb_t &acb,
-                          const connect_cb_t &connect_cb,
-                          const read_cb_t &rcb,
-                          const close_cb_t &close_cb,
-                          const error_cb_t &ecb,
-                          const write_cb_t &wcb,
-                          //uint8_t *failno = nullptr/*out*/);
-                          uint8_t *failno = NULL/*out*/);
+                             const accept_cb_t &acb,
+                             const connect_cb_t &connect_cb,
+                             const read_cb_t &rcb,
+                             const close_cb_t &close_cb,
+                             const error_cb_t &ecb,
+                             const write_cb_t &wcb,
+                             //uint8_t *failno = nullptr/*out*/);
+                             uint8_t *failno = NULL/*out*/);
 
     /**
      * @ brief

@@ -6,7 +6,7 @@
 #include <map>
 
 /**
- * @ support win-platform alse
+ * @ support win-platform also
  *
  * @ brief
  *  @ this class is not thread-safe

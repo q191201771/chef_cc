@@ -44,7 +44,7 @@ void error_cb(cio_conn_t cc, uint8_t error_no)
             cc.thread_index_, cc.conn_id_);
     srv->close(cc);
 }
-void write_cb(cio_conn_t cc, uint64_t succ_writed, uint64_t pending_len)
+void write_cb(cio_conn_t cc, uint64_t succ_wrote, uint64_t pending_len)
 {
 }
 
