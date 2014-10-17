@@ -147,7 +147,7 @@ int async_log::trace(async_log::level l, const char *src_file_name, int line,
 
     int len = -1;
     /// serialization lock-free,cost more memory
-    chef::buffer single_buf(10240);
+    chef::buffer single_buf(16384);
 
     // *now time
     boost::posix_time::ptime pt = boost::posix_time::microsec_clock::local_time();
