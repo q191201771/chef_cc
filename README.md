@@ -1,9 +1,9 @@
 ﻿chef
 ====
 ### Brief
-* chef_base is a set of linux c++ tools
+* chef_base is a set of linux c++ tools(log,buffer,thread,etc).
 * chef_io is a multi-thread epoll lib, io_tcp.h is the unique interface header<br>
-  and you can get more user-manual in it
+  and you can get more user-manual in it.
 
 ### Dependings
 1. boost<br>

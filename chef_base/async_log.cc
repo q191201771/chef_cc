@@ -167,11 +167,11 @@ int async_log::trace(async_log::level l, const char *src_file_name, int line,
     // *main
     va_list ap;
     va_start(ap, format);
-    single_buf.reserve(10000);
-    len = vsnprintf(single_buf.write_pos(), 10000, format, ap);
-    if (len > 10000) {
+    single_buf.reserve(12288);
+    len = vsnprintf(single_buf.write_pos(), 12288, format, ap);
+    if (len > 12288) {
         /// lost..
-        len = 10000;
+        len = 12288;
     }
     va_end(ap);
     single_buf.seek_write(len);
