@@ -29,7 +29,7 @@ public:
      * @ function: pop
      * @ return: NULL if fail
      * @ brief:
-     *  if pool is empty,produce [init_num_] of element again
+     *  if pool is empty,will produce [init_num_] of element again
      */
     memory_type *pop();
 
@@ -78,7 +78,8 @@ memory_pool<memory_type>::~memory_pool()
 }
 
 template<class memory_type>
-memory_pool<memory_type> *memory_pool<memory_type>::create(uint32_t init_num, bool with_lock)
+memory_pool<memory_type> *memory_pool<memory_type>::create(uint32_t init_num, 
+        bool with_lock)
 {
     memory_pool<memory_type> *pool = NULL;
     try {
