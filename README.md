@@ -20,6 +20,6 @@
   ./build.sh
 
 * result:<br>
-    libchefbase.so libchefio.so in ./chef/lib/ <br>
-    test&example in ./chef/bin/
+    libchefbase.so libchefio.so in ./lib/ <br>
+    test&example in ./bin/
 

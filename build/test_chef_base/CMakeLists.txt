@@ -67,3 +67,6 @@ TARGET_LINK_LIBRARIES(map_test_ chefbase)
 ADD_EXECUTABLE(daemon_test ${ROOT_DIR}/test_chef_base/daemon_test.cc)
 TARGET_LINK_LIBRARIES(daemon_test chefbase)
 
+ADD_EXECUTABLE(memory_pool_test ${ROOT_DIR}/test_chef_base/memory_pool_test.cc)
+TARGET_LINK_LIBRARIES(memory_pool_test chefbase)
+
