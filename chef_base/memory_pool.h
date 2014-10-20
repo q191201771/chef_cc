@@ -41,6 +41,10 @@ public:
      */
     void push(memory_type *element);
 
+#ifdef CHEF_UNIT_TEST
+    uint32_t get_outstanding() const { return outstanding_; }
+#endif
+
 private:
     memory_pool(uint32_t init_num, bool with_lock);
     ~memory_pool();
@@ -48,6 +52,7 @@ private:
 
     uint32_t init_num_;
     bool with_lock_;
+    uint32_t outstanding_; ///pop but not push back,only for debug view
     std::list<memory_type *> elements_;
     boost::mutex mutex_;
 };
@@ -56,6 +61,7 @@ template<class memory_type>
 memory_pool<memory_type>::memory_pool(uint32_t init_num, bool with_lock)
     : init_num_(init_num)
     , with_lock_(with_lock)
+    , outstanding_(0)
 {
     boost::unique_lock<boost::mutex> ul(mutex_, boost::defer_lock);
     if (with_lock_) {
@@ -115,6 +121,7 @@ memory_type *memory_pool<memory_type>::pop()
     } catch (...) {
         return NULL;
     }
+    ++outstanding_;
     return element;
 }
 
@@ -133,6 +140,7 @@ void memory_pool<memory_type>::push(memory_type *element)
     } else {
         elements_.push_back(element);
     }
+    --outstanding_;
 }
 
 template<class memory_type>
@@ -143,8 +151,6 @@ void memory_pool<memory_type>::produce_()
         elements_.push_back(element);
     } 
 }
-
-
 
 } /// namespace chef
 
