@@ -41,14 +41,8 @@ public:
 
     /// @ param
     ///  @ if async_mode=false,log will not only flush to file but also to screen
-    ///  @ if dir=NULL,use current process dir
-    ///  @ else will mkdir recursive,avalid dir are
-    ///   Absolute directory
-    ///    /tmp = /tmp/
-    ///   Relative directory
-    ///    ./tmp = ./tmp/ = tmp/ = tmp
-    ///    ./tmp1/tmp2/tmp3/
-    ///    ../
+    ///  @ if dir=NULL,use current process dir,else will call 
+    ///   chef::mkdir_recursive(more info see chef_base/chef_file.h)
     ///  @ if file_name=NULL,name looks like 
     ///    async_log_test.20140825T193819.chef-VirtualBox.21810.log.chef
     int init(level l = async_log::debug, bool async_mode = true, 
@@ -64,7 +58,6 @@ public:
 
 private:
     void log_thd_fun();
-    int mkdir_recursive(const char *dir);
 private:
     static level level_;
     const std::string end_screen_color_;

@@ -20,7 +20,8 @@ namespace uuid
             fclose(fp);
             return std::string();
         }
-        std::string ret(line);
+        std::string ret(line, 36);
+        ret += '\0';
         free(line);
         fclose(fp);
         return ret;

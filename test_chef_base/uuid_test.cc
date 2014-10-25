@@ -26,7 +26,8 @@ int main()
     std::string str = chef::uuid::create();
     assert(str.size() == 37);
     assert(str[14] == '4');
-    printf("    %s", str.c_str());
+    assert(str[36] == '\0');
+    printf("    %s\n", str.c_str());
 
     typedef boost::shared_ptr<boost::thread> thread_ptr;
     std::vector<thread_ptr > threads;

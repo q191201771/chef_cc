@@ -1,6 +1,7 @@
 #include "async_log.h"
 #include "current_proc.h"
 #include "current_thd.h"
+#include "chef_file.h"
 #include <string.h>
 #include <stdint.h>
 #include <sys/types.h>
@@ -47,32 +48,6 @@ async_log::~async_log()
         fclose(fp_);
         fp_ = NULL; 
     }
-}
-
-int async_log::mkdir_recursive(const char *dir)
-{
-    if (!dir) {
-        return 0;
-    }
-    char *dir_dup = strdup(dir);
-    int len = strlen(dir_dup);
-    if (len == 0) {
-        return 0;
-    }
-    int i = dir_dup[0] == '/' ? 1 : 0;
-    for (; i <= len; ++i) {
-        if (dir_dup[i] == '/' || dir_dup[i] == '\0') {
-            char ch = dir_dup[i];
-            dir_dup[i] = '\0';
-            if (mkdir(dir_dup, 0755) == -1 && errno != EEXIST) {
-                free(dir_dup);
-                return -1;
-            }
-            dir_dup[i] = ch;
-        }
-    }
-    free(dir_dup);
-    return 0;
 }
 
 int async_log::init(level l, bool async_mode, const char *dir, const char *file_name)
