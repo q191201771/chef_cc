@@ -22,4 +22,5 @@ rm *.log.chef valg core test.config.chef
 ./thread_test
 ./uuid_test
 ./wait_event_test
-./memory_pool_test
+./object_pool_test
+./chef_file_test

@@ -30,6 +30,10 @@ int32_t next_signed()
     return random;
 }
 
+int32_t uniform_signed(uint32_t n) { return n == 0 ? 0 : next_signed() % n; }
+uint32_t next_unsigned() { return abs(next_signed()); }
+uint32_t uniform_unsigned(uint32_t n) { return n == 0 ? 0 : next_unsigned() % n; }
+
 } /// namespace random
 } /// namespace chef
 

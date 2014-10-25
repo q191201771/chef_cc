@@ -1,29 +1,24 @@
-#ifndef _CHEF_CHEF_BASE_MEMORY_POOL_H_
-#define _CHEF_CHEF_BASE_MEMORY_POOL_H_
+#ifndef _CHEF_CHEF_BASE_OBJECT_POOL_H_
+#define _CHEF_CHEF_BASE_OBJECT_POOL_H_
 
 #include <stdint.h>
 #include <list>
 #include <boost/noncopyable.hpp>
 #include <boost/thread.hpp>
 
-/**
- * @ brief
- *  rename memory_pool to object_pool may better
- */
-
 namespace chef
 {
 
-template<class memory_type>
-class memory_pool : public boost::noncopyable
+template<class object_type>
+class object_pool : public boost::noncopyable
 {
 public:
     /**
      * @ function: create
      * @ return: NULL if fail
      */
-    static memory_pool *create(uint32_t init_num, bool with_lock = true);
-    static void destory(memory_pool *pool);
+    static object_pool *create(uint32_t init_num, bool with_lock = true);
+    static void destory(object_pool *pool);
 
     /**
      * @ function: pop
@@ -31,7 +26,7 @@ public:
      * @ brief:
      *  if pool is empty,will produce [init_num_] of element again
      */
-    memory_type *pop();
+    object_type *pop();
 
     /**
      * @ function: push
@@ -39,26 +34,26 @@ public:
      *  if pool size > [init_num_] * 2,won't push [element] back into pool(will
      *  delete [element] directly).
      */
-    void push(memory_type *element);
+    void push(object_type *element);
 
 #ifdef CHEF_UNIT_TEST
     uint32_t get_outstanding() const { return outstanding_; }
 #endif
 
 private:
-    memory_pool(uint32_t init_num, bool with_lock);
-    ~memory_pool();
+    object_pool(uint32_t init_num, bool with_lock);
+    ~object_pool();
     void produce_();
 
     uint32_t init_num_;
     bool with_lock_;
     uint32_t outstanding_; ///pop but not push back,only for debug view
-    std::list<memory_type *> elements_;
+    std::list<object_type *> elements_;
     boost::mutex mutex_;
 };
 
-template<class memory_type>
-memory_pool<memory_type>::memory_pool(uint32_t init_num, bool with_lock)
+template<class object_type>
+object_pool<object_type>::object_pool(uint32_t init_num, bool with_lock)
     : init_num_(init_num)
     , with_lock_(with_lock)
     , outstanding_(0)
@@ -70,8 +65,8 @@ memory_pool<memory_type>::memory_pool(uint32_t init_num, bool with_lock)
     produce_();
 }
 
-template<class memory_type>
-memory_pool<memory_type>::~memory_pool()
+template<class object_type>
+object_pool<object_type>::~object_pool()
 {
     boost::unique_lock<boost::mutex> ul(mutex_, boost::defer_lock);
     if (with_lock_) {
@@ -83,31 +78,31 @@ memory_pool<memory_type>::~memory_pool()
     }
 }
 
-template<class memory_type>
-memory_pool<memory_type> *memory_pool<memory_type>::create(uint32_t init_num, 
+template<class object_type>
+object_pool<object_type> *object_pool<object_type>::create(uint32_t init_num, 
         bool with_lock)
 {
-    memory_pool<memory_type> *pool = NULL;
+    object_pool<object_type> *pool = NULL;
     try {
-        pool = new memory_pool(init_num, with_lock);
+        pool = new object_pool(init_num, with_lock);
     } catch (...) {
         return NULL;
     }
     return pool;
 }
 
-template<class memory_type>
-void memory_pool<memory_type>::destory(memory_pool *pool)
+template<class object_type>
+void object_pool<object_type>::destory(object_pool *pool)
 {
     if (pool) {
         delete pool;
     }
 }
 
-template<class memory_type>
-memory_type *memory_pool<memory_type>::pop()
+template<class object_type>
+object_type *object_pool<object_type>::pop()
 {
-    memory_type *element = NULL;
+    object_type *element = NULL;
     boost::unique_lock<boost::mutex> ul(mutex_, boost::defer_lock);
     if (with_lock_) {
         ul.lock();
@@ -125,8 +120,8 @@ memory_type *memory_pool<memory_type>::pop()
     return element;
 }
 
-template<class memory_type>
-void memory_pool<memory_type>::push(memory_type *element)
+template<class object_type>
+void object_pool<object_type>::push(object_type *element)
 {
     if (!element) {
         return;
@@ -143,16 +138,16 @@ void memory_pool<memory_type>::push(memory_type *element)
     --outstanding_;
 }
 
-template<class memory_type>
-void memory_pool<memory_type>::produce_()
+template<class object_type>
+void object_pool<object_type>::produce_()
 {
     for (uint32_t i = 0; i < init_num_; ++i) {
-        memory_type *element = new memory_type();
+        object_type *element = new object_type();
         elements_.push_back(element);
     } 
 }
 
 } /// namespace chef
 
-#endif /// _CHEF_CHEF_BASE_MEMORY_POOL_H_
+#endif /// _CHEF_CHEF_BASE_OBJECT_POOL_H_
 

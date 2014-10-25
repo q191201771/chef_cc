@@ -1,5 +1,5 @@
 #define CHEF_UNIT_TEST
-#include "memory_pool.h"
+#include "object_pool.h"
 #include <stdio.h>
 #include <assert.h>
 
@@ -27,10 +27,10 @@ private:
 int main()
 {
     (void)count;
-    printf(">memory_pool_test.\n");
-    chef::memory_pool<A> *pool = chef::memory_pool<A>::create(8);
+    printf(">object_pool_test.\n");
+    chef::object_pool<A> *pool = chef::object_pool<A>::create(8);
     if (!pool) {
-        printf("memory_pool::create fail.\n");
+        printf("object_pool::create fail.\n");
         return 0;
     }
     assert(pool->get_outstanding() == 0);
@@ -39,7 +39,7 @@ int main()
     for (int i = 0; i < 17; ++i) {
         a[i] = pool->pop();
         if (!a[i]) {
-            printf("memory_pool::pop fail.\n");
+            printf("object_pool::pop fail.\n");
             return 0;
         }
     }
@@ -48,11 +48,11 @@ int main()
     pool->push(a[0]);
     assert(pool->get_outstanding() == 16);
 //    printf("after push.\n");
-    chef::memory_pool<A>::destory(pool);
+    chef::object_pool<A>::destory(pool);
 //    printf("after destory.\n");
     for (int i = 1; i < 17; ++i) {
         delete a[i];
     }
-    printf("<memory_pool_test.\n");
+    printf("<object_pool_test.\n");
     return 0;
 }
