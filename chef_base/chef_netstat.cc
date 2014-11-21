@@ -18,9 +18,14 @@ int netstat::fetch_io_bytes_at_this_moment(const char *interface, uint64_t *in_b
 int netstat::fetch_io_bytes_at_this_moment(const char *interface, uint64_t *in_bytes,
         uint64_t *out_bytes)
 {
+    if (!interface || !in_bytes || !out_bytes) {
+        fprintf(stderr, "%s:%d.", __func__, __LINE__);
+        return -1;
+    }
+
     FILE *fp = fopen("/proc/net/dev", "r");
     if (!fp) {
-        printf("%s,!fp.\n", __func__);
+        fprintf(stderr, "%s:%d,!fp.\n", __func__, __LINE__);
         return -1;
     }
 
@@ -28,7 +33,8 @@ int netstat::fetch_io_bytes_at_this_moment(const char *interface, uint64_t *in_b
     int file_len = fread(buf.write_pos(), 1, 4096, fp);
     fclose(fp);
     if (file_len <= 0) {
-        printf("%s,fread fail,file_len=%d", __func__, file_len);
+        fprintf(stderr, "%s:%d,fread fail,file_len=%d", __func__, __LINE__, 
+                file_len);
         return -1;
     }
     buf.seek_write(file_len);
@@ -38,7 +44,7 @@ int netstat::fetch_io_bytes_at_this_moment(const char *interface, uint64_t *in_b
     char *pos1 = buf.find_eol();
     char *pos2 = NULL;
     if (!pos1) {
-        printf("%s,skip line 1 fail.\n", __func__);
+        fprintf(stderr, "%s:%d,skip line 1 fail.\n", __func__, __LINE__);
         return -1;
     }
     buf.erase(pos1 - buf.read_pos() + 1);
@@ -46,7 +52,7 @@ int netstat::fetch_io_bytes_at_this_moment(const char *interface, uint64_t *in_b
 ///  face |bytes    packets errs drop fifo frame compressed multicast|bytes    packets errs drop fifo colls carrier compressed
     pos1 = buf.find_eol();
     if (!pos1) {
-        printf("%s,skip line 2 fail.\n", __func__);
+        fprintf(stderr, "%s:%d,skip line 2 fail.\n", __func__, __LINE__);
         return -1;
     }
     buf.erase(pos1 - buf.read_pos() + 1);
@@ -54,13 +60,13 @@ int netstat::fetch_io_bytes_at_this_moment(const char *interface, uint64_t *in_b
     /// *find 'interface'
     pos1 = buf.find(interface, strlen(interface));
     if (!pos1) {
-        printf("%s:%d,find interface fail.\n", __func__, __LINE__);
+        fprintf(stderr, "%s:%d,find interface(%s) fail.\n", __func__, __LINE__, interface);
         return -1;
     }
     for (; ; ) {
         pos2 = buf.find_eol();
         if (!pos2) {
-            printf("%s:%d,find interface fail.\n", __func__, __LINE__);
+            fprintf(stderr, "%s:%d,find interface fail.\n", __func__, __LINE__);
             return -1;
         }
         /// not our 'interface'
@@ -78,7 +84,7 @@ int netstat::fetch_io_bytes_at_this_moment(const char *interface, uint64_t *in_b
         /// skip 'interface',because it may contain digit char!
         pos1 = buf.find(":", 1);
         if (!pos1) {
-            printf("%s:%d.\n", __func__, __LINE__);
+            fprintf(stderr, "%s:%d.\n", __func__, __LINE__);
             return -1;
         }
         buf.erase(pos1 - buf.read_pos());

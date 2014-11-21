@@ -2,6 +2,7 @@
 #include "chef_time.h"
 #include "current_thd.h"
 #include <stdio.h>
+#include <assert.h>
 
 int main()
 {
@@ -12,6 +13,8 @@ int main()
     int64_t now_time_ms = 0;
     uint64_t in_bytes = 0;
     uint64_t out_bytes = 0;
+    assert(chef::netstat::fetch_io_bytes_at_this_moment("abcdefg", &in_bytes,
+            &out_bytes, &now_time_ms) == -1);
     for (; ; ) {
     //for (int i = 0; i < 10; ++i) {
         int ret = chef::netstat::fetch_io_bytes_at_this_moment("eth0", &in_bytes,
