@@ -11,6 +11,11 @@ namespace chef
 int netstat::fetch_io_bytes_at_this_moment(const char *interface, uint64_t *in_bytes,
         uint64_t *out_bytes, int64_t *now_ms)
 {
+    if (!interface || !in_bytes || !out_bytes || !now_ms) {
+        fprintf(stderr, "%s:%d.", __func__, __LINE__);
+        return -1;
+    }
+
     *now_ms = chef::time::now(NULL, NULL) / 1000;
     return netstat::fetch_io_bytes_at_this_moment(interface, in_bytes, out_bytes);
 }
