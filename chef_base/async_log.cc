@@ -144,6 +144,11 @@ int async_log::trace(async_log::level l, const char *src_file_name, int line,
     va_start(ap, format);
     single_buf.reserve(12288);
     len = vsnprintf(single_buf.write_pos(), 12288, format, ap);
+    if (len < 0) {
+        fprintf(stderr, "%s:%dvsnprintf return -1,err=%s.\n", __func__, __LINE__,
+                strerror(errno));
+        return -1;
+    }
     if (len > 12288) {
         /// lost..
         len = 12288;
