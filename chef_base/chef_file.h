@@ -8,15 +8,24 @@
 
 namespace chef
 {
-    /// @ function : mkdir_recursive
-    /// @ notice: if [dir] already exist before mkdir_recursive,return 0.
+    /**
+     * @function: mkdir_recursive
+     * @notice: if [dir] already exist before mkdir_recursive,return 0.
+     */
     int mkdir_recursive(const char *dir);
     int file_or_dir_exist(const char *name);
     int is_dir(const char *name);
     int is_file(const char *name);
+    /**
+     * @function: delete_file
+     * @brief: support folder also
+     */
     int delete_file(const char *name);
-    int delete_folder(const char *name);
-
+    /**
+     * @function: move_file
+     * @brief: support folder also
+     */
+    int move_file(const char *src, const char *dst);
 } /// namespace chef
 
 #endif /// _CHEF_CHEF_BASE_CHEF_FILE_H_

@@ -73,23 +73,42 @@ int is_file(const char *name)
 int delete_file(const char *name)
 {
     IF_NULL_RETURN_FAIL(name);
-    if (remove(name) != 0) {
-        fprintf(stderr, "remove(%s) fail,reason:%s.", name, strerror(errno));
-        return -1;
-    }
-    return 0;
-}
-
-int delete_folder(const char *name)
-{
-    IF_NULL_RETURN_FAIL(name);
+//    if (remove(name) != 0) {
+//        fprintf(stderr, "remove(%s) fail,reason:%s.\n", name, strerror(errno));
+//        return -1;
+//    }
     char cmd[128] = {0};
     snprintf(cmd, 128, "rm -rf %s", name);
     if (system(cmd) == -1) {
-        fprintf(stderr, "system(%s) fail.", cmd);
+        fprintf(stderr, "system(%s) fail.\n", cmd);
         return -1;
     }
 
+    return 0;
+}
+
+//int delete_folder(const char *name)
+//{
+//    IF_NULL_RETURN_FAIL(name);
+//    char cmd[128] = {0};
+//    snprintf(cmd, 128, "rm -rf %s", name);
+//    if (system(cmd) == -1) {
+//        fprintf(stderr, "system(%s) fail.\n", cmd);
+//        return -1;
+//    }
+//
+//    return 0;
+//}
+
+int move_file(const char *src, const char *dst)
+{
+    IF_NULL_RETURN_FAIL(src);
+    IF_NULL_RETURN_FAIL(dst);
+    if (rename(src, dst) != 0) {
+        fprintf(stderr, "rename(%s, %s) fail,reason:%s.\n",
+                src, dst, strerror(errno));
+        return -1;
+    }
     return 0;
 }
 

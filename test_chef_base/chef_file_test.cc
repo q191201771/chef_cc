@@ -18,9 +18,9 @@ int main()
     assert(chef::mkdir_recursive(dir_name.c_str()) == 0);
     printf("    mkdir %s succ.\n", dir_name.c_str());
     assert(chef::file_or_dir_exist(dir_name.c_str()) == 0);
-    assert(chef::delete_folder(NULL) == -1);
-    assert(chef::delete_folder(dir_name.c_str()) == 0);
-    printf("    delete_folder %s succ.\n", dir_name.c_str());
+    assert(chef::delete_file(NULL) == -1);
+    assert(chef::delete_file(dir_name.c_str()) == 0);
+    printf("    delete folder %s succ.\n", dir_name.c_str());
     assert(chef::is_file("/usr") == -1);
     assert(chef::is_dir("/usr/") == 0);
     dir_name = chef::uuid::create();
@@ -28,8 +28,12 @@ int main()
     printf("    mkdir %s succ.\n", dir_name.c_str());
     assert(chef::is_dir(dir_name.c_str()) == 0);
     printf("    is_dir %s succ.\n", dir_name.c_str());
-    assert(chef::delete_folder(dir_name.c_str()) == 0);
-    printf("    delete_folder %s succ.\n", dir_name.c_str());
+    std::string dir_name2 = chef::uuid::create();
+    assert(chef::move_file(chef::uuid::create().c_str(), dir_name2.c_str()) == -1);
+    assert(chef::move_file(dir_name.c_str(), dir_name2.c_str()) == 0);
+    printf("    remove_file %s to %s succ.\n", dir_name.c_str(), dir_name2.c_str());
+    assert(chef::delete_file(dir_name2.c_str()) == 0);
+    printf("    delete folder %s succ.\n", dir_name2.c_str());
     printf("<chef_file_test.\n");
     return 0;
 }
