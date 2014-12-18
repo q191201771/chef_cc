@@ -24,3 +24,4 @@ rm *.log.chef valg core test.config.chef
 ./wait_event_test
 ./object_pool_test
 ./chef_file_test
+./chef_snippet_test

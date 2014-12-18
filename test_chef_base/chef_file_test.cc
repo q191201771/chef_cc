@@ -25,7 +25,11 @@ int main()
     assert(chef::is_dir("/usr/") == 0);
     dir_name = chef::uuid::create();
     assert(chef::mkdir_recursive(dir_name.c_str()) == 0);
+    printf("    mkdir %s succ.\n", dir_name.c_str());
     assert(chef::is_dir(dir_name.c_str()) == 0);
+    printf("    is_dir %s succ.\n", dir_name.c_str());
+    assert(chef::delete_folder(dir_name.c_str()) == 0);
+    printf("    delete_folder %s succ.\n", dir_name.c_str());
     printf("<chef_file_test.\n");
     return 0;
 }
