@@ -76,3 +76,6 @@ TARGET_LINK_LIBRARIES(chef_file_test chefbase)
 ADD_EXECUTABLE(chef_netstat_test ${ROOT_DIR}/test_chef_base/chef_netstat_test.cc)
 TARGET_LINK_LIBRARIES(chef_netstat_test chefbase)
 
+ADD_EXECUTABLE(chef_snippet_test ${ROOT_DIR}/test_chef_base/chef_snippet_test.cc)
+TARGET_LINK_LIBRARIES(chef_snippet_test chefbase)
+
