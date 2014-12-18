@@ -26,7 +26,8 @@ public:
     static std::string get_host_by_name(std::string name) {
         struct hostent *ht = gethostbyname(name.c_str());
         if (!ht || ht->h_length <= 0) {
-            printf("gethostbyname(%s) fail,reason:%s\n", name.c_str(), hstrerror(h_errno));
+            fprintf(stderr, "gethostbyname(%s) fail,reason:%s\n", 
+                    name.c_str(), hstrerror(h_errno));
             return "";
         }
         char result[128] = {0};

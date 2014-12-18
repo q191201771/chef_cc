@@ -21,7 +21,8 @@ namespace uuid
             return std::string();
         }
         std::string ret(line, 36);
-        ret += '\0';
+        //printf("ERASECHEF %s\n", ret.c_str());
+        //ret += '\0';
         free(line);
         fclose(fp);
         return ret;

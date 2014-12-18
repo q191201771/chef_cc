@@ -1,4 +1,5 @@
 #include "chef_snippet.hpp"
+#include <assert.h>
 #include <vector>
 
 int main()

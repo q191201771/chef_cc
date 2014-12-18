@@ -6,15 +6,22 @@
 #include <string.h>
 #include <errno.h>
 #include <stdlib.h>
+#include <stdio.h>
+
+#define IF_NULL_RETURN_FAIL(x) \
+    { \
+    if (!(x)) { \
+        fprintf(stderr, "%s:%d\n", __func__, __LINE__); \
+        return -1; \
+    } \
+    }
 
 namespace chef
 {
 
 int mkdir_recursive(const char *dir)
 {
-    if (!dir) {
-        return -1;
-    }
+    IF_NULL_RETURN_FAIL(dir);
     char *dir_dup = strdup(dir);
     int len = strlen(dir_dup);
     if (len == 0) {
@@ -38,12 +45,14 @@ int mkdir_recursive(const char *dir)
 
 int file_or_dir_exist(const char *name)
 {
+    IF_NULL_RETURN_FAIL(name);
     struct stat st;
     return stat(name, &st);
 }
 
 int is_dir(const char *name)
 {
+    IF_NULL_RETURN_FAIL(name);
     struct stat st;
     if (stat(name, &st) == -1) {
         return -1;
@@ -53,11 +62,35 @@ int is_dir(const char *name)
 
 int is_file(const char *name)
 {
+    IF_NULL_RETURN_FAIL(name);
     struct stat st;
     if (stat(name, &st) == -1) {
         return -1;
     }
     return S_ISREG(st.st_mode) ? 0 : -1;
+}
+
+int delete_file(const char *name)
+{
+    IF_NULL_RETURN_FAIL(name);
+    if (remove(name) != 0) {
+        fprintf(stderr, "remove(%s) fail,reason:%s.", name, strerror(errno));
+        return -1;
+    }
+    return 0;
+}
+
+int delete_folder(const char *name)
+{
+    IF_NULL_RETURN_FAIL(name);
+    char cmd[128] = {0};
+    snprintf(cmd, 128, "rm -rf %s", name);
+    if (system(cmd) == -1) {
+        fprintf(stderr, "system(%s) fail.", cmd);
+        return -1;
+    }
+
+    return 0;
 }
 
 } /// namespace chef

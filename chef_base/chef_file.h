@@ -14,6 +14,8 @@ namespace chef
     int file_or_dir_exist(const char *name);
     int is_dir(const char *name);
     int is_file(const char *name);
+    int delete_file(const char *name);
+    int delete_folder(const char *name);
 
 } /// namespace chef
 
