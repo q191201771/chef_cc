@@ -8,7 +8,7 @@ namespace chef
 namespace uuid
 {
     /// 8-4-4-4-12
-    /// total 37 with '\0' end
+    /// total 36
     /// return std::string() if failed.
     std::string create();
 
