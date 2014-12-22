@@ -83,13 +83,10 @@ private:
 
 int main(int argc, char **argv)
 {
-    static const char cfg_file[] = "cfg.base_srv";
-    static const char pid_file[] = "pid.base_srv";
-
     /// *configuration from config file
     ///  cfg file & exe must @ same dir
+    static const char cfg_file[] = "cfg.base_srv";
     std::string cfg_file_with_path = chef::current_proc::obtain_bin_dir() + cfg_file;
-    printf("%s\n", cfg_file_with_path.c_str());
     chef::config cfg;
     if (cfg.load(cfg_file_with_path) == -1) {
         fprintf(stderr, "load %s fail.\n", cfg_file_with_path.c_str());
@@ -110,7 +107,9 @@ int main(int argc, char **argv)
 
     /// *if daemon
     if (daemon_str == "true") {
-        if (chef::daemon_init(pid_file) == -1) {
+    static const char pid_file[] = "pid.base_srv";
+    std::string pid_file_with_path = chef::current_proc::obtain_bin_dir() + pid_file;
+        if (chef::daemon_init(pid_file_with_path.c_str()) == -1) {
             fprintf(stderr, "chef::daemon::init(%s) fail.\n", pid_file);
             return -1;
         }

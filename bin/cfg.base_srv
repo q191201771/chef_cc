@@ -1,0 +1,5 @@
+ip=0.0.0.0
+port=8384
+thread_num=4
+#daemon=true
+daemon=false
