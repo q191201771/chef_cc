@@ -1,7 +1,8 @@
 ﻿DSAA
 ====
 ### Brief
-DSAA(Data Structure And Algorithm) wraps some snippets of my DSAA practice.
+@DSAA(Data Structure And Algorithm) wraps some snippets of my DSAA practice.
+@managed by self Makefile in this folder.
 
 ### Build
 $make
