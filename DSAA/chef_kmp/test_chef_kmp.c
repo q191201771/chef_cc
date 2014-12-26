@@ -26,7 +26,7 @@ int TEST_BF(const char *target, const char *pattern)
     int i = 0;
     printf("<<<<<<<<<<<<<<<<<<<<\n");
     printf(" target: %s\npattern: %s\n", target, pattern);
-    int ret = chef_kmp(target, pattern);
+    int ret = chef_bf(target, pattern);
     if (ret == -1) {
         printf(" result: not match.\n");
     } else {
