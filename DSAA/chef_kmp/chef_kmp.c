@@ -78,8 +78,7 @@ int chef_kmp(const char *target, const char *pattern)
 
 int chef_bf(const char *target, const char *pattern) 
 {
-    int target_len, pattern_len, i, j, k, max;
-    target_len = pattern_len = i = j = k = max = 0;
+    int target_len, pattern_len, i;
 
     target_len = chef_strlen(target);
     pattern_len = chef_strlen(pattern);
