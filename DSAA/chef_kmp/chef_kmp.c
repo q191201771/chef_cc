@@ -1,10 +1,11 @@
 #include "chef_kmp.h"
 #include <string.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 /// used strlen & strncmp
 
-int kmp(const char *target, const char *pattern) 
+int chef_kmp(const char *target, const char *pattern) 
 {
     int target_len, pattern_len, i, j, k, max;
     int *next = NULL;
@@ -24,7 +25,7 @@ int kmp(const char *target, const char *pattern)
     i = 0;
     for (; i < pattern_len; ++i) {
         if (i == 0 || i == 1) {
-            next[i] = 1;
+            next[i] = 0;
             continue;
         }
         max = j = 0;
@@ -35,23 +36,24 @@ int kmp(const char *target, const char *pattern)
                 }
             }
         }
-        next[i] = i - max;
+        next[i] = max;
     }
     /// * compute next end.
 
     i = j = 0;
-    for (; i < target_len - pattern_len + 1;) {
-        if (target[i + j] == pattern[j]) {
-            if (++j == pattern_len) {
+    for (; i < target_len;) {
+        if (target[i] == pattern[j]) {
+            ++i;
+            ++j;
+            if (j == pattern_len) {
                 free(next);
-                return i;
+                return i - pattern_len;
             }
         } else {
-            /// NOTICE
-            /// if mod i+= next[j]; to ++i;
-            /// that will be BF(Brute-Force)
-            i += next[j];
-            j = 0;
+            if (j == 0) {
+                ++i;
+            }
+            j = next[j];
         }
     }
 

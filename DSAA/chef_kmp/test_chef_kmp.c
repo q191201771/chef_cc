@@ -8,7 +8,7 @@ TEST_KMP(const char *target, const char *pattern)
     int i = 0;
     printf("<<<<<<<<<<<<<<<<<<<<\n");
     printf(" target: %s\npattern: %s\n", target, pattern);
-    int ret = kmp(target, pattern);
+    int ret = chef_kmp(target, pattern);
     if (ret == -1) {
         printf(" result: not match.\n");
     } else {

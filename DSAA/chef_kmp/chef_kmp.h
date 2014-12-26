@@ -6,10 +6,10 @@ extern "C" {
 #endif
 
 /**
- * @function: kmp
+ * @function: chef_kmp
  * @return: -1 not matched,otherwise the position of "target" that matched "pattern".
  */
-int kmp(const char *target, const char *pattern);
+int chef_kmp(const char *target, const char *pattern);
 
 #ifdef __cplusplus
 }
