@@ -3,7 +3,7 @@
 compile_commands.json
 CMakeCache.txt
 CMakeFiles
-Makefile
+#Makefile
 cmake_install.cmake
 *.swp
 bin
