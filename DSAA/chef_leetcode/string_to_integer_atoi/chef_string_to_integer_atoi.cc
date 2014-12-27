@@ -73,7 +73,7 @@ class Solution {
     private:
         int ctoi_(char ch) {
             if (ch >= '0' && ch <= '9') {
-                return ch - 48;
+                return ch - '0';
             }
             return -1;
         }
