@@ -33,7 +33,6 @@ class Solution {
                 } else if (*i + *j < target) {
                     ++i;
                 } else if (*i + *j == target) {
-                    vector<int> ret;
                     vector<int>::iterator k = numbers.begin();
                     int i_pos,j_pos;
                     bool finded_i = false;
