@@ -15,8 +15,6 @@ class Solution {
             bool positive = true;
             int len = strlen(str);
             int index = 0;
-            char *trimed_str = (char *)malloc(len);
-            memset(trimed_str, 0, len);
 
             /// *1. trim front ' '
             for (; index < len; ++index) {
