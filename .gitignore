@@ -4,8 +4,10 @@ compile_commands.json
 CMakeCache.txt
 CMakeFiles
 #Makefile
+build/*Makefile
 cmake_install.cmake
 *.swp
 bin
 lib
 *.log.chef
+
