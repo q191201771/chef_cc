@@ -1,12 +1,12 @@
 #include "chef_file.h"
-#include "uuid.h"
-#include "current_proc.h"
+#include "chef_uuid.h"
+#include "chef_current_proc.h"
 #include <assert.h>
 #include <stdio.h>
 
 int main()
 {
-    printf(">chef_file_test.\n");
+    printf(">file_test.\n");
     assert(chef::mkdir_recursive("/tmp") == 0);
     /// authority for write.
     //assert(chef::mkdir_recursive("/bin/tmp.chef") == -1);
@@ -34,6 +34,6 @@ int main()
     printf("    remove_file %s to %s succ.\n", dir_name.c_str(), dir_name2.c_str());
     assert(chef::delete_file(dir_name2.c_str()) == 0);
     printf("    delete folder %s succ.\n", dir_name2.c_str());
-    printf("<chef_file_test.\n");
+    printf("<file_test.\n");
     return 0;
 }

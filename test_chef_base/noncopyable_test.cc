@@ -1,4 +1,4 @@
-#include "noncopyable.h"
+#include "chef_noncopyable.h"
 #include <stdio.h>
 
 class A : public chef::noncopyable
@@ -13,7 +13,7 @@ class B : public chef::copyable
 
 int main()
 {
-    printf(">noncopyable.\n");
+    printf(">noncopyable_test.\n");
     A a1;
     /// can't compile
 //    A a2(a1);
@@ -25,7 +25,7 @@ int main()
     B b3;
     b3 = b1;
 
-    printf("<noncopyable.\n");
+    printf("<noncopyable_test.\n");
     return 0;
 }
 

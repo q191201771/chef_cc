@@ -1,4 +1,4 @@
-#include "rwlock.h"
+#include "chef_rwlock.h"
 #include <stdio.h>
 #include <boost/thread.hpp>
 #include <boost/bind.hpp>
@@ -23,7 +23,7 @@ void write()
 
 int main()
 {
-    printf(">rwlock.\n");
+    printf(">rwlock_test.\n");
     /// figure out read-lock recursive,write-lock not
 //    lock.lockw();
 //    printf("#.\n");
@@ -47,7 +47,7 @@ int main()
         arr[i]->join();
         delete arr[i];
     }
-    printf("<rwlock.\n");
+    printf("<rwlock_test.\n");
     return 0;
 }
 

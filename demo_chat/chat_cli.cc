@@ -1,6 +1,6 @@
 #include "io_tcp.h"
-#include "wait_event.h"
-#include "buffer.h"
+#include "chef_wait_event.h"
+#include "chef_buffer.h"
 #include "chunk.h"
 #include "chat.pb.h"
 #include <string>

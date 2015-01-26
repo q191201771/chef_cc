@@ -1,4 +1,4 @@
-#include "current_proc.h"
+#include "chef_current_proc.h"
 #include <unistd.h>
 #include <sys/types.h>
 

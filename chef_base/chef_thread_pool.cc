@@ -1,4 +1,4 @@
-#include "thread_pool.h"
+#include "chef_thread_pool.h"
 #include "chef_assert.h"
 #include <stdio.h>
 #include <boost/thread/locks.hpp>

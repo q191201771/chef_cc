@@ -1,5 +1,5 @@
-#include "current_thd.h"
-#include "current_proc.h"
+#include "chef_current_thd.h"
+#include "chef_current_proc.h"
 #include "chef_time.h"
 #include <assert.h>
 

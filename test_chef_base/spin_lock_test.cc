@@ -1,6 +1,6 @@
-#include "spin_lock.h"
-#include "mutex.h"
-#include "async_log.h"
+#include "chef_spin_lock.h"
+#include "chef_mutex.h"
+#include "chef_async_log.h"
 #include <boost/thread.hpp>
 
 chef::mutex g_mutex;

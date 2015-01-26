@@ -1,6 +1,6 @@
-#include "thread_pool.h"
-#include "async_log.h"
-#include "current_thd.h"
+#include "chef_thread_pool.h"
+#include "chef_async_log.h"
+#include "chef_current_thd.h"
 #include <assert.h>
 
 void fun(int i)

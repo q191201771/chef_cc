@@ -1,4 +1,4 @@
-#include "random.h"
+#include "chef_random.h"
 #include <stdio.h>
 #include <string.h>
 #include <assert.h>

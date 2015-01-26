@@ -17,8 +17,8 @@ public:
         , local_port_(local_port)
         , thread_num_(thread_num)
         , io_tcp_(NULL)
-        , client_num_(0) {
-        chef::async_log::get_mutable_instance().init(chef::async_log::debug, true);
+        , serviced_num_(0) {
+        chef::async_log::get_mutable_instance().init(chef::async_log::info, true);
     }
     ~base_server() {
     }
@@ -43,9 +43,6 @@ public:
 private:
 
     void accept_cb(cio_conn_t cc, const char *peer_ip, uint16_t peer_port) {
-        CHEF_TRACE_INFO("    :accept_cb(),thread_id=%u,conn_id=%lu,ip=%s,port=%u.",
-            cc.thread_index_, cc.conn_id_, peer_ip, peer_port);
-        CHEF_TRACE_INFO("    :client num=%lu", ++client_num_);
         cc.arg_ = NULL;
         io_tcp_->set_user_arg(cc);
         io_tcp_->enable_read(cc);
@@ -53,24 +50,18 @@ private:
     void connect_cb(cio_conn_t cc, connect_status cs) {
     }
     void read_cb(cio_conn_t cc, void *buf, uint32_t len) {
-        CHEF_TRACE_INFO("    :read_cb(),thread_id=%u,conn_id=%lu,len=%u.",
-                cc.thread_index_, cc.conn_id_, len);
-        //echo
-        //io_tcp_->write(cc, buf, len);
+        assert(len == 1 && *((char *)buf) == 'z');
+        io_tcp_->write(cc, (void *)"ok", 2);
     }
     void close_cb(cio_conn_t cc) {
-        CHEF_TRACE_INFO("    :close_cb(),thread_id=%u,conn_id=%lu.",
-                cc.thread_index_, cc.conn_id_);
-        CHEF_TRACE_INFO("    :client num:%lu", --client_num_);
+        if (++serviced_num_ == 1000) {
+            CHEF_TRACE_INFO("serviced_num_=%lu.", (uint64_t)serviced_num_);
+        }
     }
     void error_cb(cio_conn_t cc, uint8_t error_no) {
-        CHEF_TRACE_INFO("    :error_cb(),thread_id=%u,conn_id=%lu.",
-                cc.thread_index_, cc.conn_id_);
         io_tcp_->close(cc);
     }
     void write_cb(cio_conn_t cc, uint64_t succ_wrote, uint64_t pending_len) {
-        CHEF_TRACE_INFO("    :write_cb(),thread_id=%u,conn_id=%lu,succ=%lu,pending=%lu.", 
-                cc.thread_index_, cc.conn_id_, succ_wrote, pending_len);
     }
 
 private:
@@ -78,14 +69,14 @@ private:
     uint16_t local_port_;
     int16_t thread_num_;
     io_tcp_ptr io_tcp_;
-    atomic<uint64_t> client_num_;
+    atomic<uint64_t> serviced_num_;
 };
 
 int main(int argc, char **argv)
 {
     /// *configuration from config file
     ///  cfg file & exe must @ same dir
-    static const char cfg_file[] = "cfg.base_srv";
+    static const char cfg_file[] = "cfg.qps_srv";
     std::string cfg_file_with_path = chef::current_proc::obtain_bin_dir() + cfg_file;
     chef::config cfg;
     if (cfg.load(cfg_file_with_path) == -1) {
@@ -107,7 +98,7 @@ int main(int argc, char **argv)
 
     /// *if daemon
     if (daemon_str == "true") {
-    static const char pid_file[] = "pid.base_srv";
+    static const char pid_file[] = "pid.qps_srv";
     std::string pid_file_with_path = chef::current_proc::obtain_bin_dir() + pid_file;
         if (chef::daemon_init(pid_file_with_path.c_str()) == -1) {
             fprintf(stderr, "chef::daemon::init(%s) fail.\n", pid_file);

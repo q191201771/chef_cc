@@ -1,5 +1,5 @@
 #define CHEF_UNIT_TEST
-#include "object_pool.h"
+#include "chef_object_pool.h"
 #include <stdio.h>
 #include <assert.h>
 
@@ -30,7 +30,7 @@ int main()
     printf(">object_pool_test.\n");
     chef::object_pool<A> *pool = chef::object_pool<A>::create(8);
     if (!pool) {
-        printf("object_pool::create fail.\n");
+        printf("    object_pool::create fail.\n");
         return 0;
     }
     assert(pool->get_outstanding() == 0);
@@ -39,7 +39,7 @@ int main()
     for (int i = 0; i < 17; ++i) {
         a[i] = pool->pop();
         if (!a[i]) {
-            printf("object_pool::pop fail.\n");
+            printf("    object_pool::pop fail.\n");
             return 0;
         }
     }

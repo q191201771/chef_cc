@@ -1,6 +1,6 @@
 #include "chef_netstat.h"
 #include "chef_time.h"
-#include "buffer.h"
+#include "chef_buffer.h"
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>

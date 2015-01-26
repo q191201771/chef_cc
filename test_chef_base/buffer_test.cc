@@ -1,5 +1,5 @@
 #define CHEF_UNIT_TEST
-#include "buffer.h"
+#include "chef_buffer.h"
 #include <assert.h>
 #include <stdio.h>
 #include <string.h>

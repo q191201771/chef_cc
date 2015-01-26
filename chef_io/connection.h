@@ -2,7 +2,7 @@
 #define _CHEF_CHEF_IO_CONNECTION_H_
 
 #include "io_tcp.h"
-#include "buffer.h"
+#include "chef_buffer.h"
 #include <stdint.h>
 #include <boost/noncopyable.hpp>
 

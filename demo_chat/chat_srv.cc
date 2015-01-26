@@ -1,10 +1,9 @@
 #include "io_tcp.h"
-#include "async_log.h"
+#include "chef_async_log.h"
 #include "chunk.h"
 #include <deque>
 #include <boost/unordered_map.hpp>
-#include <boost/thread/shared_mutex.hpp>
-#include <boost/thread/locks.hpp>
+#include <boost/thread.hpp>
 using namespace chef;
 class protocol;
 

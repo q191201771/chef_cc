@@ -9,7 +9,7 @@
 //#define CHEF_ASSERT(cond) do {assert(cond);}while(0);
 ///////////////////////////////////////////////////////
 
-#include "async_log.h"
+#include "chef_async_log.h"
 
 #define CHEF_ASSERT(cond) \
     do { \

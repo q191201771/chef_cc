@@ -1,5 +1,5 @@
-#include "thread.h"
-#include "current_thd.h"
+#include "chef_thread.h"
+#include "chef_current_thd.h"
 #include <pthread.h>
 #include <assert.h>
 #include <sys/prctl.h>

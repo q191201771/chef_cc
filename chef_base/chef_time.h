@@ -13,23 +13,23 @@ namespace chef
 namespace time 
 {
     /**
-     * @ param
+     * @param
      *  secs  [out] NULL means don't obtain it
      *  msecs [out] NULL means don't obtain it
-     * @ return
+     * @return
      *  us
-     * @ tips
+     * @tips
      *  1s(second) = 1000ms(millisecond) = 1000000us(microsecond)
      */ 
     int64_t now(int64_t *secs /*out*/, int64_t *msecs /*out*/);    
 
-    /// len 16, include '\0' in the end, like 20140512-135025
+    /// @return string.length=15, like 20140512-135025
     std::string now_format1();
 
-    /// len 18, include '\0' in the end, like 20140512 13:50:25
+    /// @return string.length=17, like 20140512 13:50:25
     std::string now_format2();
 
-    /// len 25, include '\0' in the end, like 20140512 13:50:25.123456
+    /// @return string.length=24, like 20140512 13:50:25.123456
     std::string now_format3();
 
 } /// namespace time

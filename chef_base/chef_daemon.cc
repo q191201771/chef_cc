@@ -1,4 +1,4 @@
-#include "daemon.h"
+#include "chef_daemon.h"
 #include <stdio.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -7,7 +7,7 @@
 #include <unistd.h>
 #include <signal.h>
 #include <errno.h>
-#include "async_log.h"
+#include "chef_async_log.h"
 
 namespace chef
 {

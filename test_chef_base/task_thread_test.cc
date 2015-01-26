@@ -1,5 +1,5 @@
-#include "task_thread.h"
-#include "current_thd.h"
+#include "chef_task_thread.h"
+#include "chef_current_thd.h"
 
 void fun(int var)
 {

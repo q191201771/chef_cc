@@ -1,7 +1,7 @@
 #ifndef _CHEF_CHEF_BASE_ATOMIC_H_
 #define _CHEF_CHEF_BASE_ATOMIC_H_
 
-#include "noncopyable.h"
+#include "chef_noncopyable.h"
 #include <stdint.h>
 
 /**

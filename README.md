@@ -11,7 +11,7 @@
   (i've tested 1.53 & 1.55)
 2. <B>cmake</B><br>
   $sudo apt-get install cmake -y
-3.<B>c++11</B>(now gcc contain it already)
+3. <B>c++11</B>(now gcc contain it already)
 4. <B>google protobuf</B>(optional, to build demo_chat)<br>
   $sudo apt-get install protobuf-compiler libprotobuf-dev -y
 

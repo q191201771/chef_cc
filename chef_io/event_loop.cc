@@ -2,7 +2,7 @@
 #include "socket_util.h"
 #include "connection.h"
 #include "chef_assert.h"
-#include "async_log.h"
+#include "chef_async_log.h"
 #include <sys/prctl.h>
 #include <sys/epoll.h>
 #include <sys/eventfd.h>

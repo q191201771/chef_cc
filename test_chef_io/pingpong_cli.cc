@@ -1,6 +1,6 @@
 #include "io_tcp.h"
-#include "async_log.h"
-#include "task_thread.h"
+#include "chef_async_log.h"
+#include "chef_task_thread.h"
 #include <boost/bind.hpp>
 
 using namespace boost;

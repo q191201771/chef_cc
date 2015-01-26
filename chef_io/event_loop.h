@@ -2,7 +2,7 @@
 #define CHEF_CHEF_IO_EVENT_LOOP_H_
 
 #include "io_tcp.h"
-#include "wait_event.h"
+#include "chef_wait_event.h"
 #include <stdint.h>
 #include <vector>
 #include <deque>

@@ -1,4 +1,4 @@
-#include "uuid.h"
+#include "chef_uuid.h"
 #include <stdio.h>
 
 namespace chef

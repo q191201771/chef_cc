@@ -1,4 +1,4 @@
-#include "uuid.h"
+#include "chef_uuid.h"
 #include <assert.h>
 #include <set>
 #include <vector>

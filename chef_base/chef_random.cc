@@ -1,4 +1,4 @@
-#include "random.h"
+#include "chef_random.h"
 
 #include <sys/types.h>
 #include <sys/stat.h>

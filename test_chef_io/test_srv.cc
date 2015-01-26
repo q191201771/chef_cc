@@ -1,9 +1,9 @@
 #include "io_tcp.h"
-#include "async_log.h"
-#include "task_thread.h"
-#include "thread.h"
+#include "chef_async_log.h"
+#include "chef_task_thread.h"
+#include "chef_thread.h"
 #include "chef_assert.h"
-#include "wait_event.h"
+#include "chef_wait_event.h"
 #include <boost/bind.hpp>
 
 //using namespace boost;

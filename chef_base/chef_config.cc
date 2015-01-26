@@ -1,7 +1,7 @@
-#include "config.h"
+#include "chef_config.h"
+#include "chef_buffer.h"
 #include <stdlib.h>
 #include <assert.h>
-#include "buffer.h"
 
 namespace chef
 {

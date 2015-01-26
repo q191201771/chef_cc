@@ -6,6 +6,12 @@
 #include <boost/noncopyable.hpp>
 #include <boost/thread.hpp>
 
+/**
+ * @NOTICE
+ * when push object back to pool,it's normal that object's dtor may not call,be
+ * careful.
+ */
+
 namespace chef
 {
 

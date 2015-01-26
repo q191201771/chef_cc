@@ -1,4 +1,4 @@
-#include "chunk_head.h"
+#include "chef_chunk_head.h"
 #include <assert.h>
 #include <string.h>
 #include <stdio.h>
@@ -18,7 +18,7 @@ int main()
     (void)ch;
 
     chef::chunk_head ch2;
-    chef::decode_chunk_head(raw, &ch2);
+    assert(chef::decode_chunk_head(raw, &ch2) == 0);
     assert(ch2.id_ == 7);
     assert(ch2.type_ == 13);
     assert(ch2.reserved_ == 26);

@@ -1,5 +1,5 @@
-#include "thread.h"
-#include "current_thd.h"
+#include "chef_thread.h"
+#include "chef_current_thd.h"
 #include <assert.h>
 using chef::thread;
 

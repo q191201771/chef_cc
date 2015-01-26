@@ -1,8 +1,8 @@
 #ifndef _CHEF_CHEF_BASE_ASYNC_LOG_H_
 #define _CHEF_CHEF_BASE_ASYNC_LOG_H_
 
-#include "buffer.h"
-#include "wait_event.h"
+#include "chef_buffer.h"
+#include "chef_wait_event.h"
 #include <stdio.h>
 #include <stdint.h>
 #include <string>

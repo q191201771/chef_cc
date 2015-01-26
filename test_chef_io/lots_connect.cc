@@ -1,6 +1,6 @@
 #include "io_tcp.h"
-#include "async_log.h"
-#include "task_thread.h"
+#include "chef_async_log.h"
+#include "chef_task_thread.h"
 #include <boost/atomic.hpp>
 #include <boost/bind.hpp>
 
@@ -58,7 +58,7 @@ int main(int argc, char **argv)
     srv_port = atoi(argv[2]);
     int connect_size = atoi(argv[3]);
 
-    chef::async_log::get_mutable_instance().init(chef::async_log::debug, false);
+    chef::async_log::get_mutable_instance().init(chef::async_log::debug, true);
     srv = io_tcp::create("0.0.0.0", -1, 4, accept_cb, connect_cb, read_cb,
                 close_cb, error_cb, write_cb);
     if (!srv) {

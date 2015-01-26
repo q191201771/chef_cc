@@ -4,7 +4,7 @@
 
 int main()
 {
-    printf(">chef_snippet_test.\n");
+    printf(">snippet_test.\n");
     
     std::vector<std::string> urls;
     urls.push_back("localhost");
@@ -15,9 +15,9 @@ int main()
     urls.push_back("baidu");
     std::vector<std::string>::iterator iter = urls.begin();
     for (; iter != urls.end(); ++iter) {
-        printf("%s:%s\n", (*iter).c_str(), chef::snippet::get_host_by_name(*iter).c_str());
+        printf("    %s:%s\n", (*iter).c_str(), chef::snippet::get_host_by_name(*iter).c_str());
     }
 
-    printf("<chef_snippet_test.\n");
+    printf("<snippet_test.\n");
     return 0;
 }

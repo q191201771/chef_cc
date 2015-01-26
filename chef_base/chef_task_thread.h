@@ -1,7 +1,7 @@
 #ifndef _CHEF_CHEF_BASE_TASK_THREAD_H_
 #define _CHEF_CHEF_BASE_TASK_THREAD_H_
 
-#include "wait_event.h"
+#include "chef_wait_event.h"
 #include <string>
 #include <map>
 #include <deque>

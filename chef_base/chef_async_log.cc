@@ -1,6 +1,6 @@
-#include "async_log.h"
-#include "current_proc.h"
-#include "current_thd.h"
+#include "chef_async_log.h"
+#include "chef_current_proc.h"
+#include "chef_current_thd.h"
 #include "chef_file.h"
 #include <string.h>
 #include <stdint.h>

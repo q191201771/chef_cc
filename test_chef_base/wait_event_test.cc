@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "wait_event.h"
+#include "chef_wait_event.h"
 
 int main()
 {

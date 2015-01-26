@@ -2,7 +2,7 @@
 #include "event_loop.h"
 #include "socket_util.h"
 #include "chef_assert.h"
-#include "async_log.h"
+#include "chef_async_log.h"
 #include <signal.h>
 #include <stdio.h>
 #include <sys/types.h>

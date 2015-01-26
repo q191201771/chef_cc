@@ -1,8 +1,8 @@
 #ifndef _CHEF_CHEF_BASE_CONDITION_H_
 #define _CHEF_CHEF_BASE_CONDITION_H_
 
-#include "mutex.h"
-#include "noncopyable.h"
+#include "chef_mutex.h"
+#include "chef_noncopyable.h"
 #include <pthread.h>
 
 /**
