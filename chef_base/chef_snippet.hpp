@@ -38,6 +38,34 @@ public:
                 (uint8_t)ht->h_addr_list[0][3]);
         return std::string(result);
     }
+
+    /**
+     * @function: bytes2human
+     * @param:
+     *   n: how much bytes
+     * @return:
+     *   bytes2human(768) = "768.0B"
+     *   bytes2human(10000) = "9.8K"
+     *   bytes2human(100001221) = "95.4M"
+     *   more info see test_chef_base/snippet_test.cc
+     */
+    static std::string bytes2human(uint64_t n) {
+        char units[] = {'B', 'K', 'M', 'G', 'T', 'P', 'E'};//, 'Z', 'Y'};
+        int index = 0;
+        for (; n >> (index * 10); ++index) {
+            if (index == 6) { ///  can't do n >> 70
+                ++index;
+                break;
+            }
+        }
+        index = index > 0 ? index - 1 : index;
+        char buf[128] = {0};
+        snprintf(buf, 127, "%.1f%c", 
+                float(n) / (index ? 1UL << (index) * 10 : 1),
+                units[index]);
+        return std::string(buf);
+    }
+
 }; /// class snippet
 
 } /// namespace chef
