@@ -18,3 +18,6 @@ TARGET_LINK_LIBRARIES(lots_connect chefio chefbase pthread)
 
 ADD_EXECUTABLE(qps_srv ${ROOT_DIR}/test_chef_io/qps_srv.cc)
 TARGET_LINK_LIBRARIES(qps_srv chefio chefbase pthread)
+
+ADD_EXECUTABLE(qps_cli ${ROOT_DIR}/test_chef_io/qps_cli.cc)
+TARGET_LINK_LIBRARIES(qps_cli chefio chefbase pthread)

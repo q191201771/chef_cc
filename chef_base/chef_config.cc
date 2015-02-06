@@ -33,7 +33,9 @@ int config::load(std::string file_name)
     long total_len = ftell(fp_);
     rewind(fp_);
     chef::buffer buf(total_len);
-    fread(buf.write_pos(), total_len, 1, fp_);
+    if (fread(buf.write_pos(), 1, total_len, fp_) != (size_t)total_len) {
+        return -1;
+    }
     buf.seek_write(total_len);
     fclose(fp_);
     fp_ = NULL;

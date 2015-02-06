@@ -18,7 +18,7 @@ public:
         , thread_num_(thread_num)
         , io_tcp_(NULL)
         , serviced_num_(0) {
-        chef::async_log::get_mutable_instance().init(chef::async_log::info, true);
+        chef::async_log::get_mutable_instance().init(chef::async_log::info, false);
     }
     ~base_server() {
     }
@@ -32,11 +32,11 @@ public:
                 boost::bind(&base_server::error_cb, this, _1, _2),
                 boost::bind(&base_server::write_cb, this, _1, _2, _3));
         if (!io_tcp_) {
-            CHEF_TRACE_INFO("    :io_tcp::create fail.");
+            printf("    :io_tcp::create fail.\n");
             return -1;
         }
         io_tcp_->run();
-        CHEF_TRACE_INFO("    :>base_server::run().");
+        printf("    :>base_server::run().\n");
         return 0;
     }
 
@@ -54,8 +54,9 @@ private:
         io_tcp_->write(cc, (void *)"ok", 2);
     }
     void close_cb(cio_conn_t cc) {
-        if (++serviced_num_ == 1000) {
+        if (++serviced_num_ % 1000 == 0) {
             CHEF_TRACE_INFO("serviced_num_=%lu.", (uint64_t)serviced_num_);
+            //io_tcp_->shutdown();
         }
     }
     void error_cb(cio_conn_t cc, uint8_t error_no) {

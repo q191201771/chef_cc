@@ -1,6 +1,9 @@
 #!/bin/bash
 
-rm -rf *.log.chef log bin lib
+cd ./bin
+rm -rf `ls | grep -v 'cfg.*'`
+cd ..
+rm -rf *.log.chef log lib
 rm -rf `find . -name 'CMakeCache.txt'`
 rm -rf `find . -name 'CMakeFiles'`
 rm -rf `find ./build -name 'Makefile'`

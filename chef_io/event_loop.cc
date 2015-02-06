@@ -337,7 +337,8 @@ void event_loop::wakeup()
 void event_loop::wakeup_cb(event_loop *loop, int fd, uint16_t event)
 {
     char buf[32];
-    read(wakefd_[0], buf, 32);	
+    ssize_t len = read(wakefd_[0], buf, 32);	
+    (void)len;
 }
 
 connection *event_loop::find_conn_by_id(uint64_t id)
