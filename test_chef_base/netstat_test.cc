@@ -1,6 +1,7 @@
 #include "chef_netstat.h"
 #include "chef_time.h"
 #include "chef_current_thd.h"
+#include "chef_snippet.hpp"
 #include <stdio.h>
 #include <assert.h>
 
@@ -26,9 +27,9 @@ int main()
         //printf("%lu %lu %ld\n", in_bytes, out_bytes, now_time_ms);
         /// skip first time
         if (prev_time_ms != 0) {
-            printf("    -----\n    in:%lu kb/s\n    out:%lu kb/s\n", 
-                    (in_bytes - in_bytes_prev) * 8 * 1000 / 1024 / (now_time_ms - prev_time_ms),
-                    (out_bytes - out_byte_prev) * 8 * 1000 / 1024 / (now_time_ms - prev_time_ms));
+            printf("    -----\n    in:%s/s\n    out:%s/s\n", 
+                    chef::snippet::bytes2human(((in_bytes - in_bytes_prev) * 1000) / (now_time_ms - prev_time_ms)).c_str(),
+                    chef::snippet::bytes2human(((out_bytes - out_byte_prev) * 1000) / (now_time_ms - prev_time_ms)).c_str());
         }
 
         in_bytes_prev = in_bytes;
