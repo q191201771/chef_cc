@@ -1,13 +1,36 @@
+# make .git* files visible to git
+!.gitignore
+!.gitattributes
+
+# vim stuff
+*.~
+*.swp
+
+*.o
+*.so
+*.so.?
+*.so.?.?.?
+*.a
+*.dylib
+
+# CMake
+*.cmake
+*.dir
+CMakeFiles
+INSTALL.*
+ZERO_CHECK.*
+CMakeCache.txt
+install_mainfest.txt
+
+# YCM
 .ycm_extra_conf.py
 .ycm_extra_conf.pyc
 compile_commands.json
-CMakeCache.txt
-CMakeFiles
-#Makefile
+
+*.log
+*.log.chef
+
 build/*Makefile
-cmake_install.cmake
-*.swp
 bin
 lib
-*.log.chef
 

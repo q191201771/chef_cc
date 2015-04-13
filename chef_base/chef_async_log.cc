@@ -111,6 +111,8 @@ int async_log::init(level l, bool async_mode, const char *dir, const char *file_
 int async_log::trace(async_log::level l, const char *src_file_name, int line,
         const char *func_name, const char *format,...)
 {
+    (void)func_name;
+
     /// if user use async_log::trace directly instead of CHEF_TRACE_XXX
     if (l < async_log::level_) {
         return 0;
