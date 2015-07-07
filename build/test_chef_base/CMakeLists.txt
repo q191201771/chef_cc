@@ -85,3 +85,6 @@ TARGET_LINK_LIBRARIES(singleton_test chefbase)
 ADD_EXECUTABLE(time_test ${ROOT_DIR}/test_chef_base/time_test.cc)
 TARGET_LINK_LIBRARIES(time_test chefbase)
 
+ADD_EXECUTABLE(md5_test ${ROOT_DIR}/test_chef_base/md5_test.cc)
+TARGET_LINK_LIBRARIES(md5_test chefbase)
+

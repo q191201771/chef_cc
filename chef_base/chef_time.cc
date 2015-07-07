@@ -76,7 +76,7 @@ int64_t now(int64_t *secs, int64_t *msecs)
         *secs = tv.tv_sec;
     }
     if (msecs) {
-        *msecs = tv.tv_usec;
+        *msecs = tv.tv_usec / 1000;
     }
     return local_secs * 1000 * 1000 + tv.tv_usec;
 }

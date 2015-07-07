@@ -84,5 +84,11 @@ thread_pool::task thread_pool::take()
     return t;
 }
 
+int thread_pool::num_of_undone_task()
+{
+    boost::lock_guard<boost::mutex> lock(mutex_);
+    return tasks_.size();
+}
+
 } /// namespace chef
 

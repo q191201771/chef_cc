@@ -1,7 +1,5 @@
 ﻿# chef_cc
 
-====
-
 ## Brief
 
 * **chef_base** is a set of linux c++ tools(log,buffer,thread,etc).

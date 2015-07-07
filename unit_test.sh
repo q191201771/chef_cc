@@ -30,4 +30,5 @@ rm *.log.chef valg core test.config.chef
 ./time_test
 ./uuid_test
 ./wait_event_test
+./md5_test
 ./test_srv

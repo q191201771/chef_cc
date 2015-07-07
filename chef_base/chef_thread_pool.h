@@ -25,6 +25,8 @@ public:
 
     void add(const task &t);
 
+    int num_of_undone_task();
+
 private:
     void run_in_thread(uint16_t index);
     task take();
