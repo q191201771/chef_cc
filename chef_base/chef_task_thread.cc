@@ -64,7 +64,8 @@ void task_thread::run_in_thread(std::string name)
             if (!tasks_.empty()) {
                 tasks_copy.swap(tasks_);
             }
-            run_deferred_task();
+            //run_deferred_task();
+            append_expired_task(tasks_copy);
         } /// lock dtor
         while (!tasks_copy.empty()) {
             task t = tasks_copy.front();
@@ -74,7 +75,7 @@ void task_thread::run_in_thread(std::string name)
     }
 }
 
-void task_thread::run_deferred_task()
+void task_thread::append_expired_task(std::deque<task> &tasks)
 {
     /// most of time,deferred task is few
     if (deferred_tasks_.empty()) {
@@ -91,9 +92,38 @@ void task_thread::run_deferred_task()
             break;
         }
 
-        (iter->second)();
+        tasks.push_back(iter->second);
     }
     deferred_tasks_.erase(deferred_tasks_.begin(), iter);
+
+}
+
+//void task_thread::run_deferred_task()
+//{
+//    /// most of time,deferred task is few
+//    if (deferred_tasks_.empty()) {
+//        return;
+//    }
+//
+//    struct timespec ts;
+//    clock_gettime(CLOCK_MONOTONIC, &ts);
+//    uint64_t now = ts.tv_sec * 1000 + ts.tv_nsec / 1000000;
+//
+//    auto iter = deferred_tasks_.begin();
+//    for (; iter != deferred_tasks_.end(); ++iter) {
+//        if (iter->first > now) {
+//            break;
+//        }
+//
+//        (iter->second)();
+//    }
+//    deferred_tasks_.erase(deferred_tasks_.begin(), iter);
+//}
+
+uint32_t task_thread::fetch_num_of_undone_task()
+{
+    boost::lock_guard<boost::mutex> guard(mutex_);
+    return tasks_.size() + deferred_tasks_.size();
 }
 
 } /// namespace chef

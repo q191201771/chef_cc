@@ -30,9 +30,12 @@ public:
      */
     void add(const task &t, uint32_t deferred_time_ms = 0);
 
+    uint32_t fetch_num_of_undone_task();
+
 private:
     void run_in_thread(std::string name);
-    void run_deferred_task();
+    //void run_deferred_task();
+    void append_expired_task(std::deque<task> &tasks/*out*/);
 
 private:
     std::string name_;

@@ -20,13 +20,11 @@ public:
     T get() { return __sync_val_compare_and_swap(&value_, 0, 0); }
     void set(T v) { __sync_lock_test_and_set(&value_, v); }
 
-    //add an nagative num means subtraction
-    T add_and_get(T v) { return get_and_add(v) + v; }
-
     T increment() { return add_and_get(1); }
     T decrement() { return add_and_get(-1); }
 
-private:	
+    //add an nagative num means subtraction
+    T add_and_get(T v) {return __sync_add_and_fetch(&value_, v); }
     T get_and_add(T v) { return __sync_fetch_and_add(&value_, v); }
 
 private:
